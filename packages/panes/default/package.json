@@ -1,12 +1,14 @@
 {
-  "name": "@mashlib-next/shell",
+  "name": "@mashlib-next/default-pane",
   "version": "0.0.1",
   "private": true,
   "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -14,12 +16,6 @@
     "@mashlib-next/store": "workspace:*",
     "@mashlib-next/utils": "workspace:*",
     "@mashlib-next/pane-registry": "workspace:*",
-    "@mashlib-next/source-pane": "workspace:*",
-    "@mashlib-next/default-pane": "workspace:*",
-    "@mashlib-next/playlist-pane": "workspace:*",
     "rdflib": "^2.3.5"
-  },
-  "devDependencies": {
-    "vite": "^7.3.0"
   }
 }

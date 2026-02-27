@@ -2,7 +2,9 @@ import { createStore } from '@mashlib-next/store'
 import { findPane } from '@mashlib-next/pane-registry'
 import { sym } from 'rdflib'
 
-// Side-effect import: registers the playlist pane
+// Side-effect imports: register panes in priority order (first = lowest)
+import '@mashlib-next/source-pane'
+import '@mashlib-next/default-pane'
 import '@mashlib-next/playlist-pane'
 
 const { store, fetchDocument } = createStore()
