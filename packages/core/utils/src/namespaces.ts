@@ -9,6 +9,12 @@ export const DCT = Namespace('http://purl.org/dc/terms/')
 export const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 export const XSD = Namespace('http://www.w3.org/2001/XMLSchema#')
 
+// Solid / LDP vocabularies
+export const LDP = Namespace('http://www.w3.org/ns/ldp#')
+export const SOLID = Namespace('http://www.w3.org/ns/solid/terms#')
+export const POSIX = Namespace('http://www.w3.org/ns/posix/stat#')
+export const VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
+
 // Playlist-specific vocabularies
 export const OLO = Namespace('http://purl.org/ontology/olo/core#')
 export const PBO = Namespace('http://purl.org/ontology/pbo/core#')
