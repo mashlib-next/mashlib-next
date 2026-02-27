@@ -6,6 +6,7 @@ import { sym } from 'rdflib'
 import '@mashlib-next/source-pane'
 import '@mashlib-next/default-pane'
 import '@mashlib-next/folder-pane'
+import '@mashlib-next/profile-pane'
 import '@mashlib-next/playlist-pane'
 
 const { store, fetchDocument } = createStore()

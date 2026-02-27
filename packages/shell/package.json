@@ -17,6 +17,7 @@
     "@mashlib-next/source-pane": "workspace:*",
     "@mashlib-next/default-pane": "workspace:*",
     "@mashlib-next/folder-pane": "workspace:*",
+    "@mashlib-next/profile-pane": "workspace:*",
     "@mashlib-next/playlist-pane": "workspace:*",
     "rdflib": "^2.3.5"
   },

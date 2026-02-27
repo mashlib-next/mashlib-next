@@ -14,6 +14,7 @@ export const LDP = Namespace('http://www.w3.org/ns/ldp#')
 export const SOLID = Namespace('http://www.w3.org/ns/solid/terms#')
 export const POSIX = Namespace('http://www.w3.org/ns/posix/stat#')
 export const VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
+export const SPACE = Namespace('http://www.w3.org/ns/pim/space#')
 
 // Playlist-specific vocabularies
 export const OLO = Namespace('http://purl.org/ontology/olo/core#')
