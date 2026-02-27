@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mashlib-next</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <header id="chrome">
+    <h1>mashlib-next</h1>
+    <form id="url-form">
+      <label for="url-input">Resource URL:</label>
+      <input
+        id="url-input"
+        type="url"
+        placeholder="https://example.org/playlist.ttl"
+        required
+      />
+      <button type="submit">Go</button>
+    </form>
+  </header>
+
+  <main id="pane-container">
+    <p class="placeholder">Enter a URL above to browse a Linked Data resource.</p>
+  </main>
+
+  <footer>
+    <small>mashlib-next PoC &mdash; SolidOS data browser</small>
+  </footer>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

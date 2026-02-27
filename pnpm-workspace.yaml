@@ -1,0 +1,8 @@
+packages:
+  - packages/core/*
+  - packages/pane-registry
+  - packages/shell
+  - packages/panes/*
+
+onlyBuiltDependencies:
+  - esbuild

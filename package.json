@@ -1,0 +1,26 @@
+{
+  "name": "mashlib-next",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "SolidOS data browser - clean-sheet monorepo",
+  "license": "MIT",
+  "scripts": {
+    "dev": "pnpm --filter @mashlib-next/shell dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r exec rm -rf dist .tsbuildinfo"
+  },
+  "devDependencies": {
+    "jsdom": "^28.1.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}
