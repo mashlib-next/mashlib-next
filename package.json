@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "description": "SolidOS data browser - clean-sheet monorepo",
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "pnpm --filter @mashlib-next/shell dev",
     "build": "pnpm -r build",
