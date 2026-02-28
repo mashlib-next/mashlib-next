@@ -1,6 +1,7 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { LDP, RDF, DCT, POSIX, DC } from '@mashlib-next/utils'
-import { labelFromUri, createNavLink } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink, navigate } from '@mashlib-next/utils'
+import { Fetcher } from 'rdflib'
 
 interface ContainedResource {
   uri: string
@@ -152,6 +153,143 @@ function buildBreadcrumbs(uri: string): { label: string; uri: string }[] {
 
 
 /**
+ * Build the toolbar with New Folder / New File buttons.
+ */
+function buildToolbar(
+  subject: NamedNode,
+  fetcher: Fetcher,
+  outerContainer: HTMLElement,
+  store: Store
+): HTMLElement {
+  const toolbar = document.createElement('div')
+  toolbar.className = 'folder-toolbar'
+
+  const newFolderBtn = document.createElement('button')
+  newFolderBtn.className = 'folder-toolbar-btn'
+  newFolderBtn.textContent = '\u{1F4C1} New Folder'
+  toolbar.appendChild(newFolderBtn)
+
+  const newFileBtn = document.createElement('button')
+  newFileBtn.className = 'folder-toolbar-btn'
+  newFileBtn.textContent = '\u{1F4C4} New File'
+  toolbar.appendChild(newFileBtn)
+
+  // Inline creation form (hidden by default)
+  const form = document.createElement('div')
+  form.className = 'folder-create-form'
+  form.hidden = true
+
+  const label = document.createElement('span')
+  label.className = 'folder-create-label'
+  form.appendChild(label)
+
+  const input = document.createElement('input')
+  input.type = 'text'
+  input.className = 'folder-create-input'
+  input.placeholder = 'Name...'
+  form.appendChild(input)
+
+  const createBtn = document.createElement('button')
+  createBtn.className = 'folder-toolbar-btn folder-create-ok'
+  createBtn.textContent = 'Create'
+  form.appendChild(createBtn)
+
+  const cancelBtn = document.createElement('button')
+  cancelBtn.className = 'folder-toolbar-btn folder-create-cancel'
+  cancelBtn.textContent = 'Cancel'
+  form.appendChild(cancelBtn)
+
+  const status = document.createElement('span')
+  status.className = 'folder-create-status'
+  form.appendChild(status)
+
+  toolbar.appendChild(form)
+
+  let mode: 'folder' | 'file' = 'folder'
+
+  function showForm(type: 'folder' | 'file'): void {
+    mode = type
+    label.textContent = type === 'folder' ? 'Folder name:' : 'File name:'
+    input.value = ''
+    status.textContent = ''
+    form.hidden = false
+    newFolderBtn.hidden = true
+    newFileBtn.hidden = true
+    input.focus()
+  }
+
+  function hideForm(): void {
+    form.hidden = true
+    newFolderBtn.hidden = false
+    newFileBtn.hidden = false
+    status.textContent = ''
+  }
+
+  newFolderBtn.addEventListener('click', () => showForm('folder'))
+  newFileBtn.addEventListener('click', () => showForm('file'))
+  cancelBtn.addEventListener('click', hideForm)
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') createBtn.click()
+    if (e.key === 'Escape') hideForm()
+  })
+
+  createBtn.addEventListener('click', async () => {
+    const name = input.value.trim()
+    if (!name) {
+      status.textContent = 'Name cannot be empty.'
+      return
+    }
+
+    createBtn.disabled = true
+    status.textContent = 'Creating...'
+
+    try {
+      if (mode === 'folder') {
+        // POST to the container with Slug and container type link
+        const containerUri = subject.value.endsWith('/') ? subject.value : subject.value + '/'
+        await fetcher.webOperation('POST', containerUri, {
+          data: '',
+          contentType: 'text/turtle',
+          headers: {
+            Slug: name,
+            Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+          },
+        })
+      } else {
+        // PUT to create the file
+        const containerUri = subject.value.endsWith('/') ? subject.value : subject.value + '/'
+        const fileUri = containerUri + encodeURIComponent(name)
+        // Guess a content type from the extension
+        const ext = name.split('.').pop()?.toLowerCase() ?? ''
+        const ctMap: Record<string, string> = {
+          ttl: 'text/turtle', rdf: 'application/rdf+xml', jsonld: 'application/ld+json',
+          json: 'application/json', html: 'text/html', css: 'text/css',
+          js: 'application/javascript', txt: 'text/plain', md: 'text/markdown',
+          xml: 'application/xml', csv: 'text/csv',
+        }
+        const ct = ctMap[ext] ?? 'text/turtle'
+        await fetcher.webOperation('PUT', fileUri, {
+          data: '',
+          contentType: ct,
+        })
+      }
+
+      // Re-render the folder view
+      hideForm()
+      await fetcher.load(subject, { force: true })
+      renderFolder(subject, store, outerContainer)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      status.textContent = `Error: ${msg}`
+      createBtn.disabled = false
+    }
+  })
+
+  return toolbar
+}
+
+/**
  * Render the folder listing into the container element.
  */
 export function renderFolder(
@@ -224,6 +362,13 @@ export function renderFolder(
   countEl.className = 'folder-count'
   countEl.textContent = countParts.length > 0 ? countParts.join(', ') : '0 items'
   wrapper.appendChild(countEl)
+
+  // Toolbar — New Folder / New File (only when fetcher is attached)
+  const fetcher = (store as unknown as { fetcher?: Fetcher }).fetcher
+  if (fetcher) {
+    const toolbar = buildToolbar(subject, fetcher, container, store)
+    wrapper.appendChild(toolbar)
+  }
 
   if (resources.length === 0) {
     const empty = document.createElement('p')

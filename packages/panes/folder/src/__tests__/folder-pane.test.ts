@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { graph, sym, Namespace } from 'rdflib'
+import { describe, it, expect, vi } from 'vitest'
+import { graph, sym, Namespace, Fetcher } from 'rdflib'
 import { folderPane } from '../folder-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
@@ -173,5 +173,108 @@ describe('folderPane.render', () => {
     folderPane.render(container, store, el)
 
     expect(el.querySelector('.folder-count')!.textContent).toBe('0 items')
+  })
+
+  it('shows toolbar when fetcher is attached to store', () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/public/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+    // Attach a fetcher
+    ;(store as unknown as { fetcher: unknown }).fetcher = {
+      webOperation: vi.fn().mockResolvedValue({}),
+      load: vi.fn().mockResolvedValue({}),
+    }
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    const toolbar = el.querySelector('.folder-toolbar')
+    expect(toolbar).not.toBeNull()
+    expect(toolbar!.textContent).toContain('New Folder')
+    expect(toolbar!.textContent).toContain('New File')
+  })
+
+  it('does not show toolbar when no fetcher', () => {
+    const { store, container: subject } = buildFolderStore()
+    const el = document.createElement('div')
+    folderPane.render(subject, store, el)
+
+    expect(el.querySelector('.folder-toolbar')).toBeNull()
+  })
+
+  it('shows create form when New Folder is clicked', () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/public/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+    ;(store as unknown as { fetcher: unknown }).fetcher = {
+      webOperation: vi.fn().mockResolvedValue({}),
+      load: vi.fn().mockResolvedValue({}),
+    }
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    const newFolderBtn = el.querySelectorAll('.folder-toolbar-btn')[0] as HTMLButtonElement
+    newFolderBtn.click()
+
+    const form = el.querySelector('.folder-create-form') as HTMLElement
+    expect(form.hidden).toBe(false)
+    expect(form.textContent).toContain('Folder name')
+  })
+
+  it('hides form on cancel', () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/public/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+    ;(store as unknown as { fetcher: unknown }).fetcher = {
+      webOperation: vi.fn().mockResolvedValue({}),
+      load: vi.fn().mockResolvedValue({}),
+    }
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    // Open the form
+    const newFolderBtn = el.querySelectorAll('.folder-toolbar-btn')[0] as HTMLButtonElement
+    newFolderBtn.click()
+
+    // Cancel
+    const cancelBtn = el.querySelector('.folder-create-cancel') as HTMLButtonElement
+    cancelBtn.click()
+
+    const form = el.querySelector('.folder-create-form') as HTMLElement
+    expect(form.hidden).toBe(true)
+  })
+
+  it('calls webOperation POST for new folder creation', async () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/public/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+    const mockWebOp = vi.fn().mockResolvedValue({})
+    const mockLoad = vi.fn().mockResolvedValue({})
+    ;(store as unknown as { fetcher: unknown }).fetcher = {
+      webOperation: mockWebOp,
+      load: mockLoad,
+    }
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    // Open form and type a name
+    const newFolderBtn = el.querySelectorAll('.folder-toolbar-btn')[0] as HTMLButtonElement
+    newFolderBtn.click()
+
+    const input = el.querySelector('.folder-create-input') as HTMLInputElement
+    input.value = 'my-folder'
+
+    const createBtn = el.querySelector('.folder-create-ok') as HTMLButtonElement
+    createBtn.click()
+
+    // Wait for the async operation
+    await vi.waitFor(() => {
+      expect(mockWebOp).toHaveBeenCalledWith('POST', 'https://pod.example.org/public/', expect.objectContaining({
+        headers: expect.objectContaining({ Slug: 'my-folder' }),
+      }))
+    })
   })
 })
