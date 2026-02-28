@@ -94,6 +94,17 @@ window.addEventListener('popstate', () => {
   }
 })
 
+// Quick links — intercept clicks to navigate via JS
+document.querySelectorAll('.quick-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault()
+    const href = (link as HTMLAnchorElement).href
+    const url = new URL(href)
+    const uri = url.searchParams.get('uri')
+    if (uri) navigateTo(uri, true)
+  })
+})
+
 // --- Init ---
 async function init(): Promise<void> {
   await initAuth()

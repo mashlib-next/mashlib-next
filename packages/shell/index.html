@@ -16,26 +16,36 @@
         <button id="logout-btn" hidden>Logout</button>
       </div>
     </div>
+    <p class="header-tagline">Explore and manage your decentralized data</p>
     <form id="url-form">
-      <label for="url-input">Resource URL:</label>
       <input
         id="url-input"
         type="url"
-        placeholder="https://example.org/playlist.ttl"
+        placeholder="Enter a Solid resource URL..."
         required
+        aria-label="Resource URL"
       />
-      <button type="submit">Go</button>
+      <button type="submit">Browse</button>
     </form>
+    <div id="quick-links">
+      <a href="?uri=https://timbl.com/timbl/Public/friends.ttl" class="quick-link">Tim BL</a>
+      <a href="?uri=https://solidos.solidcommunity.net/public/Roadmap/Tasks/index.ttl#this" class="quick-link">Roadmap</a>
+      <a href="?uri=https://solidos.solidcommunity.net/public/SolidOS%20team%20meetings/" class="quick-link">Team Meetings</a>
+      <a href="?uri=https://melvincarvalho.com/" class="quick-link">Melvin</a>
+    </div>
   </header>
 
   <nav id="pane-tabs" role="tablist" aria-label="View selector" hidden></nav>
 
   <main id="pane-container">
-    <p class="placeholder">Enter a URL above to browse a Linked Data resource.</p>
+    <div class="welcome">
+      <h2>Welcome to mashlib-next</h2>
+      <p>Enter a URL above or click an example link to browse a Linked Data resource on the Solid web.</p>
+    </div>
   </main>
 
   <footer>
-    <small>mashlib-next PoC &mdash; SolidOS data browser</small>
+    <small>mashlib-next &mdash; <a href="https://github.com/mashlib-next/mashlib-next">GitHub</a></small>
   </footer>
 
   <script type="module" src="/src/main.ts"></script>
