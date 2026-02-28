@@ -1,5 +1,6 @@
 import { createStore } from '@mashlib-next/store'
-import { findPane } from '@mashlib-next/pane-registry'
+import { findMatchingPanes } from '@mashlib-next/pane-registry'
+import type { Pane } from '@mashlib-next/pane-registry'
 import { sym } from 'rdflib'
 
 // Side-effect imports: register panes in priority order (first = lowest)
@@ -43,23 +44,70 @@ import '@mashlib-next/playlist-pane'
 
 const { store, fetchDocument } = createStore()
 
+const tabsNav = document.getElementById('pane-tabs')!
+
 /**
- * Load a resource by URI, find the appropriate pane, and render it
- * into the given container element.
+ * Build the tab bar and render the active pane.
+ */
+function renderTabs(
+  panes: Pane[],
+  subject: ReturnType<typeof sym>,
+  container: HTMLElement
+): void {
+  tabsNav.innerHTML = ''
+
+  if (panes.length <= 1) {
+    tabsNav.hidden = true
+  } else {
+    tabsNav.hidden = false
+  }
+
+  for (let i = 0; i < panes.length; i++) {
+    const pane = panes[i]
+    const btn = document.createElement('button')
+    btn.className = 'pane-tab'
+    btn.role = 'tab'
+    btn.textContent = `${pane.icon} ${pane.label}`
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false')
+
+    btn.addEventListener('click', () => {
+      // Update tab states
+      for (const tab of tabsNav.children) {
+        (tab as HTMLElement).setAttribute('aria-selected', 'false')
+      }
+      btn.setAttribute('aria-selected', 'true')
+
+      // Render selected pane
+      container.innerHTML = ''
+      pane.render(subject, store, container)
+    })
+
+    tabsNav.appendChild(btn)
+  }
+
+  // Render the first (highest-priority) pane
+  container.innerHTML = ''
+  panes[0].render(subject, store, container)
+}
+
+/**
+ * Load a resource by URI, find matching panes, and render with tab switcher.
  */
 export async function loadResource(
   uri: string,
   container: HTMLElement
 ): Promise<void> {
   container.innerHTML = '<p class="loading">Loading...</p>'
+  tabsNav.innerHTML = ''
+  tabsNav.hidden = true
 
   try {
     await fetchDocument(uri)
 
     const subject = sym(uri)
-    const pane = findPane(subject, store)
+    const panes = findMatchingPanes(subject, store)
 
-    if (!pane) {
+    if (panes.length === 0) {
       container.innerHTML = `
         <div class="error">
           <p><strong>No pane available</strong> for this resource.</p>
@@ -71,8 +119,7 @@ export async function loadResource(
       return
     }
 
-    container.innerHTML = ''
-    pane.render(subject, store, container)
+    renderTabs(panes, subject, container)
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     container.innerHTML = `

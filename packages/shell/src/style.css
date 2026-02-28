@@ -52,6 +52,41 @@ header h1 {
   background: #005bb5;
 }
 
+/* Pane tab switcher */
+#pane-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+
+#pane-tabs[hidden] {
+  display: none;
+}
+
+.pane-tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #555;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.pane-tab:hover {
+  color: #0070f3;
+}
+
+.pane-tab[aria-selected="true"] {
+  color: #0070f3;
+  border-bottom-color: #0070f3;
+  font-weight: 600;
+}
+
 #pane-container {
   min-height: 300px;
 }

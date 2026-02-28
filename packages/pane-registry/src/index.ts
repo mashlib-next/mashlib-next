@@ -1,2 +1,2 @@
 export type { Pane } from './types.js'
-export { register, findPane, listPanes, clearRegistry } from './registry.js'
+export { register, findPane, findMatchingPanes, listPanes, clearRegistry } from './registry.js'

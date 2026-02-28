@@ -31,6 +31,24 @@ export function findPane(subject: NamedNode, store: Store): Pane | undefined {
 }
 
 /**
+ * Find all panes that can handle the given subject.
+ * Returns panes in priority order (highest priority first).
+ */
+export function findMatchingPanes(subject: NamedNode, store: Store): Pane[] {
+  const matching: Pane[] = []
+  for (let i = panes.length - 1; i >= 0; i--) {
+    try {
+      if (panes[i].canHandle(subject, store)) {
+        matching.push(panes[i])
+      }
+    } catch {
+      // Skip panes whose canHandle throws
+    }
+  }
+  return matching
+}
+
+/**
  * Return all registered panes (in registration order).
  */
 export function listPanes(): readonly Pane[] {
