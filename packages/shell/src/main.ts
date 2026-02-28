@@ -59,7 +59,14 @@ session.addEventListener('sessionStateChange', () => {
 loginBtn.addEventListener('click', () => {
   const idp = prompt('Solid identity provider:', 'https://solidcommunity.net')
   if (idp) {
-    session.login(idp, window.location.href)
+    // Store current resource URI so we can restore it after login redirect
+    const currentUri = input.value.trim()
+    if (currentUri) {
+      sessionStorage.setItem('mashlib_pre_login_uri', currentUri)
+    }
+    // Use clean redirect URI (origin + pathname only) so it matches the token exchange
+    const redirectUri = window.location.origin + window.location.pathname
+    session.login(idp, redirectUri)
   }
 })
 
@@ -111,10 +118,20 @@ async function init(): Promise<void> {
   updateAuthUI()
 
   const params = new URLSearchParams(window.location.search)
-  const initialUri = params.get('uri') || input.value.trim()
+  let initialUri = params.get('uri') || input.value.trim()
+
+  // Restore resource URI after login redirect
+  const preLoginUri = sessionStorage.getItem('mashlib_pre_login_uri')
+  if (preLoginUri && !initialUri) {
+    initialUri = preLoginUri
+    sessionStorage.removeItem('mashlib_pre_login_uri')
+  }
+
   if (initialUri) {
     input.value = initialUri
-    window.history.replaceState({ uri: initialUri }, '', window.location.href)
+    const url = new URL(window.location.href)
+    url.searchParams.set('uri', initialUri)
+    window.history.replaceState({ uri: initialUri }, '', url.toString())
     loadResource(initialUri, container, tabsNav)
   }
 }
