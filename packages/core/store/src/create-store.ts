@@ -26,7 +26,9 @@ export function createStore(): MashlibStore {
   const fetcher = new Fetcher(store, {})
 
   async function fetchDocument(uri: string): Promise<NamedNode> {
-    const doc = sym(uri)
+    // Strip fragment — HTTP fetches the document, not a fragment within it
+    const docUri = uri.replace(/#.*$/, '')
+    const doc = sym(docUri)
     await fetcher.load(doc)
     return doc
   }

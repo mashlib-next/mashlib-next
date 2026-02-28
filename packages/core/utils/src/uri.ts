@@ -23,9 +23,13 @@ export function docUrl(uri: string): string {
 export function labelFromUri(uri: string): string {
   const frag = fragment(uri)
   if (frag) return decodeURIComponent(frag)
-  const path = new URL(uri).pathname
-  const segments = path.split('/').filter(Boolean)
-  return segments.length > 0
-    ? decodeURIComponent(segments[segments.length - 1])
-    : uri
+  try {
+    const path = new URL(uri).pathname
+    const segments = path.split('/').filter(Boolean)
+    return segments.length > 0
+      ? decodeURIComponent(segments[segments.length - 1])
+      : uri
+  } catch {
+    return uri
+  }
 }

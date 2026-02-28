@@ -19,8 +19,12 @@ export function register(pane: Pane): void {
  */
 export function findPane(subject: NamedNode, store: Store): Pane | undefined {
   for (let i = panes.length - 1; i >= 0; i--) {
-    if (panes[i].canHandle(subject, store)) {
-      return panes[i]
+    try {
+      if (panes[i].canHandle(subject, store)) {
+        return panes[i]
+      }
+    } catch {
+      // Skip panes whose canHandle throws (e.g. invalid URL parsing)
     }
   }
   return undefined
