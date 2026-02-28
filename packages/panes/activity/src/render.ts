@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { RDF, AS, SCHEMA, FOAF } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, navigate } from '@mashlib-next/utils'
 
 interface ActivityItem {
   uri: string
@@ -130,11 +130,7 @@ function renderItem(activity: ActivityItem): HTMLElement {
         actor.href = `?uri=${encodeURIComponent(activity.actorUri)}`
         actor.addEventListener('click', (e) => {
           e.preventDefault()
-          const input = document.getElementById('url-input') as HTMLInputElement | null
-          if (input) {
-            input.value = activity.actorUri!
-            input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-          }
+          navigate(activity.actorUri!)
         })
       }
       summaryEl.appendChild(actor)
@@ -149,11 +145,7 @@ function renderItem(activity: ActivityItem): HTMLElement {
         obj.href = `?uri=${encodeURIComponent(activity.objectUri)}`
         obj.addEventListener('click', (e) => {
           e.preventDefault()
-          const input = document.getElementById('url-input') as HTMLInputElement | null
-          if (input) {
-            input.value = activity.objectUri!
-            input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-          }
+          navigate(activity.objectUri!)
         })
       }
       summaryEl.appendChild(obj)

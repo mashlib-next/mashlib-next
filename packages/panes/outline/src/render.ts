@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { RDFS, FOAF, DCT, DC, SCHEMA, RDF } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 interface TripleGroup {
   predicate: string
@@ -90,19 +90,9 @@ function renderObjectValue(obj: ObjectValue): HTMLElement {
   el.className = 'outline-value'
 
   if (obj.termType === 'NamedNode') {
-    const link = document.createElement('a')
+    const link = createNavLink(obj.value, labelFromUri(obj.value))
     link.className = 'outline-link'
-    link.href = `?uri=${encodeURIComponent(obj.value)}`
-    link.textContent = labelFromUri(obj.value)
     link.title = obj.value
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('url-input') as HTMLInputElement | null
-      if (input) {
-        input.value = obj.value
-        input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-      }
-    })
     el.appendChild(link)
   } else if (obj.termType === 'BlankNode') {
     el.textContent = `_:${obj.value}`

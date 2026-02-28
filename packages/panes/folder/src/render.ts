@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { LDP, RDF, DCT, POSIX, DC } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 interface ContainedResource {
   uri: string
@@ -150,17 +150,6 @@ function buildBreadcrumbs(uri: string): { label: string; uri: string }[] {
   return crumbs
 }
 
-/**
- * Navigate to a URI using the shell's URL input.
- */
-function navigateTo(uri: string, e: Event): void {
-  e.preventDefault()
-  const input = document.getElementById('url-input') as HTMLInputElement | null
-  if (input) {
-    input.value = uri
-    input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-  }
-}
 
 /**
  * Render the folder listing into the container element.
@@ -202,11 +191,8 @@ export function renderFolder(
       }
 
       if (i < crumbs.length - 1) {
-        const link = document.createElement('a')
+        const link = createNavLink(crumbs[i].uri, crumbs[i].label)
         link.className = 'folder-breadcrumb'
-        link.href = `?uri=${encodeURIComponent(crumbs[i].uri)}`
-        link.textContent = crumbs[i].label
-        link.addEventListener('click', (e) => navigateTo(crumbs[i].uri, e))
         nav.appendChild(link)
       } else {
         const current = document.createElement('span')
@@ -270,10 +256,7 @@ export function renderFolder(
     // Name as link
     const nameTd = document.createElement('td')
     nameTd.className = 'folder-name'
-    const link = document.createElement('a')
-    link.href = `?uri=${encodeURIComponent(resource.uri)}`
-    link.textContent = resource.name + (resource.isContainer ? '/' : '')
-    link.addEventListener('click', (e) => navigateTo(resource.uri, e))
+    const link = createNavLink(resource.uri, resource.name + (resource.isContainer ? '/' : ''))
     nameTd.appendChild(link)
     tr.appendChild(nameTd)
 

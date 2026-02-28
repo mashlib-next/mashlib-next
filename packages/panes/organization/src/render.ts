@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { SCHEMA, FOAF, DCT } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 /**
  * Helper to create a detail row.
@@ -159,18 +159,8 @@ export function renderOrganization(
         labelFromUri(person.value)
 
       const li = document.createElement('li')
-      const link = document.createElement('a')
-      link.href = `?uri=${encodeURIComponent(person.value)}`
-      link.textContent = personName
+      const link = createNavLink(person.value, personName)
       link.title = person.value
-      link.addEventListener('click', (e) => {
-        e.preventDefault()
-        const input = document.getElementById('url-input') as HTMLInputElement | null
-        if (input) {
-          input.value = person.value
-          input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-        }
-      })
       li.appendChild(link)
       list.appendChild(li)
     }

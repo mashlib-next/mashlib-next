@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { FOAF, VCARD, SCHEMA, RDF, RDFS, SPACE, SOLID, ORG } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 /**
  * Get the best display name for a person.
@@ -437,18 +437,8 @@ export function renderProfile(
 
     for (const friend of knows) {
       const li = document.createElement('li')
-      const link = document.createElement('a')
-      link.href = `?uri=${encodeURIComponent(friend.value)}`
-      link.textContent = labelFromUri(friend.value)
+      const link = createNavLink(friend.value, labelFromUri(friend.value))
       link.title = friend.value
-      link.addEventListener('click', (e) => {
-        e.preventDefault()
-        const input = document.getElementById('url-input') as HTMLInputElement | null
-        if (input) {
-          input.value = friend.value
-          input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-        }
-      })
       li.appendChild(link)
       friendsList.appendChild(li)
     }

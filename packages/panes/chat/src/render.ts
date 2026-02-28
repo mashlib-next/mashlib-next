@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { WF, SIOC, DCT, FOAF, SCHEMA, RDF, DC } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 interface ChatMessage {
   uri: string
@@ -234,22 +234,17 @@ export function renderChat(
     headerRow.className = 'chat-message-header'
 
     if (msg.maker) {
-      const authorEl = document.createElement('a')
-      authorEl.className = 'chat-author'
-      authorEl.textContent = msg.maker
       if (msg.makerUri) {
-        authorEl.href = `?uri=${encodeURIComponent(msg.makerUri)}`
+        const authorEl = createNavLink(msg.makerUri, msg.maker)
+        authorEl.className = 'chat-author'
         authorEl.title = msg.makerUri
-        authorEl.addEventListener('click', (e) => {
-          e.preventDefault()
-          const input = document.getElementById('url-input') as HTMLInputElement | null
-          if (input) {
-            input.value = msg.makerUri!
-            input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-          }
-        })
+        headerRow.appendChild(authorEl)
+      } else {
+        const authorEl = document.createElement('span')
+        authorEl.className = 'chat-author'
+        authorEl.textContent = msg.maker
+        headerRow.appendChild(authorEl)
       }
-      headerRow.appendChild(authorEl)
     }
 
     if (msg.created) {

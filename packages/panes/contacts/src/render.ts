@@ -1,6 +1,6 @@
 import type { NamedNode, Store } from '@mashlib-next/store'
 import { VCARD, FOAF, SCHEMA, RDF } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 interface Contact {
   uri: string
@@ -226,17 +226,7 @@ export function renderContacts(
     for (const group of groups) {
       const li = document.createElement('li')
       li.className = 'contacts-group-item'
-      const link = document.createElement('a')
-      link.href = `?uri=${encodeURIComponent(group.uri)}`
-      link.textContent = `${group.name} (${group.count})`
-      link.addEventListener('click', (e) => {
-        e.preventDefault()
-        const input = document.getElementById('url-input') as HTMLInputElement | null
-        if (input) {
-          input.value = group.uri
-          input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-        }
-      })
+      const link = createNavLink(group.uri, `${group.name} (${group.count})`)
       li.appendChild(link)
       groupList.appendChild(li)
     }
@@ -281,19 +271,9 @@ export function renderContacts(
     const info = document.createElement('div')
     info.className = 'contact-info'
 
-    const nameLink = document.createElement('a')
+    const nameLink = createNavLink(contact.uri, contact.name)
     nameLink.className = 'contact-name'
-    nameLink.href = `?uri=${encodeURIComponent(contact.uri)}`
-    nameLink.textContent = contact.name
     nameLink.title = contact.uri
-    nameLink.addEventListener('click', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('url-input') as HTMLInputElement | null
-      if (input) {
-        input.value = contact.uri
-        input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-      }
-    })
     info.appendChild(nameLink)
 
     // Title

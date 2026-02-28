@@ -2,7 +2,7 @@ import type { NamedNode, Store } from '@mashlib-next/store'
 import {
   RDF, LDP, FOAF, VCARD, SPACE, SOLID, DCT, DC, SCHEMA, POSIX,
 } from '@mashlib-next/utils'
-import { labelFromUri } from '@mashlib-next/utils'
+import { labelFromUri, createNavLink } from '@mashlib-next/utils'
 
 interface PodResource {
   uri: string
@@ -169,18 +169,8 @@ export function renderDashboard(
     profileTitle.textContent = 'Profile'
     profileSection.appendChild(profileTitle)
 
-    const profileLink = document.createElement('a')
+    const profileLink = createNavLink(ownerWebId, ownerName ? `View ${ownerName}'s profile` : 'View profile')
     profileLink.className = 'dashboard-link'
-    profileLink.href = `?uri=${encodeURIComponent(ownerWebId)}`
-    profileLink.textContent = ownerName ? `View ${ownerName}'s profile` : 'View profile'
-    profileLink.addEventListener('click', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('url-input') as HTMLInputElement | null
-      if (input) {
-        input.value = ownerWebId
-        input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-      }
-    })
     profileSection.appendChild(profileLink)
     wrapper.appendChild(profileSection)
   }
@@ -223,19 +213,9 @@ export function renderDashboard(
       icon.textContent = item.type === 'container' ? '\u{1F4C1}' : '\u{1F4C4}'
       li.appendChild(icon)
 
-      const link = document.createElement('a')
+      const link = createNavLink(item.uri, item.label)
       link.className = 'dashboard-item-link'
-      link.href = `?uri=${encodeURIComponent(item.uri)}`
-      link.textContent = item.label
       link.title = item.uri
-      link.addEventListener('click', (e) => {
-        e.preventDefault()
-        const input = document.getElementById('url-input') as HTMLInputElement | null
-        if (input) {
-          input.value = item.uri
-          input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-        }
-      })
       li.appendChild(link)
 
       list.appendChild(li)
