@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/mashlib-next/',
+  base: '/',
   server: {
     port: 3435,
     open: false,
