@@ -183,6 +183,74 @@ header h1 {
 }
 
 /* Source pane styles */
+.source-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.source-edit-btn,
+.source-save-btn,
+.source-cancel-btn {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background: white;
+}
+
+.source-save-btn {
+  background: #0070f3;
+  color: white;
+  border-color: #0070f3;
+}
+
+.source-save-btn:hover { background: #005bb5; }
+.source-edit-btn:hover,
+.source-cancel-btn:hover { background: #f5f5f5; }
+
+.source-save-btn:disabled,
+.source-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.source-btn-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.source-editor {
+  width: 100%;
+  min-height: 300px;
+  padding: 1rem;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  border: 2px solid #0070f3;
+  border-radius: 4px;
+  background: #f6f8fa;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.source-editor:focus {
+  outline: none;
+  border-color: #005bb5;
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+.source-status {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.source-status-ok { color: #16a34a; }
+.source-status-error { color: #dc2626; }
+
 .source-view {
   background: #f6f8fa;
   border: 1px solid #d1d5db;
