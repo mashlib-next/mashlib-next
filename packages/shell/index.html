@@ -8,7 +8,14 @@
 </head>
 <body>
   <header id="chrome">
-    <h1>mashlib-next</h1>
+    <div id="header-row">
+      <h1>mashlib-next</h1>
+      <div id="auth-controls">
+        <button id="login-btn">Login</button>
+        <span id="user-info" hidden></span>
+        <button id="logout-btn" hidden>Logout</button>
+      </div>
+    </div>
     <form id="url-form">
       <label for="url-input">Resource URL:</label>
       <input

@@ -725,6 +725,9 @@ importers:
       rdflib:
         specifier: ^2.3.5
         version: 2.3.5
+      solid-oidc:
+        specifier: ^0.0.3
+        version: 0.0.3
     devDependencies:
       vite:
         specifier: ^7.3.0
@@ -1371,6 +1374,10 @@ packages:
 
   solid-namespace@0.5.4:
     resolution: {integrity: sha512-oPAv8xIg2MOLz069JRdvsSbYCpQN+umPJJ9LBFPzCrYuSw+dW4TMUOTDxTWS5xy+B3XN4+Fx3iIS5Jm8abm4Mg==}
+
+  solid-oidc@0.0.3:
+    resolution: {integrity: sha512-tzirkdueqKV4B+73hjTprst2xCFB9F7TGLeC1gYzHKgNM5OHEkajqZG9o39lZlgZCjciG7Y3T6TKIaKMBtqIeQ==}
+    engines: {node: '>=14'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -2104,6 +2111,8 @@ snapshots:
   siginfo@2.0.0: {}
 
   solid-namespace@0.5.4: {}
+
+  solid-oidc@0.0.3: {}
 
   source-map-js@1.2.1: {}
 

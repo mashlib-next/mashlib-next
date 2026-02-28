@@ -13,6 +13,11 @@ export interface MashlibStore {
   fetchDocument: (uri: string) => Promise<NamedNode>
 }
 
+export interface CreateStoreOptions {
+  /** Custom fetch function (e.g. authenticated fetch from solid-oidc) */
+  fetch?: typeof globalThis.fetch
+}
+
 /**
  * Create a new mashlib-next store with an attached fetcher.
  *
@@ -21,9 +26,11 @@ export interface MashlibStore {
  *   const doc = await fetchDocument('https://example.org/playlist.ttl')
  *   const triples = store.match(null, null, null, doc)
  */
-export function createStore(): MashlibStore {
+export function createStore(options?: CreateStoreOptions): MashlibStore {
   const store = graph()
-  const fetcher = new Fetcher(store, {})
+  const fetcherOpts: Record<string, unknown> = {}
+  if (options?.fetch) fetcherOpts.fetch = options.fetch
+  const fetcher = new Fetcher(store, fetcherOpts)
 
   async function fetchDocument(uri: string): Promise<NamedNode> {
     // Strip fragment — HTTP fetches the document, not a fragment within it

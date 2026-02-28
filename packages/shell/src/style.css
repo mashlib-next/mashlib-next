@@ -19,9 +19,47 @@ header {
   margin-bottom: 1.5rem;
 }
 
+#header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 header h1 {
   font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+}
+
+#auth-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#login-btn, #logout-btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+#login-btn:hover, #logout-btn:hover {
+  background: #f5f5f5;
+}
+
+#user-info {
+  font-size: 0.875rem;
+  color: #333;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#user-info[hidden] {
+  display: none;
 }
 
 #url-form {

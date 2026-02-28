@@ -1,10 +1,14 @@
-import { loadResource } from './app.js'
+import { loadResource, initAuth, onAuthChange, session } from './app.js'
 import { NAVIGATE_EVENT } from '@mashlib-next/utils'
 import type { NavigateDetail } from '@mashlib-next/utils'
+import { labelFromUri } from '@mashlib-next/utils'
 
 const form = document.getElementById('url-form') as HTMLFormElement
 const input = document.getElementById('url-input') as HTMLInputElement
 const container = document.getElementById('pane-container') as HTMLElement
+const loginBtn = document.getElementById('login-btn') as HTMLButtonElement
+const logoutBtn = document.getElementById('logout-btn') as HTMLButtonElement
+const userInfo = document.getElementById('user-info') as HTMLSpanElement
 
 /**
  * Core navigation: update URL bar, update input, load resource.
@@ -20,6 +24,47 @@ async function navigateTo(uri: string, pushHistory: boolean): Promise<void> {
 
   await loadResource(uri, container)
 }
+
+/**
+ * Update the auth UI based on session state.
+ */
+function updateAuthUI(): void {
+  if (session.isActive) {
+    loginBtn.hidden = true
+    logoutBtn.hidden = false
+    userInfo.hidden = false
+    userInfo.textContent = session.webId ? labelFromUri(session.webId) : 'Logged in'
+    userInfo.title = session.webId ?? ''
+  } else {
+    loginBtn.hidden = false
+    logoutBtn.hidden = true
+    userInfo.hidden = true
+    userInfo.textContent = ''
+  }
+}
+
+// --- Auth ---
+session.addEventListener('sessionStateChange', () => {
+  onAuthChange()
+  updateAuthUI()
+
+  // Reload current resource with new auth state
+  const currentUri = input.value.trim()
+  if (currentUri) {
+    loadResource(currentUri, container)
+  }
+})
+
+loginBtn.addEventListener('click', () => {
+  const idp = prompt('Solid identity provider:', 'https://solidcommunity.net')
+  if (idp) {
+    session.login(idp, window.location.href)
+  }
+})
+
+logoutBtn.addEventListener('click', () => {
+  session.logout()
+})
 
 // Form submit — user types URL and presses Go
 form.addEventListener('submit', (e) => {
@@ -48,11 +93,18 @@ window.addEventListener('popstate', () => {
   }
 })
 
-// On page load, check for ?uri= parameter
-const params = new URLSearchParams(window.location.search)
-const initialUri = params.get('uri')
-if (initialUri) {
-  input.value = initialUri
-  window.history.replaceState({ uri: initialUri }, '', window.location.href)
-  loadResource(initialUri, container)
+// --- Init ---
+async function init(): Promise<void> {
+  await initAuth()
+  updateAuthUI()
+
+  const params = new URLSearchParams(window.location.search)
+  const initialUri = params.get('uri')
+  if (initialUri) {
+    input.value = initialUri
+    window.history.replaceState({ uri: initialUri }, '', window.location.href)
+    loadResource(initialUri, container)
+  }
 }
+
+init()

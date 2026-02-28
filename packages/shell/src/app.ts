@@ -1,7 +1,9 @@
 import { createStore } from '@mashlib-next/store'
+import type { MashlibStore } from '@mashlib-next/store'
 import { findMatchingPanes } from '@mashlib-next/pane-registry'
 import type { Pane } from '@mashlib-next/pane-registry'
 import { sym } from 'rdflib'
+import { Session } from 'solid-oidc'
 
 // Side-effect imports: register panes in priority order (first = lowest)
 import '@mashlib-next/source-pane'
@@ -42,7 +44,18 @@ import '@mashlib-next/organization-pane'
 import '@mashlib-next/profile-pane'
 import '@mashlib-next/playlist-pane'
 
-const { store, fetchDocument } = createStore()
+// --- Auth session ---
+export const session = new Session()
+
+// --- Store (recreated on auth state change) ---
+let mashlibStore: MashlibStore = createStore()
+
+function rebuildStore(): void {
+  const fetchFn = session.isActive
+    ? session.authFetch.bind(session) as typeof globalThis.fetch
+    : undefined
+  mashlibStore = createStore(fetchFn ? { fetch: fetchFn } : undefined)
+}
 
 const tabsNav = document.getElementById('pane-tabs')!
 
@@ -54,6 +67,7 @@ function renderTabs(
   subject: ReturnType<typeof sym>,
   container: HTMLElement
 ): void {
+  const { store } = mashlibStore
   tabsNav.innerHTML = ''
 
   if (panes.length <= 1) {
@@ -71,13 +85,11 @@ function renderTabs(
     btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false')
 
     btn.addEventListener('click', () => {
-      // Update tab states
       for (const tab of tabsNav.children) {
         (tab as HTMLElement).setAttribute('aria-selected', 'false')
       }
       btn.setAttribute('aria-selected', 'true')
 
-      // Render selected pane
       container.innerHTML = ''
       pane.render(subject, store, container)
     })
@@ -85,7 +97,6 @@ function renderTabs(
     tabsNav.appendChild(btn)
   }
 
-  // Render the first (highest-priority) pane
   container.innerHTML = ''
   panes[0].render(subject, store, container)
 }
@@ -102,10 +113,10 @@ export async function loadResource(
   tabsNav.hidden = true
 
   try {
-    await fetchDocument(uri)
+    await mashlibStore.fetchDocument(uri)
 
     const subject = sym(uri)
-    const panes = findMatchingPanes(subject, store)
+    const panes = findMatchingPanes(subject, mashlibStore.store)
 
     if (panes.length === 0) {
       container.innerHTML = `
@@ -129,6 +140,30 @@ export async function loadResource(
       </div>
     `
   }
+}
+
+/**
+ * Initialize auth: restore session and handle redirects.
+ */
+export async function initAuth(): Promise<void> {
+  try {
+    await session.handleRedirectFromLogin()
+  } catch { /* not a redirect */ }
+
+  try {
+    await session.restore()
+  } catch { /* no stored session */ }
+
+  if (session.isActive) {
+    rebuildStore()
+  }
+}
+
+/**
+ * Called when auth state changes. Rebuilds store and reloads current resource.
+ */
+export function onAuthChange(): void {
+  rebuildStore()
 }
 
 function escapeHtml(str: string): string {
