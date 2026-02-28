@@ -6,10 +6,13 @@ import { sym } from 'rdflib'
 import { Session } from 'solid-oidc'
 
 // Side-effect imports: register panes in priority order (first = lowest)
+// --- Utility panes (lowest priority, always available) ---
 import '@mashlib-next/source-pane'
 import '@mashlib-next/outline-pane'
 import '@mashlib-next/default-pane'
-import '@mashlib-next/folder-pane'
+import '@mashlib-next/sharing-pane'
+import '@mashlib-next/table-pane'
+// --- Content-type panes ---
 import '@mashlib-next/html-pane'
 import '@mashlib-next/audio-pane'
 import '@mashlib-next/image-pane'
@@ -17,9 +20,9 @@ import '@mashlib-next/code-pane'
 import '@mashlib-next/markdown-pane'
 import '@mashlib-next/pdf-pane'
 import '@mashlib-next/video-pane'
-import '@mashlib-next/table-pane'
 import '@mashlib-next/gallery-pane'
 import '@mashlib-next/article-pane'
+// --- Domain-specific panes ---
 import '@mashlib-next/map-pane'
 import '@mashlib-next/trip-pane'
 import '@mashlib-next/schedule-pane'
@@ -32,17 +35,18 @@ import '@mashlib-next/recipe-pane'
 import '@mashlib-next/issue-pane'
 import '@mashlib-next/meeting-pane'
 import '@mashlib-next/notification-pane'
-import '@mashlib-next/sharing-pane'
 import '@mashlib-next/form-pane'
 import '@mashlib-next/trusted-apps-pane'
-import '@mashlib-next/dashboard-pane'
 import '@mashlib-next/pad-pane'
 import '@mashlib-next/microblog-pane'
+import '@mashlib-next/playlist-pane'
+// --- Primary panes (highest priority) ---
+import '@mashlib-next/folder-pane'
+import '@mashlib-next/dashboard-pane'
 import '@mashlib-next/chat-pane'
 import '@mashlib-next/contacts-pane'
 import '@mashlib-next/organization-pane'
 import '@mashlib-next/profile-pane'
-import '@mashlib-next/playlist-pane'
 
 // --- Auth session ---
 export const session = new Session()
