@@ -104,6 +104,105 @@ function renderTabs(
   panes[0].render(subject, store, container)
 }
 
+// --- WebSocket live updates ---
+let liveSocket: WebSocket | null = null
+let liveDocUri: string | null = null
+let reconnectTimer: ReturnType<typeof setTimeout> | null = null
+
+function subscribeLive(
+  docUri: string,
+  container: HTMLElement,
+  tabsNav: HTMLElement
+): void {
+  unsubscribeLive()
+
+  let origin: string
+  try {
+    origin = new URL(docUri).origin
+  } catch {
+    return
+  }
+
+  const wsUrl = origin.replace(/^http/, 'ws')
+  liveDocUri = docUri
+
+  try {
+    const ws = new WebSocket(wsUrl)
+    liveSocket = ws
+
+    ws.addEventListener('open', () => {
+      ws.send(`sub ${docUri}`)
+    })
+
+    ws.addEventListener('message', (e) => {
+      const data = String(e.data)
+      if (data.startsWith('pub') && data.includes(docUri)) {
+        // Resource changed — re-fetch and re-render the active tab
+        reloadCurrentPane(docUri, container, tabsNav)
+      }
+    })
+
+    ws.addEventListener('close', () => {
+      // Reconnect after 5s if we're still viewing this resource
+      if (liveDocUri === docUri) {
+        reconnectTimer = setTimeout(() => {
+          if (liveDocUri === docUri) {
+            subscribeLive(docUri, container, tabsNav)
+          }
+        }, 5000)
+      }
+    })
+
+    ws.addEventListener('error', () => {
+      // Silently close — the close handler will reconnect
+      ws.close()
+    })
+  } catch {
+    // WebSocket not supported or blocked — no live updates
+  }
+}
+
+function unsubscribeLive(): void {
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer)
+    reconnectTimer = null
+  }
+  if (liveSocket) {
+    liveDocUri = null
+    liveSocket.close()
+    liveSocket = null
+  }
+}
+
+async function reloadCurrentPane(
+  docUri: string,
+  container: HTMLElement,
+  tabsNav: HTMLElement
+): Promise<void> {
+  // Find the currently active tab
+  const activeTab = tabsNav.querySelector('.pane-tab[aria-selected="true"]')
+  const activeLabel = activeTab?.textContent ?? ''
+
+  try {
+    // Re-fetch the document (fetcher.load with force refresh)
+    await mashlibStore.fetcher.load(sym(docUri), { force: true })
+
+    // Re-find panes and re-render
+    const subject = sym(liveDocUri?.includes('#') ? liveDocUri : docUri)
+    const panes = findMatchingPanes(subject, mashlibStore.store)
+    if (panes.length === 0) return
+
+    // Try to stay on the same tab
+    const matchIdx = panes.findIndex(p => `${p.icon} ${p.label}` === activeLabel)
+    const pane = matchIdx >= 0 ? panes[matchIdx] : panes[0]
+
+    container.innerHTML = ''
+    pane.render(subject, mashlibStore.store, container)
+  } catch {
+    // Silent failure — next pub will retry
+  }
+}
+
 /**
  * Load a resource by URI, find matching panes, and render with tab switcher.
  */
@@ -115,6 +214,9 @@ export async function loadResource(
   container.innerHTML = '<p class="loading">Loading...</p>'
   tabsNav.innerHTML = ''
   tabsNav.hidden = true
+
+  // Unsubscribe from previous resource
+  unsubscribeLive()
 
   try {
     await mashlibStore.fetchDocument(uri)
@@ -135,6 +237,10 @@ export async function loadResource(
     }
 
     renderTabs(panes, subject, container, tabsNav)
+
+    // Subscribe to live updates for this document
+    const docUri = uri.replace(/#.*$/, '')
+    subscribeLive(docUri, container, tabsNav)
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     container.innerHTML = `
