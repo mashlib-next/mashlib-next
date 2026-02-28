@@ -111,7 +111,7 @@ async function init(): Promise<void> {
   updateAuthUI()
 
   const params = new URLSearchParams(window.location.search)
-  const initialUri = params.get('uri')
+  const initialUri = params.get('uri') || input.value.trim()
   if (initialUri) {
     input.value = initialUri
     window.history.replaceState({ uri: initialUri }, '', window.location.href)
