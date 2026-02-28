@@ -8,16 +8,42 @@ interface ContainedResource {
   isContainer: boolean
   modified?: string
   size?: number
+  contentType?: string
+}
+
+/**
+ * Determine an icon for a resource based on file extension and type.
+ */
+function iconForResource(name: string, isContainer: boolean): string {
+  if (isContainer) return '\u{1F4C1}' // folder
+
+  const ext = name.split('.').pop()?.toLowerCase() ?? ''
+  const iconMap: Record<string, string> = {
+    // Images
+    jpg: '\u{1F5BC}', jpeg: '\u{1F5BC}', png: '\u{1F5BC}', gif: '\u{1F5BC}',
+    svg: '\u{1F5BC}', webp: '\u{1F5BC}', bmp: '\u{1F5BC}', ico: '\u{1F5BC}',
+    // Audio
+    mp3: '\u{1F3B5}', wav: '\u{1F3B5}', ogg: '\u{1F3B5}', flac: '\u{1F3B5}', m4a: '\u{1F3B5}',
+    // Video
+    mp4: '\u{1F3AC}', webm: '\u{1F3AC}', avi: '\u{1F3AC}', mov: '\u{1F3AC}', mkv: '\u{1F3AC}',
+    // Documents
+    pdf: '\u{1F4D1}', doc: '\u{1F4DD}', docx: '\u{1F4DD}',
+    // Data
+    ttl: '\u{1F4CA}', rdf: '\u{1F4CA}', jsonld: '\u{1F4CA}', n3: '\u{1F4CA}', nq: '\u{1F4CA}',
+    json: '\u{1F4CB}', xml: '\u{1F4CB}', csv: '\u{1F4CB}',
+    // Code
+    js: '\u{1F4DC}', ts: '\u{1F4DC}', py: '\u{1F4DC}', html: '\u{1F4DC}', css: '\u{1F4DC}',
+    // Text
+    txt: '\u{1F4C4}', md: '\u{1F4C4}',
+    // Archives
+    zip: '\u{1F4E6}', tar: '\u{1F4E6}', gz: '\u{1F4E6}',
+  }
+
+  return iconMap[ext] ?? '\u{1F4C4}' // default file
 }
 
 /**
  * Extract contained resources from the store for a given container subject.
- *
- * LDP containers use:
- *   <container/> ldp:contains <resource1>, <resource2>, ...
- *   <resource1> a ldp:Container .  (if it's a sub-folder)
- *   <resource1> posix:mtime "..." .
- *   <resource1> posix:size "..." .
  */
 function extractContents(subject: NamedNode, store: Store): ContainedResource[] {
   const contained = store.each(subject, LDP('contains'), null, null)
@@ -46,7 +72,10 @@ function extractContents(subject: NamedNode, store: Store): ContainedResource[] 
     const sizeNode = store.any(node, POSIX('size'), null, null)
     const size = sizeNode ? Number(sizeNode.value) : undefined
 
-    resources.push({ uri, name, isContainer, modified, size })
+    // Get content type
+    const contentType = store.any(node, DCT('format'), null, null)?.value ?? undefined
+
+    resources.push({ uri, name, isContainer, modified, size, contentType })
   }
 
   // Sort: folders first, then alphabetically
@@ -62,7 +91,6 @@ function extractContents(subject: NamedNode, store: Store): ContainedResource[] 
  * Extract a human-readable name from a resource URI.
  */
 function resourceName(uri: string, isContainer: boolean): string {
-  // Remove trailing slash for containers
   const cleaned = isContainer ? uri.replace(/\/$/, '') : uri
   const segments = cleaned.split('/')
   return decodeURIComponent(segments[segments.length - 1] || uri)
@@ -104,6 +132,37 @@ function parentUri(uri: string): string | null {
 }
 
 /**
+ * Build breadcrumb trail from the URI.
+ */
+function buildBreadcrumbs(uri: string): { label: string; uri: string }[] {
+  const crumbs: { label: string; uri: string }[] = []
+  let current = uri
+
+  // Walk up the path until we reach the origin
+  while (true) {
+    const name = resourceName(current, true)
+    crumbs.unshift({ label: name || 'Root', uri: current })
+    const parent = parentUri(current)
+    if (!parent) break
+    current = parent
+  }
+
+  return crumbs
+}
+
+/**
+ * Navigate to a URI using the shell's URL input.
+ */
+function navigateTo(uri: string, e: Event): void {
+  e.preventDefault()
+  const input = document.getElementById('url-input') as HTMLInputElement | null
+  if (input) {
+    input.value = uri
+    input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
+  }
+}
+
+/**
  * Render the folder listing into the container element.
  */
 export function renderFolder(
@@ -113,6 +172,9 @@ export function renderFolder(
 ): void {
   container.innerHTML = ''
 
+  const wrapper = document.createElement('div')
+  wrapper.className = 'folder-view'
+
   // Folder title
   const title =
     store.any(subject, DC('title'), null, null)?.value ??
@@ -120,38 +182,69 @@ export function renderFolder(
     resourceName(subject.value, true)
 
   const header = document.createElement('h2')
+  header.className = 'folder-title'
   header.textContent = title
-  container.appendChild(header)
+  wrapper.appendChild(header)
 
+  // Breadcrumb navigation
+  const crumbs = buildBreadcrumbs(subject.value)
+  if (crumbs.length > 1) {
+    const nav = document.createElement('nav')
+    nav.className = 'folder-breadcrumbs'
+    nav.setAttribute('aria-label', 'Folder path')
+
+    for (let i = 0; i < crumbs.length; i++) {
+      if (i > 0) {
+        const sep = document.createElement('span')
+        sep.className = 'folder-breadcrumb-sep'
+        sep.textContent = ' / '
+        nav.appendChild(sep)
+      }
+
+      if (i < crumbs.length - 1) {
+        const link = document.createElement('a')
+        link.className = 'folder-breadcrumb'
+        link.href = `?uri=${encodeURIComponent(crumbs[i].uri)}`
+        link.textContent = crumbs[i].label
+        link.addEventListener('click', (e) => navigateTo(crumbs[i].uri, e))
+        nav.appendChild(link)
+      } else {
+        const current = document.createElement('span')
+        current.className = 'folder-breadcrumb-current'
+        current.textContent = crumbs[i].label
+        nav.appendChild(current)
+      }
+    }
+
+    wrapper.appendChild(nav)
+  }
+
+  // Path display
   const pathEl = document.createElement('p')
   pathEl.className = 'folder-path'
   pathEl.textContent = subject.value
-  container.appendChild(pathEl)
-
-  // Parent link
-  const parent = parentUri(subject.value)
-  if (parent) {
-    const parentLink = document.createElement('a')
-    parentLink.className = 'folder-parent'
-    parentLink.href = `?uri=${encodeURIComponent(parent)}`
-    parentLink.textContent = '\u2190 Parent folder'
-    parentLink.addEventListener('click', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('url-input') as HTMLInputElement | null
-      if (input) {
-        input.value = parent
-        input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-      }
-    })
-    container.appendChild(parentLink)
-  }
+  wrapper.appendChild(pathEl)
 
   const resources = extractContents(subject, store)
 
+  // Resource count
+  const folders = resources.filter(r => r.isContainer)
+  const files = resources.filter(r => !r.isContainer)
+  const countParts: string[] = []
+  if (folders.length > 0) countParts.push(`${folders.length} folder${folders.length !== 1 ? 's' : ''}`)
+  if (files.length > 0) countParts.push(`${files.length} file${files.length !== 1 ? 's' : ''}`)
+
+  const countEl = document.createElement('p')
+  countEl.className = 'folder-count'
+  countEl.textContent = countParts.length > 0 ? countParts.join(', ') : '0 items'
+  wrapper.appendChild(countEl)
+
   if (resources.length === 0) {
     const empty = document.createElement('p')
+    empty.className = 'folder-empty'
     empty.textContent = 'This folder is empty.'
-    container.appendChild(empty)
+    wrapper.appendChild(empty)
+    container.appendChild(wrapper)
     return
   }
 
@@ -159,7 +252,7 @@ export function renderFolder(
   table.className = 'folder-listing'
 
   const thead = document.createElement('thead')
-  thead.innerHTML = '<tr><th></th><th>Name</th><th>Size</th><th>Modified</th></tr>'
+  thead.innerHTML = '<tr><th></th><th>Name</th><th>Type</th><th>Size</th><th>Modified</th></tr>'
   table.appendChild(thead)
 
   const tbody = document.createElement('tbody')
@@ -171,7 +264,7 @@ export function renderFolder(
     // Icon
     const iconTd = document.createElement('td')
     iconTd.className = 'folder-icon'
-    iconTd.textContent = resource.isContainer ? '\u{1F4C1}' : '\u{1F4C4}'
+    iconTd.textContent = iconForResource(resource.name, resource.isContainer)
     tr.appendChild(iconTd)
 
     // Name as link
@@ -180,16 +273,21 @@ export function renderFolder(
     const link = document.createElement('a')
     link.href = `?uri=${encodeURIComponent(resource.uri)}`
     link.textContent = resource.name + (resource.isContainer ? '/' : '')
-    link.addEventListener('click', (e) => {
-      e.preventDefault()
-      const input = document.getElementById('url-input') as HTMLInputElement | null
-      if (input) {
-        input.value = resource.uri
-        input.form?.dispatchEvent(new Event('submit', { cancelable: true }))
-      }
-    })
+    link.addEventListener('click', (e) => navigateTo(resource.uri, e))
     nameTd.appendChild(link)
     tr.appendChild(nameTd)
+
+    // Content type
+    const typeTd = document.createElement('td')
+    typeTd.className = 'folder-type'
+    if (resource.isContainer) {
+      typeTd.textContent = 'Folder'
+    } else if (resource.contentType) {
+      typeTd.textContent = resource.contentType
+    } else {
+      typeTd.textContent = ''
+    }
+    tr.appendChild(typeTd)
 
     // Size
     const sizeTd = document.createElement('td')
@@ -207,5 +305,6 @@ export function renderFolder(
   }
 
   table.appendChild(tbody)
-  container.appendChild(table)
+  wrapper.appendChild(table)
+  container.appendChild(wrapper)
 }

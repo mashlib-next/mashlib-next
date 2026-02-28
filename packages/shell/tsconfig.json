@@ -9,6 +9,13 @@
     { "path": "../core/store" },
     { "path": "../core/utils" },
     { "path": "../pane-registry" },
-    { "path": "../panes/playlist" }
+    { "path": "../panes/playlist" },
+    { "path": "../panes/pad" },
+    { "path": "../panes/microblog" },
+    { "path": "../panes/outline" },
+    { "path": "../panes/sharing" },
+    { "path": "../panes/form" },
+    { "path": "../panes/dashboard" },
+    { "path": "../panes/trusted-apps" }
   ]
 }

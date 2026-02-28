@@ -45,7 +45,547 @@ importers:
         specifier: ^2.3.5
         version: 2.3.5
 
+  packages/panes/activity:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/article:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/audio:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/bookmarks:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/chat:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/code:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/contacts:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/dashboard:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/default:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/event:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/folder:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/form:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/gallery:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/html:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/image:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/issue:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/map:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/markdown:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      marked:
+        specifier: ^15.0.0
+        version: 15.0.12
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/meeting:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/microblog:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/notification:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/organization:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/outline:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/pad:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/pdf:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
   packages/panes/playlist:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/product:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/profile:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/recipe:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/schedule:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/sharing:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/source:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/table:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/transaction:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/trip:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/trusted-apps:
+    dependencies:
+      '@mashlib-next/pane-registry':
+        specifier: workspace:*
+        version: link:../../pane-registry
+      '@mashlib-next/store':
+        specifier: workspace:*
+        version: link:../../core/store
+      '@mashlib-next/utils':
+        specifier: workspace:*
+        version: link:../../core/utils
+      rdflib:
+        specifier: ^2.3.5
+        version: 2.3.5
+
+  packages/panes/video:
     dependencies:
       '@mashlib-next/pane-registry':
         specifier: workspace:*
@@ -62,18 +602,126 @@ importers:
 
   packages/shell:
     dependencies:
+      '@mashlib-next/activity-pane':
+        specifier: workspace:*
+        version: link:../panes/activity
+      '@mashlib-next/article-pane':
+        specifier: workspace:*
+        version: link:../panes/article
+      '@mashlib-next/audio-pane':
+        specifier: workspace:*
+        version: link:../panes/audio
+      '@mashlib-next/bookmarks-pane':
+        specifier: workspace:*
+        version: link:../panes/bookmarks
+      '@mashlib-next/chat-pane':
+        specifier: workspace:*
+        version: link:../panes/chat
+      '@mashlib-next/code-pane':
+        specifier: workspace:*
+        version: link:../panes/code
+      '@mashlib-next/contacts-pane':
+        specifier: workspace:*
+        version: link:../panes/contacts
+      '@mashlib-next/dashboard-pane':
+        specifier: workspace:*
+        version: link:../panes/dashboard
+      '@mashlib-next/default-pane':
+        specifier: workspace:*
+        version: link:../panes/default
+      '@mashlib-next/event-pane':
+        specifier: workspace:*
+        version: link:../panes/event
+      '@mashlib-next/folder-pane':
+        specifier: workspace:*
+        version: link:../panes/folder
+      '@mashlib-next/form-pane':
+        specifier: workspace:*
+        version: link:../panes/form
+      '@mashlib-next/gallery-pane':
+        specifier: workspace:*
+        version: link:../panes/gallery
+      '@mashlib-next/html-pane':
+        specifier: workspace:*
+        version: link:../panes/html
+      '@mashlib-next/image-pane':
+        specifier: workspace:*
+        version: link:../panes/image
+      '@mashlib-next/issue-pane':
+        specifier: workspace:*
+        version: link:../panes/issue
+      '@mashlib-next/map-pane':
+        specifier: workspace:*
+        version: link:../panes/map
+      '@mashlib-next/markdown-pane':
+        specifier: workspace:*
+        version: link:../panes/markdown
+      '@mashlib-next/meeting-pane':
+        specifier: workspace:*
+        version: link:../panes/meeting
+      '@mashlib-next/microblog-pane':
+        specifier: workspace:*
+        version: link:../panes/microblog
+      '@mashlib-next/notification-pane':
+        specifier: workspace:*
+        version: link:../panes/notification
+      '@mashlib-next/organization-pane':
+        specifier: workspace:*
+        version: link:../panes/organization
+      '@mashlib-next/outline-pane':
+        specifier: workspace:*
+        version: link:../panes/outline
+      '@mashlib-next/pad-pane':
+        specifier: workspace:*
+        version: link:../panes/pad
       '@mashlib-next/pane-registry':
         specifier: workspace:*
         version: link:../pane-registry
+      '@mashlib-next/pdf-pane':
+        specifier: workspace:*
+        version: link:../panes/pdf
       '@mashlib-next/playlist-pane':
         specifier: workspace:*
         version: link:../panes/playlist
+      '@mashlib-next/product-pane':
+        specifier: workspace:*
+        version: link:../panes/product
+      '@mashlib-next/profile-pane':
+        specifier: workspace:*
+        version: link:../panes/profile
+      '@mashlib-next/recipe-pane':
+        specifier: workspace:*
+        version: link:../panes/recipe
+      '@mashlib-next/schedule-pane':
+        specifier: workspace:*
+        version: link:../panes/schedule
+      '@mashlib-next/sharing-pane':
+        specifier: workspace:*
+        version: link:../panes/sharing
+      '@mashlib-next/source-pane':
+        specifier: workspace:*
+        version: link:../panes/source
       '@mashlib-next/store':
         specifier: workspace:*
         version: link:../core/store
+      '@mashlib-next/table-pane':
+        specifier: workspace:*
+        version: link:../panes/table
+      '@mashlib-next/transaction-pane':
+        specifier: workspace:*
+        version: link:../panes/transaction
+      '@mashlib-next/trip-pane':
+        specifier: workspace:*
+        version: link:../panes/trip
+      '@mashlib-next/trusted-apps-pane':
+        specifier: workspace:*
+        version: link:../panes/trusted-apps
       '@mashlib-next/utils':
         specifier: workspace:*
         version: link:../core/utils
+      '@mashlib-next/video-pane':
+        specifier: workspace:*
+        version: link:../panes/video
       rdflib:
         specifier: ^2.3.5
         version: 2.3.5
@@ -630,6 +1278,11 @@ packages:
 
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+
+  marked@15.0.12:
+    resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
+    engines: {node: '>= 18'}
+    hasBin: true
 
   mdn-data@2.12.2:
     resolution: {integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==}
@@ -1342,6 +1995,8 @@ snapshots:
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  marked@15.0.12: {}
 
   mdn-data@2.12.2: {}
 

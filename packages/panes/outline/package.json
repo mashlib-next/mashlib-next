@@ -1,0 +1,16 @@
+{
+  "name": "@mashlib-next/outline-pane",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@mashlib-next/store": "workspace:*",
+    "@mashlib-next/utils": "workspace:*",
+    "@mashlib-next/pane-registry": "workspace:*",
+    "rdflib": "^2.3.5"
+  }
+}

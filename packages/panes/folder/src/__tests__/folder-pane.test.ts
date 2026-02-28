@@ -31,6 +31,7 @@ function buildFolderStore() {
   // Another file
   const file2 = sym('https://pod.example.org/public/data.ttl')
   store.add(container, LDP('contains'), file2, doc)
+  store.add(file2, DCT('format'), 'text/turtle', doc)
 
   return { store, container }
 }
@@ -63,7 +64,7 @@ describe('folderPane.render', () => {
     const el = document.createElement('div')
     folderPane.render(subject, store, el)
 
-    expect(el.querySelector('h2')?.textContent).toBe('public')
+    expect(el.querySelector('.folder-title')?.textContent).toBe('public')
     const rows = el.querySelectorAll('tbody tr')
     expect(rows).toHaveLength(3)
   })
@@ -78,14 +79,32 @@ describe('folderPane.render', () => {
     expect(rows[1].classList.contains('file-row')).toBe(true)
   })
 
-  it('shows folder icon for containers and file icon for files', () => {
+  it('shows folder icon for containers', () => {
     const { store, container: subject } = buildFolderStore()
     const el = document.createElement('div')
     folderPane.render(subject, store, el)
 
     const icons = el.querySelectorAll('.folder-icon')
     expect(icons[0].textContent).toBe('\u{1F4C1}')
-    expect(icons[1].textContent).toBe('\u{1F4C4}')
+  })
+
+  it('shows file-type icons based on extension', () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/files/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+
+    const img = sym('https://pod.example.org/files/photo.jpg')
+    store.add(container, LDP('contains'), img, container.doc())
+
+    const audio = sym('https://pod.example.org/files/song.mp3')
+    store.add(container, LDP('contains'), audio, container.doc())
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    const icons = el.querySelectorAll('.folder-icon')
+    expect(icons[0].textContent).toBe('\u{1F5BC}') // image icon
+    expect(icons[1].textContent).toBe('\u{1F3B5}') // audio icon
   })
 
   it('displays file size when available', () => {
@@ -104,5 +123,55 @@ describe('folderPane.render', () => {
     const el = document.createElement('div')
     folderPane.render(container, store, el)
     expect(el.textContent).toContain('empty')
+  })
+
+  it('renders resource count', () => {
+    const { store, container: subject } = buildFolderStore()
+    const el = document.createElement('div')
+    folderPane.render(subject, store, el)
+
+    const count = el.querySelector('.folder-count')
+    expect(count).not.toBeNull()
+    expect(count!.textContent).toContain('1 folder')
+    expect(count!.textContent).toContain('2 files')
+  })
+
+  it('renders breadcrumb navigation', () => {
+    const { store, container: subject } = buildFolderStore()
+    const el = document.createElement('div')
+    folderPane.render(subject, store, el)
+
+    const breadcrumbs = el.querySelector('.folder-breadcrumbs')
+    expect(breadcrumbs).not.toBeNull()
+    expect(breadcrumbs!.querySelectorAll('.folder-breadcrumb').length).toBeGreaterThan(0)
+    expect(breadcrumbs!.querySelector('.folder-breadcrumb-current')!.textContent).toBe('public')
+  })
+
+  it('renders content type when available', () => {
+    const { store, container: subject } = buildFolderStore()
+    const el = document.createElement('div')
+    folderPane.render(subject, store, el)
+
+    expect(el.textContent).toContain('text/turtle')
+  })
+
+  it('shows Folder type for containers', () => {
+    const { store, container: subject } = buildFolderStore()
+    const el = document.createElement('div')
+    folderPane.render(subject, store, el)
+
+    const typeCells = el.querySelectorAll('.folder-type')
+    expect(typeCells[0].textContent).toBe('Folder')
+  })
+
+  it('renders 0 items for truly empty folder', () => {
+    const store = graph()
+    const container = sym('https://pod.example.org/empty/')
+    store.add(container, RDF('type'), LDP('Container'), container.doc())
+
+    const el = document.createElement('div')
+    folderPane.render(container, store, el)
+
+    expect(el.querySelector('.folder-count')!.textContent).toBe('0 items')
   })
 })
