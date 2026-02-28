@@ -6,6 +6,7 @@ import { labelFromUri } from '@mashlib-next/utils'
 const form = document.getElementById('url-form') as HTMLFormElement
 const input = document.getElementById('url-input') as HTMLInputElement
 const container = document.getElementById('pane-container') as HTMLElement
+const tabsNav = document.getElementById('pane-tabs') as HTMLElement
 const loginBtn = document.getElementById('login-btn') as HTMLButtonElement
 const logoutBtn = document.getElementById('logout-btn') as HTMLButtonElement
 const userInfo = document.getElementById('user-info') as HTMLSpanElement
@@ -22,7 +23,7 @@ async function navigateTo(uri: string, pushHistory: boolean): Promise<void> {
     window.history.pushState({ uri }, '', url.toString())
   }
 
-  await loadResource(uri, container)
+  await loadResource(uri, container, tabsNav)
 }
 
 /**
@@ -51,7 +52,7 @@ session.addEventListener('sessionStateChange', () => {
   // Reload current resource with new auth state
   const currentUri = input.value.trim()
   if (currentUri) {
-    loadResource(currentUri, container)
+    loadResource(currentUri, container, tabsNav)
   }
 })
 
@@ -103,7 +104,7 @@ async function init(): Promise<void> {
   if (initialUri) {
     input.value = initialUri
     window.history.replaceState({ uri: initialUri }, '', window.location.href)
-    loadResource(initialUri, container)
+    loadResource(initialUri, container, tabsNav)
   }
 }
 

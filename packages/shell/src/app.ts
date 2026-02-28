@@ -57,15 +57,14 @@ function rebuildStore(): void {
   mashlibStore = createStore(fetchFn ? { fetch: fetchFn } : undefined)
 }
 
-const tabsNav = document.getElementById('pane-tabs')!
-
 /**
  * Build the tab bar and render the active pane.
  */
 function renderTabs(
   panes: Pane[],
   subject: ReturnType<typeof sym>,
-  container: HTMLElement
+  container: HTMLElement,
+  tabsNav: HTMLElement
 ): void {
   const { store } = mashlibStore
   tabsNav.innerHTML = ''
@@ -106,7 +105,8 @@ function renderTabs(
  */
 export async function loadResource(
   uri: string,
-  container: HTMLElement
+  container: HTMLElement,
+  tabsNav: HTMLElement
 ): Promise<void> {
   container.innerHTML = '<p class="loading">Loading...</p>'
   tabsNav.innerHTML = ''
@@ -130,7 +130,7 @@ export async function loadResource(
       return
     }
 
-    renderTabs(panes, subject, container)
+    renderTabs(panes, subject, container, tabsNav)
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     container.innerHTML = `
