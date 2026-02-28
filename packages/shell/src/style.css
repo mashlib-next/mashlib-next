@@ -3355,3 +3355,98 @@ footer {
   color: #666;
   text-align: center;
 }
+
+/* ===== Responsive / Mobile ===== */
+@media (max-width: 600px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  /* Stack title and auth controls */
+  #header-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+  }
+
+  /* URL bar: stack input above button */
+  #url-form {
+    flex-wrap: wrap;
+  }
+
+  #url-input {
+    width: 100%;
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  #url-form button {
+    width: 100%;
+  }
+
+  /* Tab bar: scroll horizontally, larger touch targets */
+  #pane-tabs,
+  .pane-tab {
+    min-height: 44px;
+  }
+
+  .pane-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  /* Tables: horizontal scroll wrapper */
+  .folder-listing,
+  .properties-table,
+  .schedule-table,
+  .transaction-table,
+  .contacts-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Folder pane: hide less important columns */
+  .folder-type,
+  .folder-modified {
+    display: none;
+  }
+
+  /* Ensure buttons/links meet 44px touch target */
+  button, .pane-tab, #login-btn, #logout-btn,
+  .source-edit-btn, .source-save-btn, .source-cancel-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent long URIs from breaking layout */
+  .folder-name a,
+  .outline-uri,
+  .properties-table td,
+  .bookmark-link a,
+  .contact-webid {
+    word-break: break-all;
+  }
+
+  /* Source editor: full width, taller */
+  .source-editor {
+    min-height: 200px;
+    font-size: 14px;
+  }
+
+  /* Profile / contacts cards: stack vertically */
+  .profile-info {
+    flex-direction: column;
+  }
+
+  .profile-photo {
+    max-width: 120px;
+  }
+
+  /* Map pane */
+  .map-container iframe {
+    height: 250px;
+  }
+}
