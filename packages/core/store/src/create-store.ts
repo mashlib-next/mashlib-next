@@ -1,4 +1,4 @@
-import { graph, Fetcher, sym, NamedNode } from 'rdflib'
+import { graph, Fetcher, UpdateManager, sym, NamedNode } from 'rdflib'
 import type { Store } from './types.js'
 
 export interface MashlibStore {
@@ -31,6 +31,7 @@ export function createStore(options?: CreateStoreOptions): MashlibStore {
   const fetcherOpts: Record<string, unknown> = {}
   if (options?.fetch) fetcherOpts.fetch = options.fetch
   const fetcher = new Fetcher(store, fetcherOpts)
+  store.updater = new UpdateManager(store)
 
   async function fetchDocument(uri: string): Promise<NamedNode> {
     // Strip fragment — HTTP fetches the document, not a fragment within it

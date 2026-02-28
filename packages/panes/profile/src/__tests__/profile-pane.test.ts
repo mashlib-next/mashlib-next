@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { graph, sym, lit, Namespace } from 'rdflib'
+import { describe, it, expect, vi } from 'vitest'
+import { graph, sym, lit, Namespace, Fetcher, UpdateManager } from 'rdflib'
 import { profilePane } from '../profile-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
@@ -262,5 +262,77 @@ describe('profilePane.render', () => {
     profilePane.render(me, store, container)
 
     expect(container.textContent).toContain('Pod')
+  })
+
+  it('shows Edit button when updater and fetcher are attached', () => {
+    const store = graph()
+    new Fetcher(store, {})
+    store.updater = new UpdateManager(store)
+    const me = sym('https://example.org/p#me')
+    store.add(me, RDF('type'), FOAF('Person'), me.doc())
+    store.add(me, VCARD('fn'), 'Alice', me.doc())
+
+    const container = document.createElement('div')
+    profilePane.render(me, store, container)
+
+    expect(container.querySelector('.profile-edit-btn')).not.toBeNull()
+  })
+
+  it('hides Edit button when no updater', () => {
+    const { store, me } = buildProfileStore()
+    const container = document.createElement('div')
+    profilePane.render(me, store, container)
+
+    expect(container.querySelector('.profile-edit-btn')).toBeNull()
+  })
+
+  it('switches to edit form on Edit click', () => {
+    const store = graph()
+    new Fetcher(store, {})
+    store.updater = new UpdateManager(store)
+    const me = sym('https://example.org/p#me')
+    store.add(me, RDF('type'), FOAF('Person'), me.doc())
+    store.add(me, VCARD('fn'), 'Alice', me.doc())
+    store.add(me, FOAF('nick'), 'alice', me.doc())
+
+    const container = document.createElement('div')
+    profilePane.render(me, store, container)
+
+    const editBtn = container.querySelector('.profile-edit-btn') as HTMLButtonElement
+    editBtn.click()
+
+    // Should show edit form with input fields
+    expect(container.querySelector('.profile-edit-form')).not.toBeNull()
+    expect(container.querySelector('.profile-save-btn')).not.toBeNull()
+    expect(container.querySelector('.profile-cancel-btn')).not.toBeNull()
+
+    // Name field should be pre-filled
+    const inputs = container.querySelectorAll('.profile-field-input')
+    expect(inputs.length).toBeGreaterThanOrEqual(2)
+    const nameInput = inputs[0] as HTMLInputElement
+    expect(nameInput.value).toBe('Alice')
+  })
+
+  it('reverts to view mode on Cancel', () => {
+    const store = graph()
+    new Fetcher(store, {})
+    store.updater = new UpdateManager(store)
+    const me = sym('https://example.org/p#me')
+    store.add(me, RDF('type'), FOAF('Person'), me.doc())
+    store.add(me, VCARD('fn'), 'Alice', me.doc())
+
+    const container = document.createElement('div')
+    profilePane.render(me, store, container)
+
+    // Enter edit mode
+    ;(container.querySelector('.profile-edit-btn') as HTMLButtonElement).click()
+    expect(container.querySelector('.profile-edit-form')).not.toBeNull()
+
+    // Cancel
+    ;(container.querySelector('.profile-cancel-btn') as HTMLButtonElement).click()
+
+    // Back to profile view
+    expect(container.querySelector('.profile-name')?.textContent).toBe('Alice')
+    expect(container.querySelector('.profile-edit-form')).toBeNull()
   })
 })

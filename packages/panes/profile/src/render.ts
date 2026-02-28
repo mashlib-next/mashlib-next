@@ -1,6 +1,7 @@
-import type { NamedNode, Store } from '@mashlib-next/store'
+import type { NamedNode, Store, Statement } from '@mashlib-next/store'
 import { FOAF, VCARD, SCHEMA, RDF, RDFS, SPACE, SOLID, ORG } from '@mashlib-next/utils'
 import { labelFromUri, createNavLink } from '@mashlib-next/utils'
+import { lit, Statement as RdfStatement, UpdateManager, Fetcher } from 'rdflib'
 
 /**
  * Get the best display name for a person.
@@ -234,6 +235,22 @@ function addDetail(
   parent.appendChild(row)
 }
 
+/** Editable profile fields and their RDF predicates */
+interface EditableField {
+  label: string
+  predicate: NamedNode
+  inputType?: string
+}
+
+const EDITABLE_FIELDS: EditableField[] = [
+  { label: 'Name', predicate: VCARD('fn') },
+  { label: 'Nickname', predicate: FOAF('nick') },
+  { label: 'Photo URL', predicate: VCARD('hasPhoto'), inputType: 'url' },
+  { label: 'Role', predicate: VCARD('role') },
+  { label: 'Organization', predicate: VCARD('organization-name') },
+  { label: 'Bio', predicate: VCARD('note') },
+]
+
 /**
  * Render the profile card into the container element.
  */
@@ -244,8 +261,27 @@ export function renderProfile(
 ): void {
   container.innerHTML = ''
 
+  const updater = (store as unknown as { updater?: UpdateManager }).updater
+  const fetcher = (store as unknown as { fetcher?: Fetcher }).fetcher
+  const canEdit = Boolean(updater && fetcher)
+
   const card = document.createElement('div')
   card.className = 'profile-card'
+
+  // Header row with Edit button
+  if (canEdit) {
+    const headerRow = document.createElement('div')
+    headerRow.className = 'profile-edit-row'
+
+    const editBtn = document.createElement('button')
+    editBtn.className = 'profile-edit-btn'
+    editBtn.textContent = 'Edit'
+    editBtn.addEventListener('click', () => {
+      showEditForm(subject, store, container, updater!)
+    })
+    headerRow.appendChild(editBtn)
+    card.appendChild(headerRow)
+  }
 
   // Photo
   const photoUrl = getPhoto(subject, store)
@@ -448,4 +484,134 @@ export function renderProfile(
   }
 
   container.appendChild(card)
+}
+
+/**
+ * Show the edit form for the profile's basic fields.
+ */
+function showEditForm(
+  subject: NamedNode,
+  store: Store,
+  container: HTMLElement,
+  updater: UpdateManager
+): void {
+  container.innerHTML = ''
+
+  const form = document.createElement('div')
+  form.className = 'profile-edit-form'
+
+  const h2 = document.createElement('h2')
+  h2.textContent = 'Edit Profile'
+  form.appendChild(h2)
+
+  const inputs = new Map<EditableField, HTMLInputElement | HTMLTextAreaElement>()
+
+  for (const field of EDITABLE_FIELDS) {
+    const currentValue = store.any(subject, field.predicate, null, null)?.value ?? ''
+
+    const group = document.createElement('div')
+    group.className = 'profile-field-group'
+
+    const label = document.createElement('label')
+    label.textContent = field.label
+    group.appendChild(label)
+
+    let input: HTMLInputElement | HTMLTextAreaElement
+    if (field.label === 'Bio') {
+      input = document.createElement('textarea')
+      input.rows = 3
+    } else {
+      input = document.createElement('input')
+      ;(input as HTMLInputElement).type = field.inputType ?? 'text'
+    }
+    input.className = 'profile-field-input'
+    input.value = currentValue
+    group.appendChild(input)
+
+    inputs.set(field, input)
+    form.appendChild(group)
+  }
+
+  // Button row
+  const btnRow = document.createElement('div')
+  btnRow.className = 'profile-edit-actions'
+
+  const saveBtn = document.createElement('button')
+  saveBtn.className = 'profile-save-btn'
+  saveBtn.textContent = 'Save'
+
+  const cancelBtn = document.createElement('button')
+  cancelBtn.className = 'profile-cancel-btn'
+  cancelBtn.textContent = 'Cancel'
+
+  btnRow.appendChild(saveBtn)
+  btnRow.appendChild(cancelBtn)
+  form.appendChild(btnRow)
+
+  // Status line
+  const status = document.createElement('p')
+  status.className = 'profile-edit-status'
+  form.appendChild(status)
+
+  container.appendChild(form)
+
+  cancelBtn.addEventListener('click', () => {
+    renderProfile(subject, store, container)
+  })
+
+  saveBtn.addEventListener('click', async () => {
+    saveBtn.disabled = true
+    cancelBtn.disabled = true
+    status.textContent = 'Saving...'
+    status.className = 'profile-edit-status'
+
+    try {
+      const deletions: Statement[] = []
+      const insertions: Statement[] = []
+      const doc = subject.doc()
+
+      for (const field of EDITABLE_FIELDS) {
+        const input = inputs.get(field)!
+        const newValue = input.value.trim()
+        const existing = store.any(subject, field.predicate, null, null)
+
+        if (existing && newValue && existing.value !== newValue) {
+          // Changed: delete old, insert new
+          const oldSt = store.match(subject, field.predicate, existing, doc)
+          if (oldSt.length > 0) deletions.push(oldSt[0])
+          insertions.push(new RdfStatement(subject, field.predicate, lit(newValue), doc))
+        } else if (existing && !newValue) {
+          // Removed
+          const oldSt = store.match(subject, field.predicate, existing, doc)
+          if (oldSt.length > 0) deletions.push(oldSt[0])
+        } else if (!existing && newValue) {
+          // Added
+          insertions.push(new RdfStatement(subject, field.predicate, lit(newValue), doc))
+        }
+        // No change: skip
+      }
+
+      if (deletions.length === 0 && insertions.length === 0) {
+        renderProfile(subject, store, container)
+        return
+      }
+
+      await new Promise<void>((resolve, reject) => {
+        updater.update(deletions, insertions, (uri, ok, errBody) => {
+          if (ok) resolve()
+          else reject(new Error(errBody ?? 'Update failed'))
+        })
+      })
+
+      status.textContent = 'Saved!'
+      status.className = 'profile-edit-status profile-edit-status-ok'
+      setTimeout(() => renderProfile(subject, store, container), 800)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      status.textContent = `Save failed: ${msg}`
+      status.className = 'profile-edit-status profile-edit-status-error'
+      saveBtn.disabled = false
+      cancelBtn.disabled = false
+    }
+  })
 }

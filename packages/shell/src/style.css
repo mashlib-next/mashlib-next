@@ -699,6 +699,96 @@ header h1 {
   text-decoration: underline;
 }
 
+/* Profile editing */
+.profile-edit-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.profile-edit-btn,
+.profile-save-btn,
+.profile-cancel-btn {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  background: white;
+}
+
+.profile-save-btn {
+  background: #0070f3;
+  color: white;
+  border-color: #0070f3;
+}
+
+.profile-save-btn:hover { background: #005bb5; }
+.profile-edit-btn:hover,
+.profile-cancel-btn:hover { background: #f5f5f5; }
+
+.profile-save-btn:disabled,
+.profile-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.profile-edit-form {
+  max-width: 500px;
+}
+
+.profile-edit-form h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.profile-field-group {
+  margin-bottom: 0.75rem;
+}
+
+.profile-field-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+
+.profile-field-input {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.profile-field-input:focus {
+  outline: none;
+  border-color: #0070f3;
+  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+}
+
+textarea.profile-field-input {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.profile-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.profile-edit-status {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.profile-edit-status-ok { color: #16a34a; }
+.profile-edit-status-error { color: #dc2626; }
+
 /* Image pane styles */
 .image-view {
   text-align: center;
