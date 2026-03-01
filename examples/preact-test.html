@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Preact Pane PoC</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "schema": "https://schema.org/",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    "@id": "",
+    "@type": "foaf:Person",
+    "foaf:name": "Grace Hopper",
+    "foaf:mbox": { "@id": "mailto:grace@example.org" },
+    "schema:jobTitle": "Computer scientist & Navy rear admiral",
+    "foaf:img": { "@id": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg/440px-Commodore_Grace_M._Hopper%2C_USN_%28covered%29.jpg" },
+    "foaf:homepage": { "@id": "https://en.wikipedia.org/wiki/Grace_Hopper" }
+  }
+  </script>
+  <script type="module" data-pane src="preact-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
