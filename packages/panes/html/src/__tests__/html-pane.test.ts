@@ -35,6 +35,11 @@ describe('htmlPane', () => {
       const subject = sym('https://example.com/README.md')
       expect(htmlPane.canHandle(subject, store)).toBe(false)
     })
+
+    it('rejects the current page URL (no self-iframe)', () => {
+      const subject = sym(window.location.href)
+      expect(htmlPane.canHandle(subject, store)).toBe(false)
+    })
   })
 
   describe('render', () => {

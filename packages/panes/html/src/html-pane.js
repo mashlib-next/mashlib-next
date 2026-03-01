@@ -7,10 +7,18 @@ function isHtmlUri(uri) {
     return false;
   }
 }
+function isSamePage(uri) {
+  try {
+    return new URL(uri).href === new URL(window.location.href).href;
+  } catch {
+    return false;
+  }
+}
 const htmlPane = {
   label: "HTML",
   icon: "\u{1F310}",
   canHandle(subject, _store) {
+    if (isSamePage(subject.value)) return false;
     return isHtmlUri(subject.value);
   },
   render(subject, _store, container) {
