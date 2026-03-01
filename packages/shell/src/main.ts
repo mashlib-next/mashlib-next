@@ -114,11 +114,9 @@ document.querySelectorAll('.quick-link').forEach(link => {
 
 // --- Init ---
 async function init(): Promise<void> {
-  await initAuth()
-  updateAuthUI()
-
+  // Determine initial URI BEFORE auth (so sessionStateChange uses the right URI)
   const params = new URLSearchParams(window.location.search)
-  let initialUri = params.get('uri') || input.value.trim()
+  let initialUri = params.get('uri') || ''
 
   // Restore resource URI after login redirect
   const preLoginUri = sessionStorage.getItem('mashlib_pre_login_uri')
@@ -127,8 +125,16 @@ async function init(): Promise<void> {
     sessionStorage.removeItem('mashlib_pre_login_uri')
   }
 
+  // Fall back to the HTML default value
+  if (!initialUri) initialUri = input.value.trim()
+
+  // Set the input now so sessionStateChange reads the correct URI
+  if (initialUri) input.value = initialUri
+
+  await initAuth()
+  updateAuthUI()
+
   if (initialUri) {
-    input.value = initialUri
     const url = new URL(window.location.href)
     url.searchParams.set('uri', initialUri)
     window.history.replaceState({ uri: initialUri }, '', url.toString())
