@@ -103,7 +103,7 @@ let je = class {
 };
 re(je, "fromValue", void 0);
 re(je, "toJS", void 0);
-const Xn = "NamedNode", jn = "BlankNode", fr = "Literal", Nn = "Variable", Hn = "DefaultGraph", An = "Collection", Sl = "Empty", Mr = "Graph", Fs = "text/html", ci = "application/ld+json", Il = "text/n3", Ic = "application/n3", di = "application/nquads", hi = "application/n-quads", Fc = "application/n-triples", Or = "application/rdf+xml", Bc = "application/sparql-update", Lc = "application/sparql-update-single-match", Mn = "text/turtle", Rc = "application/x-turtle", fi = "application/xhtml+xml";
+const Xn = "NamedNode", jn = "BlankNode", fr = "Literal", Nn = "Variable", Wn = "DefaultGraph", An = "Collection", Il = "Empty", Mr = "Graph", Fs = "text/html", ci = "application/ld+json", Fl = "text/n3", Ic = "application/n3", di = "application/nquads", hi = "application/n-quads", Fc = "application/n-triples", Or = "application/rdf+xml", Bc = "application/sparql-update", Lc = "application/sparql-update-single-match", Mn = "text/turtle", Rc = "application/x-turtle", fi = "application/xhtml+xml";
 let tn = class er extends je {
   static getId(e) {
     if (e) {
@@ -162,7 +162,7 @@ function Oc(n) {
 function Na(n) {
   return typeof n == "object" && n !== null && "statements" in n;
 }
-function Ti(n) {
+function Di(n) {
   return rn(n) && n.termType === An;
 }
 function kc(n) {
@@ -180,7 +180,7 @@ function Mc(n) {
 function rn(n) {
   return typeof n == "object" && n !== null && "termType" in n;
 }
-function Fl(n) {
+function Bl(n) {
   return n.termType === fr;
 }
 function tr(n) {
@@ -193,7 +193,7 @@ function $c(n) {
   return rn(n) && "termType" in n && n.termType === "BlankNode";
 }
 function qc(n) {
-  return rn(n) && (n.termType === Xn || n.termType === Nn || n.termType === jn || n.termType === Hn);
+  return rn(n) && (n.termType === Xn || n.termType === Nn || n.termType === jn || n.termType === Wn);
 }
 let pt = class nr extends je {
   /**
@@ -353,7 +353,7 @@ let Zt = class Yt extends je {
    * @param value - The input value
    */
   static fromValue(e) {
-    if (Fl(e))
+    if (Bl(e))
       return e;
     switch (typeof e) {
       case "object":
@@ -369,13 +369,13 @@ let Zt = class Yt extends je {
     throw new Error("Can't make literal from " + e + " of type " + typeof e);
   }
 };
-function Bl(n) {
+function Ll(n) {
   return typeof n > "u" || n === null || rn(n) ? n : Array.isArray(n) ? new qt(n) : Zt.fromValue(n);
 }
 class qt extends je {
   constructor(e) {
     super((tn.nextId++).toString()), re(this, "termType", An), re(this, "classOrder", en.Collection), re(this, "closed", !1), re(this, "compareTerm", tn.prototype.compareTerm), re(this, "elements", []), re(this, "isVar", 0), e && e.length > 0 && e.forEach((t) => {
-      this.elements.push(Bl(t));
+      this.elements.push(Ll(t));
     });
   }
   get id() {
@@ -435,9 +435,9 @@ class qt extends je {
 re(qt, "termType", An);
 const kr = "chrome:theSession";
 new pt(kr);
-let Di = class extends je {
+let _i = class extends je {
   constructor() {
-    super(""), re(this, "value", ""), re(this, "termType", Hn), re(this, "uri", kr);
+    super(""), re(this, "value", ""), re(this, "termType", Wn), re(this, "uri", kr);
   }
   toCanonical() {
     return this.value;
@@ -447,9 +447,9 @@ let Di = class extends je {
   }
 };
 function Ls(n) {
-  return !!n && n.termType === Hn;
+  return !!n && n.termType === Wn;
 }
-const Hc = new Di();
+const Hc = new _i();
 class $t {
   /**
    * Construct a new statement
@@ -495,7 +495,7 @@ class $t {
   /** Creates a canonical string representation of this statement. */
   toCanonical() {
     let e = [this.subject.toCanonical(), this.predicate.toCanonical(), this.object.toCanonical()];
-    return this.graph && this.graph.termType !== Hn && e.push(this.graph.toCanonical()), e.join(" ") + " .";
+    return this.graph && this.graph.termType !== Wn && e.push(this.graph.toCanonical()), e.join(" ") + " .";
   }
   /** Creates a n-triples string representation of this statement */
   toNT() {
@@ -510,7 +510,7 @@ class $t {
     return this.toNT();
   }
 }
-var Ll = Ll || console.log;
+var Rl = Rl || console.log;
 function Un(n) {
   var e;
   return e = n.indexOf("#"), e < 0 ? n : n.slice(0, e);
@@ -528,7 +528,7 @@ function Tt(n, e) {
   if (s = n.indexOf(":"), s >= 0 || (t = e.indexOf(":"), e.length === 0))
     return n;
   if (t < 0)
-    return Ll("Invalid base: " + e + " in join with given: " + n), n;
+    return Rl("Invalid base: " + e + " in join with given: " + n), n;
   if (r = e.slice(0, +t + 1 || 9e9), n.indexOf("//") === 0)
     return r + n;
   if (e.indexOf("//", t) === t + 1) {
@@ -575,7 +575,7 @@ function Va(n, e) {
       v += "../";
   return v + e.slice(r);
 }
-let Wn = class Rl extends je {
+let Vn = class Ol extends je {
   /**
    * Initializes this variable
    * @param name The variable's name
@@ -594,7 +594,7 @@ let Wn = class Rl extends je {
     return (t = e[this.toNT()]) != null ? t : this;
   }
   toString() {
-    return Rl.toString(this);
+    return Ol.toString(this);
   }
   static toString(e) {
     return e.uri.slice(0, e.base.length) === e.base ? `?${e.uri.slice(e.base.length)}` : `?${e.uri}`;
@@ -602,7 +602,7 @@ let Wn = class Rl extends je {
 }, At = /* @__PURE__ */ (function(n) {
   return n.collections = "COLLECTIONS", n.defaultGraphType = "DEFAULT_GRAPH_TYPE", n.equalsMethod = "EQUALS_METHOD", n.id = "ID", n.identity = "IDENTITY", n.reversibleId = "REVERSIBLE_ID", n.variableType = "VARIABLE_TYPE", n;
 })({});
-const Os = new Di(), Pt = {
+const Os = new _i(), Pt = {
   supports: {
     [At.collections]: !1,
     [At.defaultGraphType]: !1,
@@ -640,10 +640,10 @@ const Os = new Di(), Pt = {
     if (tr(n))
       return this.quadToNQ(n);
     switch (n.termType) {
-      case Hn:
+      case Wn:
         return "defaultGraph";
       case Nn:
-        return Wn.toString(n);
+        return Vn.toString(n);
       default:
         const e = this.termToNQ(n);
         if (e)
@@ -700,9 +700,9 @@ const Os = new Di(), Pt = {
     switch (n.termType) {
       case jn:
         return "_:" + n.value;
-      case Hn:
+      case Wn:
         return "";
-      case Sl:
+      case Il:
         return "<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>";
       case fr:
         return Zt.toNT(n);
@@ -724,7 +724,7 @@ const Os = new Di(), Pt = {
    * @param name - The name for the variable
    */
   variable(n) {
-    return new Wn(n);
+    return new Vn(n);
   }
 }, Xt = {
   debug(n) {
@@ -749,7 +749,7 @@ function Ne(n, e) {
   };
 }
 var aa = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function Ol(n) {
+function kl(n) {
   return n && n.__esModule && Object.prototype.hasOwnProperty.call(n, "default") ? n.default : n;
 }
 var ga = { exports: {} }, Vc = ga.exports, ks;
@@ -2012,7 +2012,7 @@ function Xc() {
   return Ka = e, Ka;
 }
 var jc = Xc();
-const Ps = /* @__PURE__ */ Ol(jc);
+const Ps = /* @__PURE__ */ kl(jc);
 var Er = {}, fn = {}, Fn = {}, Ms;
 function _a() {
   if (Ms) return Fn;
@@ -2133,7 +2133,7 @@ function _a() {
   return Fn.assign = t, Fn.find = n, Fn.freeze = e, Fn.MIME_TYPE = r, Fn.NAMESPACE = i, Fn;
 }
 var $s;
-function kl() {
+function Ul() {
   if ($s) return fn;
   $s = 1;
   var n = _a(), e = n.find, t = n.NAMESPACE;
@@ -5618,7 +5618,7 @@ var Ws;
 function Yc() {
   if (Ws) return Cr;
   Ws = 1;
-  var n = _a(), e = kl(), t = zc(), r = Jc(), i = e.DOMImplementation, s = n.NAMESPACE, a = r.ParseError, l = r.XMLReader;
+  var n = _a(), e = Ul(), t = zc(), r = Jc(), i = e.DOMImplementation, s = n.NAMESPACE, a = r.ParseError, l = r.XMLReader;
   function u(T) {
     return T.replace(/\r[\n\u0085]/g, `
 `).replace(/[\r\u0085\u2028]/g, `
@@ -5760,7 +5760,7 @@ var Vs;
 function Qc() {
   if (Vs) return Er;
   Vs = 1;
-  var n = kl();
+  var n = Ul();
   return Er.DOMImplementation = n.DOMImplementation, Er.XMLSerializer = n.XMLSerializer, Er.DOMParser = Yc().DOMParser, Er;
 }
 var Ks = Qc();
@@ -5803,9 +5803,9 @@ function td(n, e) {
   var r = [];
   return e && e.skipAttributes && e.skipAttributes.split(" ").forEach(function(i) {
     r[i] = !0;
-  }), Ul(n, e, t, r);
+  }), Pl(n, e, t, r);
 }
-function Ul(n, e, t, r) {
+function Pl(n, e, t, r) {
   var i, s = "", a = [!1];
   if (typeof n.nodeType > "u") return s;
   if (n.nodeType === 1) {
@@ -5831,7 +5831,7 @@ function Ul(n, e, t, r) {
         s += " />";
       else {
         for (s += ">", s += l === "html" ? `
-  ` : "", a.push(l === "style" || l === "script"), i = 0; i < n.childNodes.length; i++) s += Ul(n.childNodes[i]);
+  ` : "", a.push(l === "style" || l === "script"), i = 0; i < n.childNodes.length; i++) s += Pl(n.childNodes[i]);
         a.pop(), s += l === "body" ? "</" + l + `>
 ` : "</" + l + ">";
       }
@@ -5900,7 +5900,7 @@ function rd(n) {
     ` + r[i][0];
   return e;
 }
-function Pl(n = Pt) {
+function Ml(n = Pt) {
   return {
     boolean: n.namedNode("http://www.w3.org/2001/XMLSchema#boolean"),
     dateTime: n.namedNode("http://www.w3.org/2001/XMLSchema#dateTime"),
@@ -5911,11 +5911,11 @@ function Pl(n = Pt) {
     string: n.namedNode("http://www.w3.org/2001/XMLSchema#string")
   };
 }
-Pl(Pt);
-function Ml(n) {
-  return new _i(n);
+Ml(Pt);
+function $l(n) {
+  return new Si(n);
 }
-class _i {
+class Si {
   constructor(e) {
     re(this, "_notQNameChars", `	\r
  !"#$%&'()*,+/;<=>?@[\\]^\`{|}~`), re(this, "_notNameChars", this._notQNameChars + ":"), re(this, "validPrefix", new RegExp(/^[a-zA-Z][a-zA-Z0-9]*$/)), re(this, "forbidden1", new RegExp(/[\\"\b\f\r\v\t\n\u0080-\uffff]/gm)), re(this, "forbidden3", new RegExp(/[\\"\b\f\r\v\u0080-\uffff]/gm)), this.flags = "", this.base = null, this.prefixes = [], this.namespaces = [];
@@ -5924,7 +5924,7 @@ class _i {
       const i = Ps()[t[r]](""), s = t[r];
       this.prefixes[i] = s, this.namespaces[s] = i;
     }
-    this.suggestPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"), this.suggestPrefix("xml", "reserved:reservedForFutureUse"), this.namespacesUsed = [], this.keywords = ["a"], this.prefixchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", this.incoming = null, this.formulas = [], this.store = e, this.rdfFactory = e.rdfFactory || Pt, this.xsd = Pl(this.rdfFactory);
+    this.suggestPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#"), this.suggestPrefix("xml", "reserved:reservedForFutureUse"), this.namespacesUsed = [], this.keywords = ["a"], this.prefixchars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", this.incoming = null, this.formulas = [], this.store = e, this.rdfFactory = e.rdfFactory || Pt, this.xsd = Ml(this.rdfFactory);
   }
   setBase(e) {
     return this.base = e, this;
@@ -6183,7 +6183,7 @@ class _i {
           return this.atomicTermToN3(P);
       }
     }
-    _i.prototype.termToN3 = X;
+    Si.prototype.termToN3 = X;
     var X = O.bind(this);
     function Y() {
       var P = "";
@@ -6461,13 +6461,13 @@ function Ur(n, e, t, r, i, s) {
   r = r || Mn;
   var l = void 0;
   try {
-    var u = Ml(e);
+    var u = $l(e);
     a.flags && u.setFlags(a.flags);
     var c = e.statementsMatching(void 0, void 0, void 0, n);
     switch ("namespaces" in e && u.suggestNamespaces(e.namespaces), a.namespaces && u.setNamespaces(a.namespaces), u.setBase(t), r) {
       case Or:
         return l = u.statementsToXML(c), h(null, l);
-      case Il:
+      case Fl:
       case Ic:
         return l = u.statementsToN3(c), h(null, l);
       case Mn:
@@ -6501,7 +6501,7 @@ const sd = ["blankNode", "defaultGraph", "literal", "namedNode", "quad", "variab
   rest: "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest",
   nil: "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
 };
-function $l(n, e, t) {
+function ql(n, e, t) {
   const r = [];
   return t.reduce((i, s, a, l) => {
     r.push(n.quad(i, n.namedNode(sa.first), l[a]));
@@ -6853,7 +6853,7 @@ class Pr extends je {
       case "_":
         return this.rdfFactory.blankNode(e.slice(2));
       case "?":
-        return new Wn(e.slice(1));
+        return new Vn(e.slice(1));
     }
     throw new Error("Can't convert from NT: " + e);
   }
@@ -6896,7 +6896,7 @@ class Pr extends je {
         r.append(i);
       }), r;
     } else {
-      const r = t.rdfFactory.blankNode(), i = $l(t.rdfFactory, r, e);
+      const r = t.rdfFactory.blankNode(), i = ql(t.rdfFactory, r, e);
       return t.addAll(i), r;
     }
   }
@@ -7004,7 +7004,7 @@ class Pr extends je {
    * @param name - The variable's name
    */
   variable(e) {
-    return new Wn(e);
+    return new Vn(e);
   }
   /**
    * Gets the number of statements in this formula that matches the specified pattern
@@ -7017,16 +7017,16 @@ class Pr extends je {
     return this.statementsMatching(e, t, r, i, !1).length;
   }
 }
-je.fromValue = Bl;
+je.fromValue = Ll;
 const zn = {
   xsd: Ne("http://www.w3.org/2001/XMLSchema#")
 };
 je.toJS = function(n) {
-  return Ti(n) ? n.elements.map(je.toJS) : Fl(n) ? n.datatype.equals(zn.xsd("boolean")) ? n.value === "1" || n.value === "true" : n.datatype.equals(zn.xsd("dateTime")) || n.datatype.equals(zn.xsd("date")) ? new Date(n.value) : n.datatype.equals(zn.xsd("integer")) || n.datatype.equals(zn.xsd("float")) || n.datatype.equals(zn.xsd("decimal")) ? Number(n.value) : n.value : n;
+  return Di(n) ? n.elements.map(je.toJS) : Bl(n) ? n.datatype.equals(zn.xsd("boolean")) ? n.value === "1" || n.value === "true" : n.datatype.equals(zn.xsd("dateTime")) || n.datatype.equals(zn.xsd("date")) ? new Date(n.value) : n.datatype.equals(zn.xsd("integer")) || n.datatype.equals(zn.xsd("float")) || n.datatype.equals(zn.xsd("decimal")) ? Number(n.value) : n.value : n;
 };
 class ld {
   constructor(e, t) {
-    this.pat = new mn(), this.vars = [], this.name = e, this.id = t;
+    this.pat = new gn(), this.vars = [], this.name = e, this.id = t;
   }
 }
 function Gs(n, e, t, r) {
@@ -7231,7 +7231,7 @@ function ud(n, e, t, r) {
   var i = n.any(void 0, t, r);
   return i ? (n.equate(i, e), !0) : !1;
 }
-function ql(n, e, t, r, i) {
+function Hl(n, e, t, r, i) {
   n.typeCallback && n.typeCallback(n, r, i);
   var s = n.classActions[n.id(r)], a = !1;
   if (s)
@@ -7239,7 +7239,7 @@ function ql(n, e, t, r, i) {
       a = a || s[l](n, e, t, r, i);
   return a;
 }
-class mn extends Pr {
+class gn extends Pr {
   /**
    * Creates a new formula
    * @param features - What sort of automatic processing to do? Array of string
@@ -7271,7 +7271,7 @@ class mn extends Pr {
   substitute(e) {
     var t = this.statements.map(function(i) {
       return i.substitute(e);
-    }), r = new mn();
+    }), r = new gn();
     return r.add(t), r;
   }
   /**
@@ -7314,7 +7314,7 @@ class mn extends Pr {
     if (e.where) {
       var u = new ld("patch");
       u.pat = e.where, u.pat.statements.map(function(h) {
-        h.graph = Vn(t.value);
+        h.graph = Kn(t.value);
       }), u.sync = !0;
       var c = [];
       i.query(u, function(p) {
@@ -7341,7 +7341,7 @@ class mn extends Pr {
    * @param features
    */
   initPropertyActions(e) {
-    this.propertyActions[this.rdfFactory.id(this.rdfFactory.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))] = [ql], Bt(e, "sameAs") >= 0 && (this.propertyActions[this.rdfFactory.id(this.rdfFactory.namedNode(`${ja}sameAs`))] = [function(t, r, i, s, a) {
+    this.propertyActions[this.rdfFactory.id(this.rdfFactory.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"))] = [Hl], Bt(e, "sameAs") >= 0 && (this.propertyActions[this.rdfFactory.id(this.rdfFactory.namedNode(`${ja}sameAs`))] = [function(t, r, i, s, a) {
       return t.equate(r, s), !0;
     }]), Bt(e, "InverseFunctionalProperty") >= 0 && (this.classActions[this.rdfFactory.id(this.rdfFactory.namedNode(`${ja}InverseFunctionalProperty`))] = [function(t, r, i, s, a) {
       return t.newPropertyAction(r, ud);
@@ -7418,9 +7418,9 @@ class mn extends Pr {
       case An:
         return e;
       // non-RDF/JS type, should just need to cast
-      case Hn:
-        return new Di();
-      case Sl:
+      case Wn:
+        return new _i();
+      case Il:
         return e;
       case Mr:
         return e;
@@ -7429,7 +7429,7 @@ class mn extends Pr {
       case Xn:
         return new pt(e.value);
       case Nn:
-        return new Wn(e.value);
+        return new Vn(e.value);
       default:
         throw new Error(`Term Type not recognized for canonization: ${e.termType}`);
     }
@@ -7518,7 +7518,7 @@ class mn extends Pr {
    * @param features The list of features
    */
   formula(e) {
-    return new mn(e);
+    return new gn(e);
   }
   /**
    * Returns the number of statements contained in this IndexedFormula.
@@ -7585,7 +7585,7 @@ class mn extends Pr {
   }
   // convenience function used by N3 parser
   variable(e) {
-    return new Wn(e);
+    return new Vn(e);
   }
   /**
    * Find an unused id for a file being edited: return a symbol
@@ -7837,8 +7837,8 @@ class mn extends Pr {
     }, Ur(r, this, e, t, void 0, i);
   }
 }
-re(mn, "handleRDFType", void 0);
-mn.handleRDFType = ql;
+re(gn, "handleRDFType", void 0);
+gn.handleRDFType = Hl;
 const kn = Ne("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 function cd(n, e, t, r) {
   for (const i of n.statementsMatching(t, null, null, r)) {
@@ -7943,13 +7943,13 @@ String.prototype.decode = function(n) {
 };
 var Qa = function(n, e) {
   return Tt(e, n);
-}, gd = null, yd = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", Xs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil", js = "http://www.w3.org/2002/07/owl#sameAs", vd = "#", wd = "http://www.w3.org/2001/XMLSchema#integer", Ed = "http://www.w3.org/2001/XMLSchema#double", Cd = "http://www.w3.org/2001/XMLSchema#decimal", bd = "http://www.w3.org/2001/XMLSchema#date", Nd = "http://www.w3.org/2001/XMLSchema#dateTime", Hl = `	\r
- !"#$%&'()*.,+/;<=>?@[\\]^\`{|}~`, Jn = Hl + ":", Za = new RegExp("^([-+]?[0-9]+)(\\.[0-9]+)?([eE][-+]?[0-9]+)?", "g"), zs = new RegExp("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9](T[0-9][0-9]:[0-9][0-9](:[0-9][0-9](\\.[0-9]*)?)?)?Z?"), Ad = new RegExp("[\\s#]"), ei = new RegExp('[\\\\\\r\\n\\"]', "g"), ti = new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*", "g");
+}, gd = null, yd = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", Xs = "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil", js = "http://www.w3.org/2002/07/owl#sameAs", vd = "#", wd = "http://www.w3.org/2001/XMLSchema#integer", Ed = "http://www.w3.org/2001/XMLSchema#double", Cd = "http://www.w3.org/2001/XMLSchema#decimal", bd = "http://www.w3.org/2001/XMLSchema#date", Nd = "http://www.w3.org/2001/XMLSchema#dateTime", Wl = `	\r
+ !"#$%&'()*.,+/;<=>?@[\\]^\`{|}~`, Jn = Wl + ":", Za = new RegExp("^([-+]?[0-9]+)(\\.[0-9]+)?([eE][-+]?[0-9]+)?", "g"), zs = new RegExp("^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9](T[0-9][0-9]:[0-9][0-9](:[0-9][0-9](\\.[0-9]*)?)?)?Z?"), Ad = new RegExp("[\\s#]"), ei = new RegExp('[\\\\\\r\\n\\"]', "g"), ti = new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*", "g");
 function oa(n, e) {
   var t = n.charAt(e + 1);
   return t === "" || Ad.test(t);
 }
-function Si(n, e, t, r, i, s, a, l) {
+function Ii(n, e, t, r, i, s, a, l) {
   return new xd(n, e, t, r, i, s, a, l);
 }
 class xd {
@@ -7994,7 +7994,7 @@ class xd {
     else if (Bt(this.keywords, e) < 0)
       return -1;
     var i = r + Ft(e);
-    return t.slice(r, i) == e && Hl.indexOf(t.charAt(i)) >= 0 ? i : -1;
+    return t.slice(r, i) == e && Wl.indexOf(t.charAt(i)) >= 0 ? i : -1;
   }
   directive(e, t) {
     var u = this.skipSpace(e, t);
@@ -8687,42 +8687,42 @@ const mi = {
     return new qt(n);
   },
   id(n) {
-    return Ti(n) ? `( ${n.elements.map((e) => this.id(e)).join(", ")} )` : Mc(n) ? Wn.toString(n) : Pt.id(n);
+    return Di(n) ? `( ${n.elements.map((e) => this.id(e)).join(", ")} )` : Mc(n) ? Vn.toString(n) : Pt.id(n);
   },
   termToNQ(n) {
     return n.termType === An ? qt.toNT(n) : Pt.termToNQ(n);
   }
 };
-function Ii(n, e) {
-  return typeof e == "string" ? n.rdfFactory.literal(e) : Object.prototype.hasOwnProperty.call(e, "@list") ? n.rdfFactory.supports.COLLECTIONS === !0 ? Dd(n, e["@list"]) : Td(n, e) : Object.prototype.hasOwnProperty.call(e, "@id") ? Fi(n, e) : Object.prototype.hasOwnProperty.call(e, "@language") ? n.rdfFactory.literal(e["@value"], e["@language"]) : Object.prototype.hasOwnProperty.call(e, "@type") ? n.rdfFactory.literal(e["@value"], n.rdfFactory.namedNode(e["@type"])) : Object.prototype.hasOwnProperty.call(e, "@value") ? n.rdfFactory.literal(e["@value"]) : n.rdfFactory.literal(e);
+function Fi(n, e) {
+  return typeof e == "string" ? n.rdfFactory.literal(e) : Object.prototype.hasOwnProperty.call(e, "@list") ? n.rdfFactory.supports.COLLECTIONS === !0 ? Dd(n, e["@list"]) : Td(n, e) : Object.prototype.hasOwnProperty.call(e, "@id") ? Bi(n, e) : Object.prototype.hasOwnProperty.call(e, "@language") ? n.rdfFactory.literal(e["@value"], e["@language"]) : Object.prototype.hasOwnProperty.call(e, "@type") ? n.rdfFactory.literal(e["@value"], n.rdfFactory.namedNode(e["@type"])) : Object.prototype.hasOwnProperty.call(e, "@value") ? n.rdfFactory.literal(e["@value"]) : n.rdfFactory.literal(e);
 }
 function Td(n, e) {
-  const t = e["@id"] ? Fi(n, e) : n.rdfFactory.blankNode(), r = e["@list"].map((s) => Ii(n, s)), i = $l(n.rdfFactory, t, r);
+  const t = e["@id"] ? Bi(n, e) : n.rdfFactory.blankNode(), r = e["@list"].map((s) => Fi(n, s)), i = ql(n.rdfFactory, t, r);
   return n.addAll(i), t;
 }
 function Dd(n, e) {
   if (!Array.isArray(e))
     throw new TypeError("Object must be an array");
-  return n.rdfFactory.collection(e.map((t) => Ii(n, t)));
+  return n.rdfFactory.collection(e.map((t) => Fi(n, t)));
 }
-async function Wl(n, e, t) {
+async function Vl(n, e, t) {
   const r = t && Object.prototype.hasOwnProperty.call(t, "termType") ? t.value : t;
-  return (await (await import("./jsonld-CvqxVU0i.js").then((a) => a.j)).default.flatten(JSON.parse(n), null, {
+  return (await (await import("./jsonld-Dh5OcNgW.js").then((a) => a.j)).default.flatten(JSON.parse(n), null, {
     base: r
-  })).reduce((a, l) => Vl(a, t, l), e);
+  })).reduce((a, l) => Kl(a, t, l), e);
 }
-function Fi(n, e) {
+function Bi(n, e) {
   return e["@id"].startsWith("_:") ? n.rdfFactory.blankNode(e["@id"].substring(2)) : n.rdfFactory.namedNode(e["@id"]);
 }
-function Vl(n, e, t) {
-  const r = t["@id"] ? Fi(n, t) : n.rdfFactory.blankNode();
+function Kl(n, e, t) {
+  const r = t["@id"] ? Bi(n, t) : n.rdfFactory.blankNode();
   for (const i of Object.keys(t)) {
     if (i === "@id")
       continue;
     if (i == "@graph") {
       const a = r, l = t[i];
       for (let u = 0; u < l.length; u++)
-        n = Vl(n, a, l[u]);
+        n = Kl(n, a, l[u]);
     }
     const s = t[i];
     if (Array.isArray(s))
@@ -8735,7 +8735,7 @@ function Vl(n, e, t) {
 }
 function Js(n, e, t, r, i) {
   let s, a;
-  return t === "@type" ? (s = n.rdfFactory.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), a = n.rdfFactory.namedNode(r)) : (s = n.rdfFactory.namedNode(t), a = Ii(n, r)), n.rdfFactory.quad(e, s, a, n.rdfFactory.namedNode(i));
+  return t === "@type" ? (s = n.rdfFactory.namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), a = n.rdfFactory.namedNode(r)) : (s = n.rdfFactory.namedNode(t), a = Fi(n, r)), n.rdfFactory.quad(e, s, a, n.rdfFactory.namedNode(i));
 }
 var ni = {}, Nr = {}, Ys;
 function _d() {
@@ -10048,15 +10048,15 @@ class kd {
 const { rdf: Ud, xsd: rr } = Ut;
 let $r, Pd = 0;
 const Md = {
-  namedNode: Xl,
-  blankNode: jl,
-  variable: Jl,
-  literal: zl,
+  namedNode: jl,
+  blankNode: zl,
+  variable: Yl,
+  literal: Jl,
   defaultGraph: Wd,
   quad: gi,
   triple: gi,
   fromTerm: Sr,
-  fromQuad: Yl
+  fromQuad: Ql
 };
 class yn {
   constructor(e) {
@@ -10083,7 +10083,7 @@ class yn {
     };
   }
 }
-class Kl extends yn {
+class Gl extends yn {
   // ### The term type of this term
   get termType() {
     return "NamedNode";
@@ -10106,7 +10106,7 @@ class Ir extends yn {
   }
   // ### The datatype IRI of this literal
   get datatype() {
-    return new Kl(this.datatypeString);
+    return new Gl(this.datatypeString);
   }
   // ### The datatype string of this literal
   get datatypeString() {
@@ -10169,7 +10169,7 @@ class Hd extends yn {
   }
 }
 $r = new Hd();
-class Gl extends yn {
+class Xl extends yn {
   constructor(e, t, r, i) {
     super(""), this._subject = e, this._predicate = t, this._object = r, this._graph = i || $r;
   }
@@ -10204,58 +10204,58 @@ class Gl extends yn {
     return !!e && this._subject.equals(e.subject) && this._predicate.equals(e.predicate) && this._object.equals(e.object) && this._graph.equals(e.graph);
   }
 }
-function Xl(n) {
-  return new Kl(n);
-}
 function jl(n) {
+  return new Gl(n);
+}
+function zl(n) {
   return new $d(n || `n3-${Pd++}`);
 }
-function zl(n, e) {
+function Jl(n, e) {
   if (typeof e == "string")
     return new Ir(`"${n}"@${e.toLowerCase()}`);
   let t = e ? e.value : "";
   return t === "" && (typeof n == "boolean" ? t = rr.boolean : typeof n == "number" && (Number.isFinite(n) ? t = Number.isInteger(n) ? rr.integer : rr.double : (t = rr.double, Number.isNaN(n) || (n = n > 0 ? "INF" : "-INF")))), t === "" || t === rr.string ? new Ir(`"${n}"`) : new Ir(`"${n}"^^${t}`);
 }
-function Jl(n) {
+function Yl(n) {
   return new qd(n);
 }
 function Wd() {
   return $r;
 }
 function gi(n, e, t, r) {
-  return new Gl(n, e, t, r);
+  return new Xl(n, e, t, r);
 }
 function Sr(n) {
   if (n instanceof yn)
     return n;
   switch (n.termType) {
     case "NamedNode":
-      return Xl(n.value);
-    case "BlankNode":
       return jl(n.value);
+    case "BlankNode":
+      return zl(n.value);
     case "Variable":
-      return Jl(n.value);
+      return Yl(n.value);
     case "DefaultGraph":
       return $r;
     case "Literal":
-      return zl(n.value, n.language || n.datatype);
+      return Jl(n.value, n.language || n.datatype);
     case "Quad":
-      return Yl(n);
+      return Ql(n);
     default:
       throw new Error(`Unexpected termType: ${n.termType}`);
   }
 }
-function Yl(n) {
-  if (n instanceof Gl)
+function Ql(n) {
+  if (n instanceof Xl)
     return n;
   if (n.termType !== "Quad")
     throw new Error(`Unexpected termType: ${n.termType}`);
   return gi(Sr(n.subject), Sr(n.predicate), Sr(n.object), Sr(n.graph));
 }
 let tl = 0;
-class Ql {
+class Zl {
   constructor(e) {
-    this._contextStack = [], this._graph = null, e = e || {}, this._setBase(e.baseIRI), e.factory && Zl(this, e.factory);
+    this._contextStack = [], this._graph = null, e = e || {}, this._setBase(e.baseIRI), e.factory && eo(this, e.factory);
     const t = typeof e.format == "string" ? e.format.match(/\w*$/)[0].toLowerCase() : "", r = /turtle/.test(t), i = /trig/.test(t), s = /triple/.test(t), a = /quad/.test(t), l = this._n3Mode = /n3/.test(t), u = s || a;
     (this._supportsNamedGraphs = !(r || l)) || (this._readPredicateOrNamedGraph = this._readPredicate), this._supportsQuads = !(r || i || s || l), this._isImpliedBy = e.isImpliedBy, this._supportsRDFStar = t === "" || /star|\*$/.test(t), u && (this._resolveRelativeIRI = (c) => null), this._blankNodePrefix = typeof e.blankNodePrefix != "string" ? "" : e.blankNodePrefix.replace(/^(?!_:)/, "_:"), this._lexer = e.lexer || new kd({ lineMode: u, n3: l, isImpliedBy: this._isImpliedBy }), this._explicitQuantifiers = !!e.explicitQuantifiers;
   }
@@ -10903,7 +10903,7 @@ class Ql {
 }
 function ha() {
 }
-function Zl(n, e) {
+function eo(n, e) {
   n._factory = e, n.DEFAULTGRAPH = e.defaultGraph(), n.RDF_FIRST = e.namedNode(Ut.rdf.first), n.RDF_REST = e.namedNode(Ut.rdf.rest), n.RDF_NIL = e.namedNode(Ut.rdf.nil), n.N3_FORALL = e.namedNode(Ut.r.forAll), n.N3_FORSOME = e.namedNode(Ut.r.forSome), n.ABBREVIATIONS = {
     a: e.namedNode(Ut.rdf.type),
     "=": e.namedNode(Ut.owl.sameAs),
@@ -10911,7 +10911,7 @@ function Zl(n, e) {
     "<": e.namedNode(Ut.log.isImpliedBy)
   }, n.QUANTIFIERS_GRAPH = e.namedNode("urn:n3:quantifiers");
 }
-Zl(Ql.prototype, Md);
+eo(Zl.prototype, Md);
 if (typeof wn > "u")
   var wn = {
     ELEMENT_NODE: 1,
@@ -11576,7 +11576,7 @@ re(Se, "nodeType", {
   NOTATION: 12
 });
 function Vd(n, e, t) {
-  var r, i, s, a = ["INSERT", "DELETE", "WHERE"], l = Ne("http://www.w3.org/ns/pim/patch#"), u = Si(e, e, t, t, null, null, "", null), c = {}, h = function(C, T, B, O, X) {
+  var r, i, s, a = ["INSERT", "DELETE", "WHERE"], l = Ne("http://www.w3.org/ns/pim/patch#"), u = Ii(e, e, t, t, null, null, "", null), c = {}, h = function(C, T, B, O, X) {
     return "Line " + (T + 1) + " of <" + C + `>: Bad syntax:
    ` + X + `
    at: "` + B.slice(O, O + 30) + '"';
@@ -11620,8 +11620,8 @@ function Vd(n, e, t) {
 function xa(n, e, t, r = "text/turtle", i) {
   r = r || Mn, r = r.split(";")[0];
   try {
-    if (r === Il || r === Mn) {
-      var s = Si(e, e, t, t, null, null, "", null);
+    if (r === Fl || r === Mn) {
+      var s = Ii(e, e, t, t, null, null, "", null);
       s.loadBuf(n), u();
     } else if (r === Or) {
       var a = new Se(e);
@@ -11637,9 +11637,9 @@ function xa(n, e, t, r = "text/turtle", i) {
     else if (r === Bc || r === Lc)
       Vd(n, e, t), u();
     else if (r === ci)
-      Wl(n, e, t).then(u).catch(c);
+      Vl(n, e, t).then(u).catch(c);
     else if (r === hi || r === di) {
-      var l = new Ql({
+      var l = new Zl({
         factory: mi
       });
       h(null, n);
@@ -12032,14 +12032,14 @@ function Kd() {
   })(fa, fa.exports)), fa.exports;
 }
 var yi = Kd();
-const Gd = /* @__PURE__ */ Ol(yi), Xd = {
+const Gd = /* @__PURE__ */ kl(yi), Xd = {
   "text/n3": !0,
   "text/turtle": !0,
   "application/rdf+xml": !0,
   "application/xhtml+xml": !0,
   "text/html": !0,
   "application/ld+json": !0
-}, eo = {
+}, to = {
   rdf: Or,
   owl: Or,
   n3: "text/n3",
@@ -12048,7 +12048,7 @@ const Gd = /* @__PURE__ */ Ol(yi), Xd = {
   acl: "text/n3",
   html: "text/html",
   xml: "text/xml"
-}, to = (n) => ({
+}, no = (n) => ({
   link: Ne("http://www.w3.org/2007/ont/link#", n),
   http: Ne("http://www.w3.org/2007/ont/http#", n),
   httph: Ne("http://www.w3.org/2007/ont/httph#", n),
@@ -12057,14 +12057,14 @@ const Gd = /* @__PURE__ */ Ol(yi), Xd = {
   rdfs: Ne("http://www.w3.org/2000/01/rdf-schema#", n),
   dc: Ne("http://purl.org/dc/elements/1.1/", n),
   ldp: Ne("http://www.w3.org/ns/ldp#", n)
-}), Lt = to();
+}), Lt = no();
 class xn {
   constructor(e, t) {
     re(this, "response", void 0), re(this, "dom", void 0), this.response = e, this.dom = t;
   }
 }
 re(xn, "pattern", void 0);
-class Bi extends xn {
+class Li extends xn {
   static toString() {
     return "RDFXMLHandler";
   }
@@ -12088,7 +12088,7 @@ class Bi extends xn {
     return r.noMeta || i.add(r.original, Lt.rdf("type"), Lt.link("RDFDocument"), e.appNode), e.doneFetch(r, this.response);
   }
 }
-Bi.pattern = new RegExp("application/rdf\\+xml");
+Li.pattern = new RegExp("application/rdf\\+xml");
 class $n extends xn {
   static toString() {
     return "XHTMLHandler";
@@ -12145,7 +12145,7 @@ class ur extends xn {
       if (ur.isElement(l)) {
         let u = l.namespaceURI;
         if (u && u === u.rdf)
-          return e.addStatus(r.req, "Has XML root element in the RDF namespace, so assume RDF/XML."), new Bi(this.response, i).parse(e, t, r);
+          return e.addStatus(r.req, "Has XML root element in the RDF namespace, so assume RDF/XML."), new Li(this.response, i).parse(e, t, r);
         break;
       }
     }
@@ -12164,7 +12164,7 @@ class ur extends xn {
   }
 }
 ur.pattern = new RegExp("(text|application)/(.*)xml");
-class no extends xn {
+class ro extends xn {
   static toString() {
     return "HTMLHandler";
   }
@@ -12175,7 +12175,7 @@ class no extends xn {
   }
   parse(e, t, r) {
     let i = e.store;
-    if (so(t))
+    if (lo(t))
       return e.addStatus(r.req, `Has an XML declaration. We'll assume it's XHTML as the content-type was text/html.
 `), new $n(this.response).parse(e, t, r);
     if (jd(t))
@@ -12188,8 +12188,8 @@ class no extends xn {
     return s && i.add(r.resource, Lt.dc("title"), i.rdfFactory.literal(s[1]), r.resource), i.add(r.resource, Lt.rdf("type"), Lt.link("WebPage"), e.appNode), e.addStatus(r.req, "non-XML HTML document, not parsed for data."), e.doneFetch(r, this.response);
   }
 }
-no.pattern = new RegExp("text/html");
-class ro extends xn {
+ro.pattern = new RegExp("text/html");
+class ao extends xn {
   static toString() {
     return "JsonLdHandler";
   }
@@ -12201,7 +12201,7 @@ class ro extends xn {
   async parse(e, t, r, i) {
     const s = e.store;
     try {
-      return await Wl(t, s, r.original.value), e.store.add(r.original, Lt.rdf("type"), Lt.link("RDFDocument"), e.appNode), e.doneFetch(r, i);
+      return await Vl(t, s, r.original.value), e.store.add(r.original, Lt.rdf("type"), Lt.link("RDFDocument"), e.appNode), e.doneFetch(r, i);
     } catch (a) {
       const l = "Error trying to parse " + r.resource + ` as JSON-LD:
 ` + a;
@@ -12209,8 +12209,8 @@ class ro extends xn {
     }
   }
 }
-ro.pattern = /application\/(ld\+json|activity\+json)/;
-class ao extends xn {
+ao.pattern = /application\/(ld\+json|activity\+json)/;
+class io extends xn {
   static toString() {
     return "TextHandler";
   }
@@ -12220,13 +12220,13 @@ class ao extends xn {
     };
   }
   parse(e, t, r) {
-    return so(t) ? (e.addStatus(r.req, "Warning: " + r.resource + ` has an XML declaration. We'll assume it's XML but its content-type wasn't XML.
+    return lo(t) ? (e.addStatus(r.req, "Warning: " + r.resource + ` has an XML declaration. We'll assume it's XML but its content-type wasn't XML.
 `), new ur(this.response).parse(e, t, r)) : t.slice(0, 500).match(/xmlns:/) ? (e.addStatus(r.req, `May have an XML namespace. We'll assume it's XML but its content-type wasn't XML.
 `), new ur(this.response).parse(e, t, r)) : (e.addStatus(r.req, "Plain text document, no known RDF semantics."), e.doneFetch(r, this.response));
   }
 }
-ao.pattern = new RegExp("text/plain");
-class io extends xn {
+io.pattern = new RegExp("text/plain");
+class so extends xn {
   static toString() {
     return "N3Handler";
   }
@@ -12234,7 +12234,7 @@ class io extends xn {
     e.mediatypes["text/n3"] = {}, e.mediatypes["text/turtle"] = {};
   }
   parse(e, t, r, i) {
-    let s = e.store, a = Si(s, s, r.original.value, r.original.value, null, null, "", null);
+    let s = e.store, a = Ii(s, s, r.original.value, r.original.value, null, null, "", null);
     try {
       a.loadBuf(t);
     } catch (l) {
@@ -12245,21 +12245,21 @@ class io extends xn {
     return e.addStatus(r.req, "N3 parsed: " + a.statementCount + " triples in " + a.lines + " lines."), e.store.add(r.original, Lt.rdf("type"), Lt.link("RDFDocument"), e.appNode), e.doneFetch(r, this.response);
   }
 }
-io.pattern = new RegExp("(application|text)/(x-)?(rdf\\+)?(n3|turtle)");
+so.pattern = new RegExp("(application|text)/(x-)?(rdf\\+)?(n3|turtle)");
 const vi = {
-  RDFXMLHandler: Bi,
+  RDFXMLHandler: Li,
   XHTMLHandler: $n,
   XMLHandler: ur,
-  HTMLHandler: no,
-  TextHandler: ao,
-  N3Handler: io,
-  JsonLdHandler: ro
+  HTMLHandler: ro,
+  TextHandler: io,
+  N3Handler: so,
+  JsonLdHandler: ao
 };
 function jd(n) {
   const e = n.indexOf("<!DOCTYPE html"), t = n.indexOf(">");
   return e === -1 || t === -1 || e > t ? !1 : n.substr(e, t - e).indexOf("XHTML") !== -1;
 }
-function so(n) {
+function lo(n) {
   return !!n.match(/\s*<\?xml\s+version\s*=[^<>]+\?>/);
 }
 function zd(n) {
@@ -12267,7 +12267,7 @@ function zd(n) {
 }
 class rt {
   constructor(e, t = {}) {
-    re(this, "store", void 0), re(this, "timeout", void 0), re(this, "_fetch", void 0), re(this, "mediatypes", void 0), re(this, "appNode", void 0), re(this, "requested", void 0), re(this, "timeouts", void 0), re(this, "redirectedTo", void 0), re(this, "fetchQueue", void 0), re(this, "fetchCallbacks", void 0), re(this, "nonexistent", void 0), re(this, "lookedUp", void 0), re(this, "handlers", void 0), re(this, "ns", void 0), re(this, "fireCallbacks", void 0), this.store = e || new mn(), this.ns = to(this.store.rdfFactory), this.timeout = t.timeout || 3e4;
+    re(this, "store", void 0), re(this, "timeout", void 0), re(this, "_fetch", void 0), re(this, "mediatypes", void 0), re(this, "appNode", void 0), re(this, "requested", void 0), re(this, "timeouts", void 0), re(this, "redirectedTo", void 0), re(this, "fetchQueue", void 0), re(this, "fetchCallbacks", void 0), re(this, "nonexistent", void 0), re(this, "lookedUp", void 0), re(this, "handlers", void 0), re(this, "ns", void 0), re(this, "fireCallbacks", void 0), this.store = e || new gn(), this.ns = no(this.store.rdfFactory), this.timeout = t.timeout || 3e4;
     let r = t.fetch || typeof global < "u" && (global.solidFetcher || global.solidFetch) || typeof window < "u" && (window.solidFetcher || window.solidFetch) || Gd;
     if (!r)
       throw new Error("No _fetch function available for Fetcher");
@@ -12525,7 +12525,7 @@ class rt {
     t = "[" + r.getHours() + ":" + r.getMinutes() + ":" + r.getSeconds() + "." + r.getMilliseconds() + "] " + t;
     let i = this.store;
     const s = i.the(e, this.ns.link("status"));
-    Ti(s) && s.append(i.rdfFactory.literal(t));
+    Di(s) && s.append(i.rdfFactory.literal(t));
   }
   /**
    * Records errors in the system on failure:
@@ -12884,7 +12884,7 @@ class rt {
     return r ? new r(t) : null;
   }
   guessContentType(e) {
-    return eo[e.split(".").pop()];
+    return to[e.split(".").pop()];
   }
   normalizedContentType(e, t) {
     if (e.forceContentType)
@@ -12935,13 +12935,13 @@ re(rt, "HANDLERS", void 0);
 re(rt, "CONTENT_TYPE_BY_EXT", void 0);
 re(rt, "crossSiteProxyTemplate", void 0);
 rt.HANDLERS = vi;
-rt.CONTENT_TYPE_BY_EXT = eo;
+rt.CONTENT_TYPE_BY_EXT = to;
 class Jd {
   /**
    * @param  store - The quadstore to store data and metadata. Created if not passed.
   */
   constructor(e) {
-    if (re(this, "store", void 0), re(this, "ifps", void 0), re(this, "fps", void 0), re(this, "patchControl", void 0), re(this, "ns", void 0), e = e || new mn(), e.updater)
+    if (re(this, "store", void 0), re(this, "ifps", void 0), re(this, "fps", void 0), re(this, "patchControl", void 0), re(this, "ns", void 0), e = e || new gn(), e.updater)
       throw new Error("You can't have two UpdateManagers for the same store");
     e.fetcher || (e.fetcher = new rt(e)), this.store = e, e.updater = this, this.ifps = {}, this.fps = {}, this.ns = {}, this.ns.link = Ne("http://www.w3.org/2007/ont/link#"), this.ns.http = Ne("http://www.w3.org/2007/ont/http#"), this.ns.httph = Ne("http://www.w3.org/2007/ont/httph#"), this.ns.ldp = Ne("http://www.w3.org/ns/ldp#"), this.ns.rdf = Ne("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), this.ns.rdfs = Ne("http://www.w3.org/2000/01/rdf-schema#"), this.ns.rdf = Ne("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), this.ns.owl = Ne("http://www.w3.org/2002/07/owl#"), this.patchControl = [];
   }
@@ -13611,7 +13611,7 @@ _:patch
     let s;
     if (typeof t == "string")
       return t;
-    var a = Ml(i);
+    var a = $l(i);
     switch (a.suggestNamespaces(i.namespaces), a.setBase(e), r) {
       case "text/xml":
       case "application/rdf+xml":
@@ -13693,7 +13693,7 @@ const pa = {
    * Creates a new graph (store)
    */
   graph(n = void 0, e = void 0) {
-    return new mn(n, e || {
+    return new gn(n, e || {
       rdfFactory: mi
     });
   },
@@ -13716,24 +13716,24 @@ const pa = {
   st(n, e, t, r) {
     return this.quad(n, e, t, r);
   }
-}, lo = {};
+}, oo = {};
 for (const n in pa)
-  typeof pa[n] == "function" && (lo[n] = pa[n].bind(pa));
+  typeof pa[n] == "function" && (oo[n] = pa[n].bind(pa));
 const {
   graph: Yd,
   lit: rl,
-  namedNode: Vn
-} = lo;
+  namedNode: Kn
+} = oo;
 new Pr();
 je.fromValue;
 tn.nextId;
-function oo(n) {
+function uo(n) {
   const e = Yd(), t = {};
   n?.fetch && (t.fetch = n.fetch);
   const r = new rt(e, t);
   e.updater = new Jd(e);
   async function i(s) {
-    const a = s.replace(/#.*$/, ""), l = Vn(a);
+    const a = s.replace(/#.*$/, ""), l = Kn(a);
     return await r.load(l), l;
   }
   return { store: e, fetcher: r, fetchDocument: i };
@@ -13742,7 +13742,7 @@ const ya = [];
 function Fe(n) {
   ya.push(n);
 }
-function Li(n, e) {
+function Ri(n, e) {
   const t = [];
   for (let r = ya.length - 1; r >= 0; r--)
     try {
@@ -13752,7 +13752,7 @@ function Li(n, e) {
   return t;
 }
 const Ta = new TextEncoder(), cr = new TextDecoder();
-function uo(...n) {
+function co(...n) {
   const e = n.reduce((i, { length: s }) => i + s, 0), t = new Uint8Array(e);
   let r = 0;
   for (const i of n)
@@ -13849,11 +13849,11 @@ class th extends Dt {
   static code = "ERR_JWK_INVALID";
   code = "ERR_JWK_INVALID";
 }
-class co extends Dt {
+class ho extends Dt {
   static code = "ERR_JWKS_INVALID";
   code = "ERR_JWKS_INVALID";
 }
-class ho extends Dt {
+class fo extends Dt {
   static code = "ERR_JWKS_NO_MATCHING_KEY";
   code = "ERR_JWKS_NO_MATCHING_KEY";
   constructor(e = "no applicable key found in the JSON Web Key Set", t) {
@@ -13962,14 +13962,14 @@ function lh(n, e, t) {
   }
   sh(n, t);
 }
-function fo(n, e, ...t) {
+function po(n, e, ...t) {
   if (t = t.filter(Boolean), t.length > 2) {
     const r = t.pop();
     n += `one of type ${t.join(", ")}, or ${r}.`;
   } else t.length === 2 ? n += `one of type ${t[0]} or ${t[1]}.` : n += `of type ${t[0]}.`;
   return e == null ? n += ` Received ${e}` : typeof e == "function" && e.name ? n += ` Received function ${e.name}` : typeof e == "object" && e != null && e.constructor?.name && (n += ` Received an instance of ${e.constructor.name}`), n;
 }
-const Ri = (n, ...e) => fo("Key must be ", n, ...e), po = (n, e, ...t) => fo(`Key for the ${n} algorithm must be `, e, ...t), Oi = (n) => {
+const Oi = (n, ...e) => po("Key must be ", n, ...e), mo = (n, e, ...t) => po(`Key for the ${n} algorithm must be `, e, ...t), ki = (n) => {
   if (n?.[Symbol.toStringTag] === "CryptoKey")
     return !0;
   try {
@@ -13977,8 +13977,8 @@ const Ri = (n, ...e) => fo("Key must be ", n, ...e), po = (n, e, ...t) => fo(`Ke
   } catch {
     return !1;
   }
-}, ki = (n) => n?.[Symbol.toStringTag] === "KeyObject", Ui = (n) => Oi(n) || ki(n);
-function mo(...n) {
+}, Ui = (n) => n?.[Symbol.toStringTag] === "KeyObject", Pi = (n) => ki(n) || Ui(n);
+function go(...n) {
   const e = n.filter(Boolean);
   if (e.length === 0 || e.length === 1)
     return !0;
@@ -14012,7 +14012,7 @@ async function uh(n, e) {
   const t = `SHA-${n.slice(-3)}`;
   return new Uint8Array(await crypto.subtle.digest(t, e));
 }
-function go(n, e) {
+function yo(n, e) {
   if (n.startsWith("RS") || n.startsWith("PS")) {
     const { modulusLength: t } = e.algorithm;
     if (typeof t != "number" || t < 2048)
@@ -14137,7 +14137,7 @@ async function dh(n, e, t) {
       throw new xt('Unsupported "kty" (Key Type) Parameter value');
   }
 }
-function yo(n, e, t, r, i) {
+function vo(n, e, t, r, i) {
   if (i.crit !== void 0 && r?.crit === void 0)
     throw new n('"crit" (Critical) Header Parameter MUST be integrity protected');
   if (!r || r.crit === void 0)
@@ -14268,10 +14268,10 @@ const il = async (n, e, t, r = !1) => {
     throw new TypeError("given KeyObject instance cannot be used for this algorithm");
   return t ? t[e] = s : lr.set(n, { [e]: s }), s;
 };
-async function vo(n, e) {
-  if (n instanceof Uint8Array || Oi(n))
+async function wo(n, e) {
+  if (n instanceof Uint8Array || ki(n))
     return n;
-  if (ki(n)) {
+  if (Ui(n)) {
     if (n.type === "secret")
       return n.export();
     if ("toCryptoKey" in n && typeof n.toCryptoKey == "function")
@@ -14338,8 +14338,8 @@ const ar = (n) => n?.[Symbol.toStringTag], wi = (n, e, t) => {
         return;
       throw new TypeError('JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present');
     }
-    if (!Ui(e))
-      throw new TypeError(po(n, e, "CryptoKey", "KeyObject", "JSON Web Key", "Uint8Array"));
+    if (!Pi(e))
+      throw new TypeError(mo(n, e, "CryptoKey", "KeyObject", "JSON Web Key", "Uint8Array"));
     if (e.type !== "secret")
       throw new TypeError(`${ar(e)} instances for symmetric algorithms must be of type "secret"`);
   }
@@ -14357,8 +14357,8 @@ const ar = (n) => n?.[Symbol.toStringTag], wi = (n, e, t) => {
           return;
         throw new TypeError("JSON Web Key for this operation must be a public JWK");
     }
-  if (!Ui(e))
-    throw new TypeError(po(n, e, "CryptoKey", "KeyObject", "JSON Web Key"));
+  if (!Pi(e))
+    throw new TypeError(mo(n, e, "CryptoKey", "KeyObject", "JSON Web Key"));
   if (e.type === "secret")
     throw new TypeError(`${ar(e)} instances for asymmetric algorithms must not be of type "secret"`);
   if (e.type === "public")
@@ -14376,7 +14376,7 @@ const ar = (n) => n?.[Symbol.toStringTag], wi = (n, e, t) => {
         throw new TypeError(`${ar(e)} instances for asymmetric algorithm encryption must be of type "public"`);
     }
 };
-function wo(n, e, t) {
+function Eo(n, e, t) {
   switch (n.substring(0, 2)) {
     case "A1":
     case "A2":
@@ -14390,7 +14390,7 @@ function wo(n, e, t) {
   }
 }
 async function wh(n) {
-  if (ki(n))
+  if (Ui(n))
     if (n.type === "secret")
       n = n.export();
     else
@@ -14400,17 +14400,17 @@ async function wh(n) {
       kty: "oct",
       k: Fr(n)
     };
-  if (!Oi(n))
-    throw new TypeError(Ri(n, "CryptoKey", "KeyObject", "Uint8Array"));
+  if (!ki(n))
+    throw new TypeError(Oi(n, "CryptoKey", "KeyObject", "Uint8Array"));
   if (!n.extractable)
     throw new TypeError("non-extractable CryptoKey cannot be exported as a JWK");
   const { ext: e, key_ops: t, alg: r, use: i, ...s } = await crypto.subtle.exportKey("jwk", n);
   return s.kty === "AKP" && (s.alg = r), s;
 }
-async function Pi(n) {
+async function Mi(n) {
   return wh(n);
 }
-function Eo(n, e) {
+function Co(n, e) {
   const t = `SHA-${n.slice(-3)}`;
   switch (n) {
     case "HS256":
@@ -14440,18 +14440,18 @@ function Eo(n, e) {
       throw new xt(`alg ${n} is not supported either by JOSE or your javascript runtime`);
   }
 }
-async function Co(n, e, t) {
+async function bo(n, e, t) {
   if (e instanceof Uint8Array) {
     if (!n.startsWith("HS"))
-      throw new TypeError(Ri(e, "CryptoKey", "KeyObject", "JSON Web Key"));
+      throw new TypeError(Oi(e, "CryptoKey", "KeyObject", "JSON Web Key"));
     return crypto.subtle.importKey("raw", e, { hash: `SHA-${n.slice(-3)}`, name: "HMAC" }, !1, [t]);
   }
   return lh(e, n, t), e;
 }
 async function Eh(n, e, t, r) {
-  const i = await Co(n, e, "verify");
-  go(n, i);
-  const s = Eo(n, i.algorithm);
+  const i = await bo(n, e, "verify");
+  yo(n, i);
+  const s = Co(n, i.algorithm);
   try {
     return await crypto.subtle.verify(s, i, t, r);
   } catch {
@@ -14479,12 +14479,12 @@ async function Ch(n, e, t) {
     } catch {
       throw new Ze("JWS Protected Header is invalid");
     }
-  if (!mo(r, n.header))
+  if (!go(r, n.header))
     throw new Ze("JWS Protected and JWS Unprotected Header Parameter names must be disjoint");
   const i = {
     ...r,
     ...n.header
-  }, s = yo(Ze, /* @__PURE__ */ new Map([["b64", !0]]), t?.crit, r, i);
+  }, s = vo(Ze, /* @__PURE__ */ new Map([["b64", !0]]), t?.crit, r, i);
   let a = !0;
   if (s.has("b64") && (a = r.b64, typeof a != "boolean"))
     throw new Ze('The "b64" (base64url-encode payload) Header Parameter must be a boolean');
@@ -14500,15 +14500,15 @@ async function Ch(n, e, t) {
   } else if (typeof n.payload != "string" && !(n.payload instanceof Uint8Array))
     throw new Ze("JWS Payload must be a string or an Uint8Array instance");
   let c = !1;
-  typeof e == "function" && (e = await e(r, n), c = !0), wo(l, e, "verify");
-  const h = uo(n.protected !== void 0 ? qn(n.protected) : new Uint8Array(), qn("."), typeof n.payload == "string" ? a ? qn(n.payload) : Ta.encode(n.payload) : n.payload);
+  typeof e == "function" && (e = await e(r, n), c = !0), Eo(l, e, "verify");
+  const h = co(n.protected !== void 0 ? qn(n.protected) : new Uint8Array(), qn("."), typeof n.payload == "string" ? a ? qn(n.payload) : Ta.encode(n.payload) : n.payload);
   let p;
   try {
     p = sr(n.signature);
   } catch {
     throw new Ze("Failed to base64url decode the signature");
   }
-  const m = await vo(e, l);
+  const m = await wo(e, l);
   if (!await Eh(l, m, p, h))
     throw new ah();
   let v;
@@ -14531,7 +14531,7 @@ async function bh(n, e, t) {
   const l = await Ch({ payload: i, protected: r, signature: s }, e, t), u = { payload: l.payload, protectedHeader: l.protectedHeader };
   return typeof e == "function" ? { ...u, key: l.key } : u;
 }
-const En = (n) => Math.floor(n.getTime() / 1e3), bo = 60, No = bo * 60, Mi = No * 24, Nh = Mi * 7, Ah = Mi * 365.25, xh = /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
+const En = (n) => Math.floor(n.getTime() / 1e3), No = 60, Ao = No * 60, $i = Ao * 24, Nh = $i * 7, Ah = $i * 365.25, xh = /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
 function Br(n) {
   const e = xh.exec(n);
   if (!e || e[4] && e[1])
@@ -14551,19 +14551,19 @@ function Br(n) {
     case "min":
     case "mins":
     case "m":
-      i = Math.round(t * bo);
+      i = Math.round(t * No);
       break;
     case "hour":
     case "hours":
     case "hr":
     case "hrs":
     case "h":
-      i = Math.round(t * No);
+      i = Math.round(t * Ao);
       break;
     case "day":
     case "days":
     case "d":
-      i = Math.round(t * Mi);
+      i = Math.round(t * $i);
       break;
     case "week":
     case "weeks":
@@ -14691,9 +14691,9 @@ async function Sh(n, e, t) {
   return typeof e == "function" ? { ...s, key: r.key } : s;
 }
 async function Ih(n, e, t) {
-  const r = await Co(n, e, "sign");
-  go(n, r);
-  const i = await crypto.subtle.sign(Eo(n, r.algorithm), r, t);
+  const r = await bo(n, e, "sign");
+  yo(n, r);
+  const i = await crypto.subtle.sign(Co(n, r.algorithm), r, t);
   return new Uint8Array(i);
 }
 class Fh {
@@ -14718,24 +14718,24 @@ class Fh {
   async sign(e, t) {
     if (!this.#t && !this.#n)
       throw new Ze("either setProtectedHeader or setUnprotectedHeader must be called before #sign()");
-    if (!mo(this.#t, this.#n))
+    if (!go(this.#t, this.#n))
       throw new Ze("JWS Protected and JWS Unprotected Header Parameter names must be disjoint");
     const r = {
       ...this.#t,
       ...this.#n
-    }, i = yo(Ze, /* @__PURE__ */ new Map([["b64", !0]]), t?.crit, this.#t, r);
+    }, i = vo(Ze, /* @__PURE__ */ new Map([["b64", !0]]), t?.crit, this.#t, r);
     let s = !0;
     if (i.has("b64") && (s = this.#t.b64, typeof s != "boolean"))
       throw new Ze('The "b64" (base64url-encode payload) Header Parameter must be a boolean');
     const { alg: a } = r;
     if (typeof a != "string" || !a)
       throw new Ze('JWS "alg" (Algorithm) Header Parameter missing or invalid');
-    wo(a, e, "sign");
+    Eo(a, e, "sign");
     let l, u;
     s ? (l = Fr(this.#e), u = qn(l)) : (u = this.#e, l = "");
     let c, h;
     this.#t ? (c = Fr(JSON.stringify(this.#t)), h = qn(c)) : (c = "", h = new Uint8Array());
-    const p = uo(h, qn("."), u), m = await vo(e, a), w = await Ih(a, m, p), v = {
+    const p = co(h, qn("."), u), m = await wo(e, a), w = await Ih(a, m, p), v = {
       signature: Fr(w),
       payload: l
     };
@@ -14802,10 +14802,10 @@ async function Rh(n, e) {
   let t;
   if (Sa(n))
     t = n;
-  else if (Ui(n))
-    t = await Pi(n);
+  else if (Pi(n))
+    t = await Mi(n);
   else
-    throw new TypeError(Ri(n, "CryptoKey", "KeyObject", "JSON Web Key"));
+    throw new TypeError(Oi(n, "CryptoKey", "KeyObject", "JSON Web Key"));
   if (e ??= "sha256", e !== "sha256" && e !== "sha384" && e !== "sha512")
     throw new TypeError('digestAlgorithm must one of "sha256", "sha384", or "sha512"');
   let r;
@@ -14857,7 +14857,7 @@ class Ph {
   #t = /* @__PURE__ */ new WeakMap();
   constructor(e) {
     if (!kh(e))
-      throw new co("JSON Web Key Set malformed");
+      throw new ho("JSON Web Key Set malformed");
     this.#e = structuredClone(e);
   }
   jwks() {
@@ -14885,7 +14885,7 @@ class Ph {
       return h;
     }), { 0: l, length: u } = a;
     if (u === 0)
-      throw new ho();
+      throw new fo();
     if (u !== 1) {
       const c = new nh(), h = this.#t;
       throw c[Symbol.asyncIterator] = async function* () {
@@ -14904,7 +14904,7 @@ async function ll(n, e, t) {
   if (r[t] === void 0) {
     const i = await dh({ ...e, ext: !0 }, t);
     if (i instanceof Uint8Array || i.type !== "public")
-      throw new co("JSON Web Key Set members must be public keys");
+      throw new ho("JSON Web Key Set members must be public keys");
     r[t] = i;
   }
   return r[t];
@@ -14980,7 +14980,7 @@ class Wh {
     try {
       return await this.#s(e, t);
     } catch (r) {
-      if (r instanceof ho && this.coolingDown() === !1)
+      if (r instanceof fo && this.coolingDown() === !1)
         return await this.reload(), this.#s(e, t);
       throw r;
     }
@@ -15193,8 +15193,8 @@ async function jh() {
   ), t = btoa(String.fromCharCode(...e)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   return { verifier: n, challenge: t };
 }
-async function Ao(n, e, t, r = null) {
-  const i = await Pi(n.publicKey), s = { htu: e, htm: t };
+async function xo(n, e, t, r = null) {
+  const i = await Mi(n.publicKey), s = { htu: e, htm: t };
   return r && (s.ath = r), new Lh(s).setIssuedAt().setJti(crypto.randomUUID()).setProtectedHeader({ alg: "ES256", typ: "dpop+jwt", jwk: i }).sign(n.privateKey);
 }
 async function zh(n) {
@@ -15222,8 +15222,8 @@ async function Yh(n, e) {
   if (!t.ok) throw new Error(`Client registration failed: ${t.status}`);
   return t.json();
 }
-async function xo(n, e, t) {
-  const r = await Ao(t, n, "POST"), i = await fetch(n, {
+async function To(n, e, t) {
+  const r = await xo(t, n, "POST"), i = await fetch(n, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -15238,7 +15238,7 @@ async function Qh(n, e, t, r, i) {
   const s = Vh(new URL(e)), { payload: a } = await Sh(n, s, {
     issuer: t,
     audience: "solid"
-  }), l = await Rh(await Pi(i.publicKey));
+  }), l = await Rh(await Mi(i.publicKey));
   if (a.cnf?.jkt !== l)
     throw new Error("DPoP thumbprint mismatch");
   if (a.client_id !== r)
@@ -15255,7 +15255,7 @@ async function Zh(n) {
   ]);
   if (!e || !t || !r || !i)
     throw new Error("Missing refresh data");
-  const s = await xo(t, {
+  const s = await To(t, {
     grant_type: "refresh_token",
     refresh_token: e,
     client_id: r
@@ -15314,7 +15314,7 @@ class ef extends EventTarget {
     const a = sessionStorage.getItem("solid_oidc_pkce_verifier"), l = sessionStorage.getItem("solid_oidc_token_endpoint"), u = sessionStorage.getItem("solid_oidc_jwks_uri"), c = this.clientId || sessionStorage.getItem("solid_oidc_client_id");
     if (!a || !l || !c)
       throw new Error("Missing session data");
-    const h = await Gh("ES256"), p = await xo(l, {
+    const h = await Gh("ES256"), p = await To(l, {
       grant_type: "authorization_code",
       code: t,
       code_verifier: a,
@@ -15360,7 +15360,7 @@ class ef extends EventTarget {
     this.isExpired() && await this.restore();
     let r, i, s;
     e instanceof Request ? (r = new URL(e.url), i = t.method || e.method || "GET", s = new Headers(e.headers)) : (r = new URL(e.toString()), i = t.method || "GET", s = t.headers ? new Headers(t.headers) : new Headers());
-    const a = await Ao(
+    const a = await xo(
       this._tokens.dpop_key_pair,
       `${r.origin}${r.pathname}`,
       i.toUpperCase(),
@@ -15406,7 +15406,7 @@ const tf = {
     if (u.textContent = "Source", l.appendChild(u), s) {
       const h = document.createElement("button");
       h.className = "source-edit-btn", h.textContent = "Edit", h.addEventListener("click", () => {
-        To(t, l, a, r, s);
+        Do(t, l, a, r, s);
       }), l.appendChild(h);
     }
     if (t.appendChild(l), i.length === 0) {
@@ -15429,7 +15429,7 @@ function nf(n, e, t) {
 `);
   }
 }
-function To(n, e, t, r, i) {
+function Do(n, e, t, r, i) {
   for (; e.nextSibling; )
     e.nextSibling.remove();
   const s = e.querySelector(".source-edit-btn");
@@ -15470,7 +15470,7 @@ function ul(n, e, t, r, i) {
   s && s.remove();
   const a = document.createElement("button");
   if (a.className = "source-edit-btn", a.textContent = "Edit", a.addEventListener("click", () => {
-    To(n, e, t, r, i);
+    Do(n, e, t, r, i);
   }), e.appendChild(a), t) {
     const l = document.createElement("pre");
     l.className = "source-view", l.textContent = t, n.appendChild(l);
@@ -15495,10 +15495,10 @@ function fe(n) {
     return n;
   }
 }
-const Do = "mashlib:navigate";
+const _o = "mashlib:navigate";
 function bi(n) {
   window.dispatchEvent(
-    new CustomEvent(Do, { detail: { uri: n } })
+    new CustomEvent(_o, { detail: { uri: n } })
   );
 }
 function sn(n, e) {
@@ -15648,7 +15648,7 @@ const ff = {
   }
 };
 Fe(ff);
-const _o = [
+const So = [
   { uri: "Read", label: "Read", description: "can view the resource" },
   { uri: "Append", label: "Append", description: "can add new content" },
   { uri: "Write", label: "Write", description: "can modify content" },
@@ -15772,7 +15772,7 @@ function wf(n, e, t) {
     const X = document.createElement("div");
     X.className = "sharing-level-desc", X.style.color = C;
     const Y = w.map((A) => {
-      const K = _o.find((P) => P.uri === A);
+      const K = So.find((P) => P.uri === A);
       return K ? K.description : A;
     });
     X.textContent = Y.join(", "), T.appendChild(X), h.appendChild(T);
@@ -15790,7 +15790,7 @@ function dl(n) {
   t.textContent = "Access Modes", e.appendChild(t);
   const r = document.createElement("table");
   r.className = "sharing-legend-table";
-  for (const i of _o) {
+  for (const i of So) {
     const s = document.createElement("tr"), a = document.createElement("td");
     a.className = "sharing-legend-mode", a.textContent = i.label;
     const l = document.createElement("td");
@@ -15828,7 +15828,7 @@ function bf(n, e, t) {
   let a = [], l = "";
   const u = e.each(n, L("itemListElement"), null, null);
   if (u.length > 0 && (a = u, l = "List Items"), a.length === 0) {
-    const Y = So(n, e);
+    const Y = Io(n, e);
     Y && (a = Y.items, l = fe(Y.typeUri));
   }
   const c = document.createElement("p");
@@ -15875,7 +15875,7 @@ function bf(n, e, t) {
     for (const K of v) {
       const P = document.createElement("td");
       P.className = "table-cell";
-      const G = e.each(Y, Vn(K), null, null);
+      const G = e.each(Y, Kn(K), null, null);
       if (G.length > 0) {
         const R = G[0].value;
         if (R.startsWith("http://") || R.startsWith("https://")) {
@@ -15911,7 +15911,7 @@ const Af = [
   L("ItemList").value,
   at("Class").value
 ];
-function So(n, e) {
+function Io(n, e) {
   const t = n.doc(), r = e.match(null, me("type"), null, t), i = /* @__PURE__ */ new Map();
   for (const l of r) {
     const u = l.object.value;
@@ -15929,7 +15929,7 @@ function xf(n, e) {
   for (const i of Af)
     if (t.includes(i)) return !0;
   if (e.any(n, L("itemListElement"), null, null)) return !0;
-  const r = So(n, e);
+  const r = Io(n, e);
   return !!(r && r.items.length >= 3);
 }
 const Tf = {
@@ -16104,7 +16104,7 @@ function Mf(n, e, t) {
   r.className = "code-view";
   const i = document.createElement("div");
   i.className = "code-header";
-  const a = n.value.split("?")[0].split("#")[0].split("/").pop() ?? n.value, l = Io(n.value), u = document.createElement("span");
+  const a = n.value.split("?")[0].split("#")[0].split("/").pop() ?? n.value, l = Fo(n.value), u = document.createElement("span");
   if (u.className = "code-filename", u.textContent = a, i.appendChild(u), l) {
     const p = document.createElement("span");
     p.className = "code-language", p.textContent = l, i.appendChild(p);
@@ -16207,7 +16207,7 @@ const $f = {
   ".wasm": "WebAssembly",
   ".wat": "WebAssembly Text"
 };
-function Io(n) {
+function Fo(n) {
   const t = n.split("?")[0].split("#")[0].split("/").pop() ?? "", r = t.toLowerCase();
   if (r === "dockerfile") return "Dockerfile";
   if (r === "makefile" || r === "gnumakefile") return "Makefile";
@@ -16219,7 +16219,7 @@ function Io(n) {
   return $f[s] ?? null;
 }
 function qf(n, e) {
-  return !!(Io(n.value) || e.each(n, me("type"), null, null).map((r) => r.value).includes(L("SoftwareSourceCode").value));
+  return !!(Fo(n.value) || e.each(n, me("type"), null, null).map((r) => r.value).includes(L("SoftwareSourceCode").value));
 }
 const Hf = {
   label: "Code",
@@ -16374,7 +16374,7 @@ function Qf(n, e, t) {
     const h = document.createElement("p");
     h.className = "gallery-description", h.textContent = a, r.appendChild(h);
   }
-  const l = Fo(n, e), u = document.createElement("p");
+  const l = Bo(n, e), u = document.createElement("p");
   if (u.className = "gallery-count", u.textContent = `${l.length} image${l.length !== 1 ? "s" : ""}`, r.appendChild(u), l.length === 0) {
     const h = document.createElement("p");
     h.className = "gallery-empty", h.textContent = "No images found.", r.appendChild(h), t.appendChild(r);
@@ -16434,7 +16434,7 @@ const tp = [
   ".avif",
   ".tiff"
 ];
-function Fo(n, e) {
+function Bo(n, e) {
   const t = /* @__PURE__ */ new Set();
   for (const r of e.each(n, L("image"), null, null))
     t.add(r.value);
@@ -16463,7 +16463,7 @@ function ap(n, e) {
   const t = e.each(n, me("type"), null, null).map((i) => i.value);
   for (const i of tp)
     if (t.includes(i)) return !0;
-  return Fo(n, e).length >= 2;
+  return Bo(n, e).length >= 2;
 }
 const ip = {
   label: "Gallery",
@@ -16588,7 +16588,7 @@ function hp(n, e, t) {
     const c = document.createElement("p");
     c.className = "map-description", c.textContent = l, r.appendChild(c);
   }
-  const u = Bo(n, e);
+  const u = Lo(n, e);
   if (u) {
     const c = document.createElement("div");
     c.className = "map-embed";
@@ -16602,7 +16602,7 @@ function hp(n, e, t) {
   }
   t.appendChild(r);
 }
-function Bo(n, e) {
+function Lo(n, e) {
   const t = e.any(n, L("latitude"), null, null)?.value, r = e.any(n, L("longitude"), null, null)?.value;
   if (t && r) {
     const a = parseFloat(t), l = parseFloat(r);
@@ -16642,7 +16642,7 @@ const pp = {
   label: "Map",
   icon: "🗺",
   canHandle(n, e) {
-    return !!(Bo(n, e) || fp(n, e));
+    return !!(Lo(n, e) || fp(n, e));
   },
   render(n, e, t) {
     hp(n, e, t);
@@ -17297,12 +17297,12 @@ function Qp(n, e) {
   const t = e.each(n, me("type"), null, null).map((r) => r.value);
   return !!(t.includes(gt("BankAccount").value) || t.includes(gt("PaymentCard").value) || t.includes(L("BankAccount").value) || e.any(n, gt("transaction"), null, null));
 }
-function Lo(n, e) {
+function Ro(n, e) {
   const t = e.any(n, gt("description"), null, null)?.value ?? e.any(n, de("title"), null, null)?.value ?? e.any(n, L("description"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? fe(n.value), r = e.any(n, gt("amount"), null, null)?.value ?? e.any(n, L("price"), null, null)?.value ?? e.any(n, L("amount"), null, null)?.value, i = r ? parseFloat(r) : null, s = e.any(n, gt("currency"), null, null)?.value ?? e.any(n, L("priceCurrency"), null, null)?.value ?? e.any(n, L("currency"), null, null)?.value ?? "", a = e.any(n, gt("date"), null, null)?.value ?? e.any(n, de("date"), null, null)?.value ?? e.any(n, L("dateCreated"), null, null)?.value ?? null, l = e.any(n, gt("category"), null, null), u = l ? e.any(l, at("label"), null, null)?.value ?? e.any(l, L("name"), null, null)?.value ?? fe(l.value) : null, c = e.any(n, gt("payee"), null, null) ?? e.any(n, L("recipient"), null, null), h = c ? e.any(c, L("name"), null, null)?.value ?? (c.value.startsWith("http") ? fe(c.value) : c.value) : null;
   return { uri: n.value, date: a, description: t, amount: i, currency: s, category: u, payee: h };
 }
 function Zp(n, e, t) {
-  const i = e.each(n, gt("transaction"), null, null).map((m) => Lo(m, e));
+  const i = e.each(n, gt("transaction"), null, null).map((m) => Ro(m, e));
   i.sort((m, w) => !m.date && !w.date ? 0 : m.date ? w.date ? w.date.localeCompare(m.date) : -1 : 1);
   const s = document.createElement("p");
   if (s.className = "txn-count", s.textContent = `${i.length} transaction${i.length !== 1 ? "s" : ""}`, t.appendChild(s), i.length === 0) {
@@ -17341,7 +17341,7 @@ function Zp(n, e, t) {
   c.appendChild(p), u.appendChild(c), t.appendChild(u);
 }
 function em(n, e, t) {
-  const r = Lo(n, e), i = document.createElement("div");
+  const r = Ro(n, e), i = document.createElement("div");
   i.className = "txn-details";
   const s = [];
   if (r.date) {
@@ -17669,7 +17669,7 @@ function mm(n, e) {
 function Ai(n) {
   return (n.split("#").pop() ?? n.split("/").pop() ?? n).replace(/([a-z])([A-Z])/g, "$1 $2");
 }
-function Ro(n) {
+function Oo(n) {
   const e = n.toLowerCase();
   return e.includes("open") || e.includes("new") ? "issue-state-open" : e.includes("closed") || e.includes("done") || e.includes("resolved") || e.includes("fixed") ? "issue-state-closed" : e.includes("progress") || e.includes("active") ? "issue-state-active" : "issue-state-default";
 }
@@ -17681,7 +17681,7 @@ function gm(n, e, t) {
   const a = e.any(n, wt("state"), null, null);
   if (a) {
     const m = document.createElement("span");
-    m.className = `issue-state ${Ro(a.value)}`, m.textContent = Ai(a.value), r.appendChild(m);
+    m.className = `issue-state ${Oo(a.value)}`, m.textContent = Ai(a.value), r.appendChild(m);
   }
   const l = document.createElement("div");
   l.className = "issue-details";
@@ -17737,7 +17737,7 @@ function ym(n, e, t) {
       const w = e.any(p, wt("state"), null, null);
       if (w) {
         const B = document.createElement("span");
-        B.className = `issue-state ${Ro(w.value)}`, B.textContent = Ai(w.value), m.appendChild(B);
+        B.className = `issue-state ${Oo(w.value)}`, B.textContent = Ai(w.value), m.appendChild(B);
       }
       const v = e.any(p, de("title"), null, null)?.value ?? e.any(p, L("name"), null, null)?.value ?? fe(p.value), C = document.createElement("a");
       C.className = "tracker-issue-title", C.href = p.value, C.textContent = v, m.appendChild(C);
@@ -18038,7 +18038,7 @@ function Rm(n, e) {
   for (const s of r) {
     if (s.termType !== "NamedNode") continue;
     const a = s;
-    t.some((l) => l.uri === a.value) || t.push(Oo(a, e));
+    t.some((l) => l.uri === a.value) || t.push(ko(a, e));
   }
   return t.sort((s, a) => s.sequence - a.sequence), t;
 }
@@ -18047,7 +18047,7 @@ function Om(n, e, t) {
   const i = /* @__PURE__ */ new Set();
   for (; r && !i.has(r.value) && (i.add(r.value), r.value !== me("nil").value); ) {
     const s = e.any(r, me("first"), null, null);
-    s && s.termType === "NamedNode" && t.push(Oo(s, e));
+    s && s.termType === "NamedNode" && t.push(ko(s, e));
     const a = e.any(r, me("rest"), null, null);
     if (a && a.termType === "NamedNode")
       r = a;
@@ -18055,7 +18055,7 @@ function Om(n, e, t) {
       break;
   }
 }
-function Oo(n, e) {
+function ko(n, e) {
   const t = Lm(n, e), r = e.any(n, yt("property"), null, null)?.value ?? null, i = e.any(n, yt("label"), null, null)?.value ?? (r ? fe(r) : t), s = e.any(n, yt("sequence"), null, null)?.value, a = s ? parseInt(s, 10) : 999, l = e.any(n, yt("contents"), null, null)?.value ?? null;
   return { uri: n.value, fieldType: t, property: r, label: i, sequence: a, contents: l };
 }
@@ -18258,7 +18258,7 @@ Fe(Gm);
 function Xm(n, e) {
   return e.any(n, de("title"), null, null)?.value ?? e.any(n, tt("title"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? "Notepad";
 }
-function ko(n, e) {
+function Uo(n, e) {
   return e.any(n, be("name"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? fe(n.value);
 }
 function jm(n, e) {
@@ -18268,7 +18268,7 @@ function jm(n, e) {
     r.add(i.value);
     const s = i, a = e.any(s, Rt("content"), null, null)?.value ?? e.any(s, tt("description"), null, null)?.value ?? "", l = e.any(s, tt("author"), null, null) ?? e.any(s, de("creator"), null, null) ?? e.any(s, be("maker"), null, null);
     let u = null, c = null;
-    l && (c = l.value, l.termType === "NamedNode" ? u = ko(l, e) : u = l.value), t.push({ uri: s.value, content: a, author: u, authorUri: c }), i = e.any(s, Da("next"), null, null);
+    l && (c = l.value, l.termType === "NamedNode" ? u = Uo(l, e) : u = l.value), t.push({ uri: s.value, content: a, author: u, authorUri: c }), i = e.any(s, Da("next"), null, null);
   }
   return t;
 }
@@ -18293,7 +18293,7 @@ function Jm(n, e, t) {
   }
   const u = e.any(n, tt("author"), null, null) ?? e.any(n, de("creator"), null, null);
   if (u && u.termType === "NamedNode") {
-    const v = ko(u, e), C = document.createElement("span");
+    const v = Uo(u, e), C = document.createElement("span");
     C.className = "pad-author", C.textContent = `Author: ${v}`, a.appendChild(C);
   }
   a.children.length > 0 && r.appendChild(a);
@@ -18347,7 +18347,7 @@ function e0(n, e) {
 function t0(n, e) {
   return e.each(n, me("type"), null, null).some((r) => r.value === wa("MicroblogPost").value);
 }
-function Uo(n, e) {
+function Po(n, e) {
   const t = e.any(n, Rt("content"), null, null)?.value ?? e.any(n, de("description"), null, null)?.value ?? e.any(n, tt("description"), null, null)?.value ?? "", r = e.any(n, de("created"), null, null)?.value ?? e.any(n, tt("date"), null, null)?.value, i = r ? new Date(r) : null, s = e.any(n, Rt("has_creator"), null, null) ?? e.any(n, be("maker"), null, null) ?? e.any(n, de("creator"), null, null);
   let a = null, l = null;
   return s && (l = s.value, s.termType === "NamedNode" ? a = e0(s, e) : a = s.value), { uri: n.value, content: t, created: i, creator: a, creatorUri: l };
@@ -18355,7 +18355,7 @@ function Uo(n, e) {
 function n0(n, e) {
   const t = e.each(n, Rt("container_of"), null, null), r = [];
   for (const i of t)
-    i.termType === "NamedNode" && r.push(Uo(i, e));
+    i.termType === "NamedNode" && r.push(Po(i, e));
   return r.sort((i, s) => !i.created && !s.created ? 0 : i.created ? s.created ? s.created.getTime() - i.created.getTime() : -1 : 1), r;
 }
 function r0(n) {
@@ -18401,7 +18401,7 @@ function i0(n, e, t) {
   t.innerHTML = "";
   const r = document.createElement("div");
   if (r.className = "microblog-view", t0(n, e)) {
-    const h = Uo(n, e), p = document.createElement("h2");
+    const h = Po(n, e), p = document.createElement("h2");
     p.className = "microblog-title", p.textContent = "Microblog Post", r.appendChild(p), r.appendChild(Dl(h)), t.appendChild(r);
     return;
   }
@@ -18611,12 +18611,12 @@ function p0(n, e) {
 function m0(n, e) {
   const t = e.each(n, et("contains"), null, null), r = [];
   for (const i of t) {
-    const s = i, a = s.value, l = e.each(s, me("type"), null, null).map((C) => C.value), u = l.includes(et("Container").value) || l.includes(et("BasicContainer").value) || a.endsWith("/"), c = $i(a, u), p = (e.any(s, de("modified"), null, null) ?? e.any(s, cl("mtime"), null, null))?.value, m = e.any(s, cl("size"), null, null), w = m ? Number(m.value) : void 0, v = e.any(s, de("format"), null, null)?.value ?? void 0;
+    const s = i, a = s.value, l = e.each(s, me("type"), null, null).map((C) => C.value), u = l.includes(et("Container").value) || l.includes(et("BasicContainer").value) || a.endsWith("/"), c = qi(a, u), p = (e.any(s, de("modified"), null, null) ?? e.any(s, cl("mtime"), null, null))?.value, m = e.any(s, cl("size"), null, null), w = m ? Number(m.value) : void 0, v = e.any(s, de("format"), null, null)?.value ?? void 0;
     r.push({ uri: a, name: c, isContainer: u, modified: p, size: w, contentType: v });
   }
   return r.sort((i, s) => i.isContainer !== s.isContainer ? i.isContainer ? -1 : 1 : i.name.localeCompare(s.name)), r;
 }
-function $i(n, e) {
+function qi(n, e) {
   const r = (e ? n.replace(/\/$/, "") : n).split("/");
   return decodeURIComponent(r[r.length - 1] || n);
 }
@@ -18641,7 +18641,7 @@ function w0(n) {
   const e = [];
   let t = n;
   for (; ; ) {
-    const r = $i(t, !0);
+    const r = qi(t, !0);
     e.unshift({ label: r || "Root", uri: t });
     const i = v0(t);
     if (!i) break;
@@ -18714,18 +18714,18 @@ function E0(n, e, t, r) {
           contentType: A
         });
       }
-      C(), await e.load(n, { force: !0 }), Po(n, r, t);
+      C(), await e.load(n, { force: !0 }), Mo(n, r, t);
     } catch (B) {
       const O = B instanceof Error ? B.message : String(B);
       m.textContent = `Error: ${O}`, h.disabled = !1;
     }
   }), i;
 }
-function Po(n, e, t) {
+function Mo(n, e, t) {
   t.innerHTML = "";
   const r = document.createElement("div");
   r.className = "folder-view";
-  const i = e.any(n, tt("title"), null, null)?.value ?? e.any(n, de("title"), null, null)?.value ?? $i(n.value, !0), s = document.createElement("h2");
+  const i = e.any(n, tt("title"), null, null)?.value ?? e.any(n, de("title"), null, null)?.value ?? qi(n.value, !0), s = document.createElement("h2");
   s.className = "folder-title", s.textContent = i, r.appendChild(s);
   const a = w0(n.value);
   if (a.length > 1) {
@@ -18796,7 +18796,7 @@ const b0 = {
     return C0(n, e);
   },
   render(n, e, t) {
-    Po(n, e, t);
+    Mo(n, e, t);
   }
 };
 Fe(b0);
@@ -18917,7 +18917,7 @@ const I0 = /\.(png|jpe?g|gif|webp|svg|bmp|ico)(\?.*)?$/i;
 function F0(n, e) {
   return e.any(n, de("title"), null, null)?.value ?? e.any(n, tt("title"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? e.any(n, be("name"), null, null)?.value ?? "Chat";
 }
-function Mo(n, e) {
+function $o(n, e) {
   return e.any(n, be("name"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? fe(n.value);
 }
 function B0(n, e) {
@@ -18925,7 +18925,7 @@ function B0(n, e) {
   for (const i of t) {
     const s = i, a = e.any(s, Rt("content"), null, null)?.value ?? e.any(s, de("content"), null, null)?.value ?? e.any(s, tt("description"), null, null)?.value ?? "", l = e.any(s, de("created"), null, null)?.value ?? e.any(s, tt("date"), null, null)?.value, u = l ? new Date(l) : null, c = e.any(s, be("maker"), null, null) ?? e.any(s, tt("creator"), null, null);
     let h = null, p = null;
-    c && (p = c.value, c.termType === "NamedNode" ? h = Mo(c, e) : h = c.value), r.push({ uri: s.value, content: a, created: u, maker: h, makerUri: p });
+    c && (p = c.value, c.termType === "NamedNode" ? h = $o(c, e) : h = c.value), r.push({ uri: s.value, content: a, created: u, maker: h, makerUri: p });
   }
   return r.sort((i, s) => !i.created && !s.created ? 0 : i.created ? s.created ? i.created.getTime() - s.created.getTime() : 1 : -1), r;
 }
@@ -18972,7 +18972,7 @@ function P0(n, e, t) {
   a.className = "chat-title", a.textContent = r, s.appendChild(a);
   const l = e.any(n, tt("author"), null, null) ?? e.any(n, de("creator"), null, null);
   if (l && l.termType === "NamedNode") {
-    const m = Mo(l, e), w = document.createElement("p");
+    const m = $o(l, e), w = document.createElement("p");
     w.className = "chat-creator", w.textContent = `Created by ${m}`, s.appendChild(w);
   }
   const u = B0(n, e), c = document.createElement("p");
@@ -19037,7 +19037,7 @@ const $0 = {
   }
 };
 Fe($0);
-function $o(n, e) {
+function qo(n, e) {
   return e.any(n, we("fn"), null, null)?.value ?? e.any(n, be("name"), null, null)?.value ?? e.any(n, L("name"), null, null)?.value ?? fe(n.value);
 }
 function q0(n, e) {
@@ -19066,18 +19066,18 @@ function W0(n, e) {
   const r = t, i = e.any(r, we("street-address"), null, null)?.value, s = e.any(r, we("locality"), null, null)?.value, a = e.any(r, we("region"), null, null)?.value, l = e.any(r, we("postal-code"), null, null)?.value, u = e.any(r, we("country-name"), null, null)?.value, c = [i, s, a, l, u].filter(Boolean);
   return c.length > 0 ? c.join(", ") : void 0;
 }
-function qo(n, e) {
+function Ho(n, e) {
   const t = e.each(n, we("hasMember"), null, null), r = [];
   for (const i of t) {
     const s = i;
     if (e.holds(s, me("type"), we("Group"))) {
-      const a = qo(s, e);
+      const a = Ho(s, e);
       r.push(...a);
       continue;
     }
     r.push({
       uri: s.value,
-      name: $o(s, e),
+      name: qo(s, e),
       emails: q0(s, e),
       phones: H0(s, e),
       title: e.any(s, we("title"), null, null)?.value ?? void 0,
@@ -19094,7 +19094,7 @@ function V0(n, e) {
   for (const i of r) {
     const s = i;
     if (e.holds(s, me("type"), we("Group"))) {
-      const a = $o(s, e), l = e.each(s, we("hasMember"), null, null).length;
+      const a = qo(s, e), l = e.each(s, we("hasMember"), null, null).length;
       t.push({ name: a, count: l, uri: s.value });
     }
   }
@@ -19109,7 +19109,7 @@ function G0(n, e, t) {
   r.className = "contacts-view";
   const i = K0(n, e), s = document.createElement("h2");
   s.className = "contacts-title", s.textContent = i, r.appendChild(s);
-  const a = qo(n, e), l = V0(n, e), u = document.createElement("p");
+  const a = Ho(n, e), l = V0(n, e), u = document.createElement("p");
   if (u.className = "contacts-count", u.textContent = `${a.length} contact${a.length !== 1 ? "s" : ""}`, r.appendChild(u), a.length > 5) {
     const h = document.createElement("input");
     h.className = "contacts-search", h.type = "search", h.placeholder = "Filter contacts...", h.setAttribute("aria-label", "Filter contacts"), h.addEventListener("input", () => {
@@ -19568,12 +19568,12 @@ const ug = {
 };
 Fe(ug);
 const St = new ef();
-let bn = oo();
-function Ho() {
+let bn = uo();
+function Wo() {
   const n = St.isActive ? St.authFetch.bind(St) : void 0;
-  bn = oo(n ? { fetch: n } : void 0);
+  bn = uo(n ? { fetch: n } : void 0);
 }
-function Wo(n, e, t, r) {
+function Vo(n, e, t, r) {
   const { store: i } = bn;
   r.innerHTML = "", n.length <= 1 ? r.hidden = !0 : r.hidden = !1;
   for (let s = 0; s < n.length; s++) {
@@ -19587,8 +19587,8 @@ function Wo(n, e, t, r) {
   t.innerHTML = "", n[0].render(e, i, t);
 }
 let Ca = null, or = null, ba = null;
-function Vo(n, e, t) {
-  Ko();
+function Ko(n, e, t) {
+  Go();
   let r;
   try {
     r = new URL(n).origin;
@@ -19606,7 +19606,7 @@ function Vo(n, e, t) {
       l.startsWith("pub") && l.includes(n) && cg(n, e, t);
     }), s.addEventListener("close", () => {
       or === n && (ba = setTimeout(() => {
-        or === n && Vo(n, e, t);
+        or === n && Ko(n, e, t);
       }, 5e3));
     }), s.addEventListener("error", () => {
       s.close();
@@ -19614,14 +19614,14 @@ function Vo(n, e, t) {
   } catch {
   }
 }
-function Ko() {
+function Go() {
   ba && (clearTimeout(ba), ba = null), Ca && (or = null, Ca.close(), Ca = null);
 }
 async function cg(n, e, t) {
   const i = t.querySelector('.pane-tab[aria-selected="true"]')?.textContent ?? "";
   try {
-    await bn.fetcher.load(Vn(n), { force: !0 });
-    const s = Vn(or?.includes("#") ? or : n), a = Li(s, bn.store);
+    await bn.fetcher.load(Kn(n), { force: !0 });
+    const s = Kn(or?.includes("#") ? or : n), a = Ri(s, bn.store);
     if (a.length === 0) return;
     const l = a.findIndex((c) => `${c.icon} ${c.label}` === i), u = l >= 0 ? a[l] : a[0];
     e.innerHTML = "", u.render(s, bn.store, e);
@@ -19641,43 +19641,43 @@ async function hg(n, e, t, r) {
   t.innerHTML = "", r.innerHTML = "", r.hidden = !0;
   const { store: i } = bn, s = n.replace(/#.*$/, "");
   await Promise.all(e.map((u) => dg(u, i, s)));
-  const a = Vn(n), l = Li(a, i);
+  const a = Kn(n), l = Ri(a, i);
   if (l.length === 0) {
     t.innerHTML = `
       <div class="error">
         <p><strong>No pane available</strong> for this resource.</p>
-        <p>URI: <code>${xi(n)}</code></p>
+        <p>URI: <code>${Ti(n)}</code></p>
       </div>
     `;
     return;
   }
-  Wo(l, a, t, r);
+  Vo(l, a, t, r);
 }
-async function qi(n, e, t) {
-  e.innerHTML = '<p class="loading">Loading...</p>', t.innerHTML = "", t.hidden = !0, Ko();
+async function xi(n, e, t) {
+  e.innerHTML = '<p class="loading">Loading...</p>', t.innerHTML = "", t.hidden = !0, Go();
   try {
     await bn.fetchDocument(n);
-    const r = Vn(n), i = Li(r, bn.store);
+    const r = Kn(n), i = Ri(r, bn.store);
     if (i.length === 0) {
       e.innerHTML = `
         <div class="error">
           <p><strong>No pane available</strong> for this resource.</p>
-          <p>URI: <code>${xi(n)}</code></p>
+          <p>URI: <code>${Ti(n)}</code></p>
           <p>The resource was fetched successfully, but no registered pane
           knows how to display it.</p>
         </div>
       `;
       return;
     }
-    Wo(i, r, e, t);
+    Vo(i, r, e, t);
     const s = n.replace(/#.*$/, "");
-    Vo(s, e, t);
+    Ko(s, e, t);
   } catch (r) {
     const i = r instanceof Error ? r.message : String(r);
     e.innerHTML = `
       <div class="error">
         <p><strong>Failed to load resource</strong></p>
-        <p>${xi(i)}</p>
+        <p>${Ti(i)}</p>
       </div>
     `;
   }
@@ -19691,21 +19691,21 @@ async function fg() {
     await St.restore();
   } catch {
   }
-  St.isActive && Ho();
+  St.isActive && Wo();
 }
 function pg() {
-  Ho();
+  Wo();
 }
-function xi(n) {
+function Ti(n) {
   return n.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 const Hi = document.getElementById("mashlib") || document.body, Ia = document.createElement("header");
 Ia.id = "chrome";
 const Fa = document.createElement("div");
 Fa.id = "header-row";
-const Go = document.createElement("h1");
-Go.textContent = "mashlib-next";
-Fa.appendChild(Go);
+const Xo = document.createElement("h1");
+Xo.textContent = "mashlib-next";
+Fa.appendChild(Xo);
 const qr = document.createElement("div");
 qr.id = "auth-controls";
 const hr = document.createElement("button");
@@ -19716,11 +19716,11 @@ const Cn = document.createElement("span");
 Cn.id = "user-info";
 Cn.hidden = !0;
 qr.appendChild(Cn);
-const Kn = document.createElement("button");
-Kn.id = "logout-btn";
-Kn.hidden = !0;
-Kn.textContent = "Logout";
-qr.appendChild(Kn);
+const Gn = document.createElement("button");
+Gn.id = "logout-btn";
+Gn.hidden = !0;
+Gn.textContent = "Logout";
+qr.appendChild(Gn);
 Fa.appendChild(qr);
 Ia.appendChild(Fa);
 const pr = document.createElement("form");
@@ -19741,35 +19741,30 @@ Vi.textContent = "Go";
 pr.appendChild(Vi);
 Ia.appendChild(pr);
 Hi.appendChild(Ia);
-const gn = document.createElement("nav");
-gn.id = "pane-tabs";
-gn.setAttribute("role", "tablist");
-gn.setAttribute("aria-label", "View selector");
-gn.hidden = !0;
-Hi.appendChild(gn);
-const Gn = document.createElement("main");
-Gn.id = "pane-container";
-Hi.appendChild(Gn);
+const mn = document.createElement("nav");
+mn.id = "pane-tabs";
+mn.setAttribute("role", "tablist");
+mn.setAttribute("aria-label", "View selector");
+mn.hidden = !0;
+Hi.appendChild(mn);
+const Hn = document.createElement("main");
+Hn.id = "pane-container";
+Hi.appendChild(Hn);
 async function Ki(n, e) {
   if (ln.value = n, e) {
     const t = new URL(window.location.href);
     t.searchParams.set("uri", n), window.history.pushState({ uri: n }, "", t.toString());
   }
-  await qi(n, Gn, gn);
+  await xi(n, Hn, mn);
 }
-function Xo() {
-  St.isActive ? (hr.hidden = !0, Kn.hidden = !1, Cn.hidden = !1, Cn.textContent = St.webId ? fe(St.webId) : "Logged in", Cn.title = St.webId ?? "") : (hr.hidden = !1, Kn.hidden = !0, Cn.hidden = !0, Cn.textContent = "");
+function Sl() {
+  St.isActive ? (hr.hidden = !0, Gn.hidden = !1, Cn.hidden = !1, Cn.textContent = St.webId ? fe(St.webId) : "Logged in", Cn.title = St.webId ?? "") : (hr.hidden = !1, Gn.hidden = !0, Cn.hidden = !0, Cn.textContent = "");
 }
-St.addEventListener("sessionStateChange", () => {
-  pg(), Xo();
-  const n = ln.value.trim();
-  n && qi(n, Gn, gn);
-});
 hr.addEventListener("click", () => {
   const n = prompt("Solid identity provider:", "https://solidcommunity.net");
   n && St.login(n, window.location.href);
 });
-Kn.addEventListener("click", () => {
+Gn.addEventListener("click", () => {
   St.logout();
 });
 pr.addEventListener("submit", (n) => {
@@ -19777,13 +19772,13 @@ pr.addEventListener("submit", (n) => {
   const e = ln.value.trim();
   e && Ki(e, !0);
 });
-window.addEventListener(Do, ((n) => {
+window.addEventListener(_o, ((n) => {
   const e = n.detail.uri;
   e && Ki(e, !0);
 }));
 window.addEventListener("popstate", () => {
   const e = new URLSearchParams(window.location.search).get("uri");
-  e ? Ki(e, !1) : (ln.value = "", Gn.innerHTML = '<p class="placeholder">Enter a URL above to browse a Linked Data resource.</p>');
+  e ? Ki(e, !1) : (ln.value = "", Hn.innerHTML = '<p class="placeholder">Enter a URL above to browse a Linked Data resource.</p>');
 });
 window.mashlib = { register: Fe };
 async function mg() {
@@ -19803,16 +19798,20 @@ async function mg() {
 }
 async function gg() {
   const e = new URLSearchParams(window.location.search).get("uri") || window.location.href;
-  ln.value = e, await mg(), await fg(), Xo();
+  ln.value = e, await mg(), await fg(), Sl(), St.addEventListener("sessionStateChange", () => {
+    pg(), Sl();
+    const r = ln.value.trim();
+    r && xi(r, Hn, mn);
+  });
   const t = document.querySelectorAll('script[type="application/ld+json"]');
   if (t.length > 0) {
     const r = Array.from(t).map((i) => i.textContent || "").filter(Boolean);
-    await hg(e, r, Gn, gn);
+    await hg(e, r, Hn, mn);
   } else
-    window.history.replaceState({ uri: e }, "", window.location.href), qi(e, Gn, gn);
+    window.history.replaceState({ uri: e }, "", window.location.href), xi(e, Hn, mn);
 }
 gg();
 export {
   aa as c,
-  Ol as g
+  kl as g
 };
