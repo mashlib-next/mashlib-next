@@ -20,7 +20,7 @@ async function ensureLoaded() {
       window.$rdf = rdflib
     }
     // Load solid-ui
-    const mod = await import('https://esm.sh/solid-ui@2.5.5?bundle-deps')
+    const mod = await import('https://esm.sh/solid-ui@3.0.4?bundle-deps')
     UI = mod.default || mod
     loaded = true
   } catch (e) {
