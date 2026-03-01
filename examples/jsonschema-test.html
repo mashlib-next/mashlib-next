@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSON Schema Form Pane</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "schema": "https://schema.org/"
+    },
+    "@id": "",
+    "@type": "foaf:Person",
+    "foaf:name": "Margaret Hamilton",
+    "foaf:mbox": { "@id": "mailto:margaret@example.org" },
+    "schema:jobTitle": "Software engineer",
+    "foaf:img": { "@id": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Margaret_Hamilton_1995.jpg/440px-Margaret_Hamilton_1995.jpg" },
+    "foaf:homepage": { "@id": "https://en.wikipedia.org/wiki/Margaret_Hamilton_(software_engineer)" },
+    "schema:affiliation": "MIT Instrumentation Laboratory"
+  }
+  </script>
+
+  <script type="application/schema+json">
+  {
+    "title": "Person profile",
+    "description": "Edit a foaf:Person profile. Changes are reflected in the JSON-LD output below.",
+    "type": "object",
+    "required": ["foaf:name", "foaf:mbox"],
+    "properties": {
+      "foaf:name": {
+        "type": "string",
+        "title": "Full name",
+        "description": "foaf:name",
+        "minLength": 1
+      },
+      "foaf:mbox": {
+        "type": "string",
+        "title": "Email",
+        "description": "foaf:mbox",
+        "format": "email"
+      },
+      "schema:jobTitle": {
+        "type": "string",
+        "title": "Job title",
+        "description": "schema:jobTitle"
+      },
+      "schema:affiliation": {
+        "type": "string",
+        "title": "Organisation",
+        "description": "schema:affiliation"
+      },
+      "foaf:img": {
+        "type": "string",
+        "title": "Photo URL",
+        "description": "foaf:img",
+        "format": "uri"
+      },
+      "foaf:homepage": {
+        "type": "string",
+        "title": "Homepage",
+        "description": "foaf:homepage",
+        "format": "uri"
+      }
+    }
+  }
+  </script>
+
+  <script type="module" data-pane src="jsonschema-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
