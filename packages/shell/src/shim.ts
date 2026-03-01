@@ -118,15 +118,8 @@ function updateAuthUI(): void {
   }
 }
 
-session.addEventListener('sessionStateChange', () => {
-  onAuthChange()
-  updateAuthUI()
-
-  const currentUri = input.value.trim()
-  if (currentUri) {
-    loadResource(currentUri, container, tabsNav)
-  }
-})
+// sessionStateChange listener is added in init() after the initial render,
+// to avoid a double-render race when initAuth() fires during startup.
 
 loginBtn.addEventListener('click', () => {
   const idp = prompt('Solid identity provider:', 'https://solidcommunity.net')
@@ -201,6 +194,17 @@ async function init(): Promise<void> {
 
   await initAuth()
   updateAuthUI()
+
+  // Now that init is done, listen for future auth changes
+  session.addEventListener('sessionStateChange', () => {
+    onAuthChange()
+    updateAuthUI()
+
+    const currentUri = input.value.trim()
+    if (currentUri) {
+      loadResource(currentUri, container, tabsNav)
+    }
+  })
 
   // Try data islands first — no extra round trip needed
   const islands = document.querySelectorAll('script[type="application/ld+json"]')
