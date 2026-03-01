@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>solid-ui Compatibility Test</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "schema": "https://schema.org/",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    "@id": "",
+    "@type": "foaf:Person",
+    "foaf:name": "Tim Berners-Lee",
+    "foaf:mbox": { "@id": "mailto:timbl@w3.org" },
+    "schema:jobTitle": "Web inventor",
+    "foaf:img": { "@id": "https://www.w3.org/Press/Stock/Berners-Lee/2001-europaeum-vrij.jpg" },
+    "foaf:homepage": { "@id": "https://www.w3.org/People/Berners-Lee/" }
+  }
+  </script>
+  <script type="module" data-pane src="solid-ui-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
