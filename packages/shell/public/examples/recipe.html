@@ -13,18 +13,36 @@
     "@id": "",
     "@type": "schema:Recipe",
     "schema:name": "Grandma's Pasta Aglio e Olio",
-    "schema:description": "Simple Roman pasta with garlic, olive oil, and chili flakes.",
-    "schema:prepTime": "5 min",
-    "schema:cookTime": "15 min",
+    "schema:description": "Simple Roman pasta with garlic, olive oil, and chili flakes — ready in 20 minutes.",
+    "schema:image": { "@id": "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=640&q=80" },
+    "schema:author": {
+      "@type": "schema:Person",
+      "schema:name": "Nonna Maria"
+    },
+    "schema:prepTime": "PT5M",
+    "schema:cookTime": "PT15M",
+    "schema:totalTime": "PT20M",
+    "schema:recipeYield": "4 servings",
+    "schema:recipeCategory": "Pasta",
+    "schema:recipeCuisine": "Italian",
     "schema:recipeIngredient": [
       "400g spaghetti",
-      "6 cloves garlic, sliced",
+      "6 cloves garlic, thinly sliced",
       "100ml extra virgin olive oil",
       "1 tsp chili flakes",
       "Fresh parsley, chopped",
-      "Parmesan to serve"
+      "Parmesan to serve",
+      "Salt to taste"
     ],
-    "schema:recipeInstructions": "Cook spaghetti until al dente. Meanwhile, gently fry sliced garlic in olive oil until golden. Add chili flakes. Toss drained pasta in the garlic oil. Finish with parsley and parmesan."
+    "schema:recipeInstructions": [
+      "Bring a large pot of salted water to a rolling boil. Cook spaghetti until al dente.",
+      "Meanwhile, heat olive oil in a large skillet over medium-low heat.",
+      "Add sliced garlic and cook gently until golden — do not burn.",
+      "Add chili flakes and remove from heat.",
+      "Drain pasta, reserving 1 cup of pasta water.",
+      "Toss drained spaghetti into the garlic oil. Add a splash of pasta water and toss until silky.",
+      "Finish with fresh parsley and a generous shower of parmesan."
+    ]
   }
   </script>
   <script type="module" data-pane src="recipe-pane.js"></script>
