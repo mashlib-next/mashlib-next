@@ -85,12 +85,13 @@ export default {
   icon: '✨',
 
   canHandle(subject, store) {
-    // Check for a specific RDF type
+    if (subject.termType !== 'NamedNode') return false;
+    // Get all triples and check for a Person rdf:type
     const RDF_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
-    const types = store
-      .statementsMatching(subject, { value: RDF_TYPE }, undefined)
-      .map(st => st.object.value);
-    return types.some(t => t.includes('Person'));
+    const stmts = store.statementsMatching(subject, undefined, undefined);
+    return stmts.some(st =>
+      st.predicate.value === RDF_TYPE && st.object.value.includes('Person')
+    );
   },
 
   render(subject, store, container) {
@@ -202,21 +203,25 @@ The `store` parameter is an rdflib `IndexedFormula`. Common patterns:
 
 ```js
 // All triples for a subject
-store.statementsMatching(subject, undefined, undefined)
+const stmts = store.statementsMatching(subject, undefined, undefined);
 
-// Get a specific predicate value
-const name = store.anyValue(subject, sym('http://xmlns.com/foaf/0.1/name'));
+// Find a specific predicate value
+const name = stmts.find(st =>
+  st.predicate.value === 'http://xmlns.com/foaf/0.1/name'
+)?.object.value;
 
 // Check rdf:type
-const typeStatements = store.statementsMatching(
-  subject,
-  sym('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-  undefined
-);
+const types = stmts
+  .filter(st => st.predicate.value === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
+  .map(st => st.object.value);
 
 // Each statement has: .subject, .predicate, .object, .graph
 // Each term has: .value (the URI or literal string), .termType ('NamedNode', 'Literal', 'BlankNode')
 ```
+
+> **Note:** External panes don't have direct access to rdflib's `sym()` helper.
+> Use `store.statementsMatching(subject, undefined, undefined)` to get all triples,
+> then filter by checking `.predicate.value` and `.object.value` strings.
 
 ## Using Frameworks
 
