@@ -1,10 +1,16 @@
 {
   "name": "mashlib-next",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.3",
   "type": "module",
-  "description": "SolidOS data browser - clean-sheet monorepo",
+  "description": "Solid data browser — drop-in replacement for mashlib",
   "license": "AGPL-3.0-or-later",
+  "keywords": ["solid", "mashlib", "linked-data", "rdf", "data-browser", "solidOS"],
+  "homepage": "https://mashlib.com",
+  "main": "mashlib.js",
+  "files": [
+    "mashlib.js",
+    "mashlib.css"
+  ],
   "scripts": {
     "dev": "pnpm --filter @mashlib-next/shell dev",
     "build": "pnpm -r build",
