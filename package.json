@@ -1,10 +1,17 @@
 {
   "name": "mashlib-next",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "Solid data browser — drop-in replacement for mashlib",
   "license": "AGPL-3.0-or-later",
-  "keywords": ["solid", "mashlib", "linked-data", "rdf", "data-browser", "solidOS"],
+  "keywords": [
+    "solid",
+    "mashlib",
+    "linked-data",
+    "rdf",
+    "data-browser",
+    "solidOS"
+  ],
   "homepage": "https://mashlib.com",
   "main": "mashlib.js",
   "files": [
@@ -23,6 +30,7 @@
     "clean": "pnpm -r exec rm -rf dist .tsbuildinfo"
   },
   "devDependencies": {
+    "esbuild": "^0.27.3",
     "jsdom": "^28.1.0",
     "typescript": "~5.8.3",
     "vite": "^7.3.0",
