@@ -180,7 +180,7 @@ async function init(): Promise<void> {
   const islands = document.querySelectorAll('script[type="application/ld+json"]')
   if (islands.length > 0) {
     const jsonld = Array.from(islands).map(el => el.textContent || '').filter(Boolean)
-    loadFromStore(initialUri, jsonld, container, tabsNav)
+    await loadFromStore(initialUri, jsonld, container, tabsNav)
   } else {
     window.history.replaceState({ uri: initialUri }, '', window.location.href)
     loadResource(initialUri, container, tabsNav)

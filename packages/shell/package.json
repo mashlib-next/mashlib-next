@@ -52,6 +52,7 @@
     "@mashlib-next/trusted-apps-pane": "workspace:*",
     "@mashlib-next/utils": "workspace:*",
     "@mashlib-next/video-pane": "workspace:*",
+    "jose": "^6.1.3",
     "rdflib": "^2.3.5",
     "solid-oidc": "^0.0.3"
   },

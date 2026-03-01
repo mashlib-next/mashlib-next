@@ -2,7 +2,7 @@ import { createStore } from '@mashlib-next/store'
 import type { MashlibStore } from '@mashlib-next/store'
 import { findMatchingPanes } from '@mashlib-next/pane-registry'
 import type { Pane } from '@mashlib-next/pane-registry'
-import { sym, parse } from 'rdflib'
+import { sym, parse, IndexedFormula } from 'rdflib'
 import { Session } from 'solid-oidc'
 
 // Side-effect imports: register panes in priority order (first = lowest)
@@ -204,14 +204,27 @@ async function reloadCurrentPane(
 }
 
 /**
+ * Parse a JSON-LD string into the store (async — rdflib uses a callback).
+ */
+function parseJsonLd(block: string, store: IndexedFormula, docUri: string): Promise<void> {
+  return new Promise((resolve) => {
+    try {
+      parse(block, store, docUri, 'application/ld+json', () => resolve())
+    } catch {
+      resolve() // Skip malformed blocks
+    }
+  })
+}
+
+/**
  * Load a resource from inline JSON-LD data islands (no fetch needed).
  */
-export function loadFromStore(
+export async function loadFromStore(
   uri: string,
   jsonldBlocks: string[],
   container: HTMLElement,
   tabsNav: HTMLElement
-): void {
+): Promise<void> {
   container.innerHTML = ''
   tabsNav.innerHTML = ''
   tabsNav.hidden = true
@@ -219,13 +232,7 @@ export function loadFromStore(
   const { store } = mashlibStore
   const docUri = uri.replace(/#.*$/, '')
 
-  for (const block of jsonldBlocks) {
-    try {
-      parse(block, store, docUri, 'application/ld+json')
-    } catch {
-      // Skip malformed blocks
-    }
-  }
+  await Promise.all(jsonldBlocks.map(block => parseJsonLd(block, store, docUri)))
 
   const subject = sym(uri)
   const panes = findMatchingPanes(subject, store)

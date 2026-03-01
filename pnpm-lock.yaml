@@ -722,6 +722,9 @@ importers:
       '@mashlib-next/video-pane':
         specifier: workspace:*
         version: link:../panes/video
+      jose:
+        specifier: ^6.1.3
+        version: 6.1.3
       rdflib:
         specifier: ^2.3.5
         version: 2.3.5
@@ -1253,6 +1256,9 @@ packages:
 
   is-potential-custom-element-name@1.0.1:
     resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
+
+  jose@6.1.3:
+    resolution: {integrity: sha512-0TpaTfihd4QMNwrz/ob2Bp7X04yuxJkjRGi4aKmOqwhov54i6u79oCv7T+C7lo70MKH6BesI3vscD1yb/yzKXQ==}
 
   jsdom@28.1.0:
     resolution: {integrity: sha512-0+MoQNYyr2rBHqO1xilltfDjV9G7ymYGlAUazgcDLQaUf8JDHbuGwsxN6U9qWaElZ4w1B2r7yEGIL3GdeW3Rug==}
@@ -1956,6 +1962,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   is-potential-custom-element-name@1.0.1: {}
+
+  jose@6.1.3: {}
 
   jsdom@28.1.0:
     dependencies:

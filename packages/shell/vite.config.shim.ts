@@ -13,16 +13,15 @@ export default defineConfig({
     outDir: 'dist-shim',
     cssCodeSplit: false,
     rollupOptions: {
-      external: ['https://esm.sh/jose@5'],
       output: {
-        globals: {
-          'https://esm.sh/jose@5': 'jose',
-        },
         inlineDynamicImports: true,
       },
     },
   },
   resolve: {
+    alias: {
+      'https://esm.sh/jose@5': 'jose',
+    },
     conditions: ['development', 'import'],
   },
 })
