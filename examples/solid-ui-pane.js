@@ -94,51 +94,21 @@ export default {
         info.textContent = `Loaded solid-ui ${UI.versionInfo || ''} — rendering ${subject.value}`
         wrapper.appendChild(info)
 
-        // Demo solid-ui widgets
+        // Use solid-ui's widgets if available
         try {
-          const btnSection = document.createElement('div')
-          btnSection.style.cssText = 'display:flex;gap:0.5em;flex-wrap:wrap;margin-bottom:1em;'
-
-          if (UI.widgets && typeof UI.widgets.button === 'function') {
-            // Primary button
-            const btn1 = UI.widgets.button(
+          if (UI.widgets && UI.widgets.propertyTrig) {
+            // Try the property table widget
+            const table = UI.widgets.propertyTrig(
               document,
-              null,
-              'Hello from solid-ui',
-              () => alert('solid-ui button clicked!')
+              store,
+              subject,
+              [],
+              false
             )
-            btnSection.appendChild(btn1)
-
-            // Cancel button
-            if (typeof UI.widgets.cancelButton === 'function') {
-              const btn2 = UI.widgets.cancelButton(
-                document,
-                () => alert('Cancel clicked!')
-              )
-              btnSection.appendChild(btn2)
-            }
-
-            // Continue button
-            if (typeof UI.widgets.continueButton === 'function') {
-              const btn3 = UI.widgets.continueButton(
-                document,
-                () => alert('Continue clicked!')
-              )
-              btnSection.appendChild(btn3)
-            }
-
-            wrapper.appendChild(btnSection)
-          } else {
-            // Fallback: list available widget functions
-            const avail = document.createElement('p')
-            avail.style.cssText = 'color:#888;font-size:0.85em;'
-            const widgetKeys = UI.widgets
-              ? Object.keys(UI.widgets).filter(k => typeof UI.widgets[k] === 'function').sort().join(', ')
-              : 'no widgets namespace found'
-            avail.textContent = `Widget functions: ${widgetKeys}`
-            wrapper.appendChild(avail)
+            if (table) wrapper.appendChild(table)
           }
         } catch (e) {
+          // Fallback: just show what we loaded
           const err = document.createElement('p')
           err.style.cssText = 'color:#e07a2f;font-size:0.85em;'
           err.textContent = `Widget render skipped: ${e.message}`
