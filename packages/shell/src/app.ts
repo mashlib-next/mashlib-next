@@ -2,7 +2,7 @@ import { createStore } from '@mashlib-next/store'
 import type { MashlibStore } from '@mashlib-next/store'
 import { findMatchingPanes } from '@mashlib-next/pane-registry'
 import type { Pane } from '@mashlib-next/pane-registry'
-import { sym } from 'rdflib'
+import { sym, parse } from 'rdflib'
 import { Session } from 'solid-oidc'
 
 // Side-effect imports: register panes in priority order (first = lowest)
@@ -201,6 +201,46 @@ async function reloadCurrentPane(
   } catch {
     // Silent failure — next pub will retry
   }
+}
+
+/**
+ * Load a resource from inline JSON-LD data islands (no fetch needed).
+ */
+export function loadFromStore(
+  uri: string,
+  jsonldBlocks: string[],
+  container: HTMLElement,
+  tabsNav: HTMLElement
+): void {
+  container.innerHTML = ''
+  tabsNav.innerHTML = ''
+  tabsNav.hidden = true
+
+  const { store } = mashlibStore
+  const docUri = uri.replace(/#.*$/, '')
+
+  for (const block of jsonldBlocks) {
+    try {
+      parse(block, store, docUri, 'application/ld+json')
+    } catch {
+      // Skip malformed blocks
+    }
+  }
+
+  const subject = sym(uri)
+  const panes = findMatchingPanes(subject, store)
+
+  if (panes.length === 0) {
+    container.innerHTML = `
+      <div class="error">
+        <p><strong>No pane available</strong> for this resource.</p>
+        <p>URI: <code>${escapeHtml(uri)}</code></p>
+      </div>
+    `
+    return
+  }
+
+  renderTabs(panes, subject, container, tabsNav)
 }
 
 /**

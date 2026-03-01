@@ -8,7 +8,7 @@
  *   <div id="mashlib"></div>
  *   <script src="mashlib.js"></script>
  */
-import { loadResource, initAuth, onAuthChange, session } from './app.js'
+import { loadResource, initAuth, onAuthChange, session, loadFromStore } from './app.js'
 import { NAVIGATE_EVENT } from '@mashlib-next/utils'
 import type { NavigateDetail } from '@mashlib-next/utils'
 import { labelFromUri } from '@mashlib-next/utils'
@@ -167,17 +167,24 @@ window.addEventListener('popstate', () => {
 
 // --- Init ---
 async function init(): Promise<void> {
-  await initAuth()
-  updateAuthUI()
-
   // Shim mode: use current page URL as the resource
-  // Check for ?uri= param first (SPA-style), then fall back to window.location
   const params = new URLSearchParams(window.location.search)
   const initialUri = params.get('uri') || window.location.href
 
   input.value = initialUri
-  window.history.replaceState({ uri: initialUri }, '', window.location.href)
-  loadResource(initialUri, container, tabsNav)
+
+  await initAuth()
+  updateAuthUI()
+
+  // Try data islands first — no extra round trip needed
+  const islands = document.querySelectorAll('script[type="application/ld+json"]')
+  if (islands.length > 0) {
+    const jsonld = Array.from(islands).map(el => el.textContent || '').filter(Boolean)
+    loadFromStore(initialUri, jsonld, container, tabsNav)
+  } else {
+    window.history.replaceState({ uri: initialUri }, '', window.location.href)
+    loadResource(initialUri, container, tabsNav)
+  }
 }
 
 init()
