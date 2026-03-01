@@ -99,6 +99,81 @@ describe('chatPane', () => {
       expect(container.querySelector('.chat-empty')).not.toBeNull()
     })
 
+    it('wraps chat in region with aria-label', () => {
+      const subject = sym('https://example.com/chat')
+      store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
+      store.add(subject, DCT('title'), lit('Team Chat'), subject.doc())
+
+      const container = document.createElement('div')
+      chatPane.render(subject, store, container)
+
+      const view = container.querySelector('.chat-view')
+      expect(view?.getAttribute('role')).toBe('region')
+      expect(view?.getAttribute('aria-label')).toBe('Team Chat')
+    })
+
+    it('uses header element', () => {
+      const subject = sym('https://example.com/chat')
+      store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
+
+      const container = document.createElement('div')
+      chatPane.render(subject, store, container)
+
+      expect(container.querySelector('header.chat-header')).not.toBeNull()
+    })
+
+    it('renders message list with role="log"', () => {
+      const subject = sym('https://example.com/chat')
+      store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
+      const msg = sym('https://example.com/chat#msg1')
+      store.add(subject, WF('message'), msg, subject.doc())
+      store.add(msg, SIOC('content'), lit('Hello'), msg.doc())
+
+      const container = document.createElement('div')
+      chatPane.render(subject, store, container)
+
+      const list = container.querySelector('.chat-messages')
+      expect(list?.getAttribute('role')).toBe('log')
+      expect(list?.getAttribute('aria-live')).toBe('polite')
+    })
+
+    it('wraps messages in article with aria-label', () => {
+      const subject = sym('https://example.com/chat')
+      store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
+      const msg = sym('https://example.com/chat#msg1')
+      const alice = sym('https://alice.example.com/profile#me')
+      store.add(subject, WF('message'), msg, subject.doc())
+      store.add(msg, SIOC('content'), lit('Hello!'), msg.doc())
+      store.add(msg, FOAF('maker'), alice, msg.doc())
+      store.add(alice, FOAF('name'), lit('Alice'), alice.doc())
+
+      const container = document.createElement('div')
+      chatPane.render(subject, store, container)
+
+      const article = container.querySelector('article')
+      expect(article).not.toBeNull()
+      expect(article?.getAttribute('aria-label')).toBe('Message from Alice')
+    })
+
+    it('renders avatar with initial', () => {
+      const subject = sym('https://example.com/chat')
+      store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
+      const msg = sym('https://example.com/chat#msg1')
+      const alice = sym('https://alice.example.com/profile#me')
+      store.add(subject, WF('message'), msg, subject.doc())
+      store.add(msg, SIOC('content'), lit('Hello!'), msg.doc())
+      store.add(msg, FOAF('maker'), alice, msg.doc())
+      store.add(alice, FOAF('name'), lit('Alice'), alice.doc())
+
+      const container = document.createElement('div')
+      chatPane.render(subject, store, container)
+
+      const avatar = container.querySelector('.chat-avatar')
+      expect(avatar).not.toBeNull()
+      expect(avatar?.textContent).toBe('A')
+      expect(avatar?.getAttribute('aria-hidden')).toBe('true')
+    })
+
     it('renders messages sorted by date', () => {
       const subject = sym('https://example.com/chat')
       store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
@@ -175,7 +250,7 @@ describe('chatPane', () => {
       expect(time!.getAttribute('datetime')).toBe('2025-06-15T10:30:00.000Z')
     })
 
-    it('groups messages by date', () => {
+    it('groups messages by date with separator role', () => {
       const subject = sym('https://example.com/chat')
       store.add(subject, RDF('type'), MEE('LongChat'), subject.doc())
 
@@ -194,6 +269,8 @@ describe('chatPane', () => {
 
       const dateHeaders = container.querySelectorAll('.chat-date-header')
       expect(dateHeaders.length).toBe(2)
+      expect(dateHeaders[0].getAttribute('role')).toBe('separator')
+      expect(dateHeaders[0].querySelector('time')).not.toBeNull()
     })
 
     it('renders inline images from URLs in content', () => {
