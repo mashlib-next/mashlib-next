@@ -7,7 +7,7 @@ const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const LDP = Namespace('http://www.w3.org/ns/ldp#')
 const SOLID = Namespace('http://www.w3.org/ns/solid/terms#')
 const AS = Namespace('https://www.w3.org/ns/activitystreams#')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const DCT = Namespace('http://purl.org/dc/terms/')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 

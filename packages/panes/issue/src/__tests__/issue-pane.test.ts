@@ -7,7 +7,7 @@ const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const WF = Namespace('http://www.w3.org/2005/01/wf/flow#')
 const TRACKER = Namespace('http://www.w3.org/ns/pim/tracker#')
 const DCT = Namespace('http://purl.org/dc/terms/')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 const RDFS = Namespace('http://www.w3.org/2000/01/rdf-schema#')
 

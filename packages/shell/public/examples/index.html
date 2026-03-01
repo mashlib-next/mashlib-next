@@ -5,26 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>mashlib-next examples</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 2em auto; padding: 0 1em; color: #1a1a1a }
-    h1 { font-size: 1.4em }
-    p { color: #555 }
-    ul { list-style: none; padding: 0 }
-    li { padding: .6em 0; border-bottom: 1px solid #eee }
-    a { color: #2563eb; text-decoration: none; font-weight: 500 }
-    a:hover { text-decoration: underline }
-    .desc { color: #888; font-size: .9em }
-    code { background: #f3f3f3; padding: 2px 6px; border-radius: 4px; font-size: .85em }
+    * { box-sizing: border-box; margin: 0 }
+    body { font-family: system-ui, sans-serif; background: #f5f5f7; color: #1a1a1a; padding: 2em 1em }
+    .container { max-width: 720px; margin: 0 auto }
+    h1 { font-size: 1.6em; margin-bottom: .3em }
+    .subtitle { color: #666; margin-bottom: 2em; line-height: 1.5 }
+    .subtitle code { background: #e8e8ec; padding: 2px 6px; border-radius: 4px; font-size: .85em }
+    h2 { font-size: .85em; text-transform: uppercase; letter-spacing: .08em; color: #999; margin: 2em 0 .8em; padding-left: 4px }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px }
+    .card { background: #fff; border-radius: 12px; padding: 1.2em; text-decoration: none; color: inherit; transition: box-shadow .15s, transform .15s; border: 1px solid #e8e8ec }
+    .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateY(-2px) }
+    .card-icon { font-size: 1.8em; margin-bottom: .4em }
+    .card-title { font-weight: 600; font-size: 1em; margin-bottom: .3em }
+    .card-desc { color: #777; font-size: .85em; line-height: 1.4 }
+    .card-tag { display: inline-block; background: #f0e6d3; color: #8b6914; padding: 1px 8px; border-radius: 99px; font-size: .7em; font-weight: 600; margin-top: .6em }
+    .card-tag.external { background: #dbeafe; color: #1e40af }
+    footer { margin-top: 3em; text-align: center; color: #aaa; font-size: .85em }
+    footer a { color: #2563eb; text-decoration: none }
+    footer a:hover { text-decoration: underline }
   </style>
 </head>
 <body>
-  <h1>mashlib-next examples</h1>
-  <p>Each example uses <code>&lt;script data-pane&gt;</code> to load an external pane with inline JSON-LD data.</p>
-  <ul>
-    <li>
-      <a href="recipe.html">Recipe</a>
-      <span class="desc"> — Pasta Aglio e Olio with image, ingredients, and step-by-step instructions</span>
-    </li>
-  </ul>
-  <p><a href="https://github.com/mashlib-next/mashlib-next">&larr; Back to GitHub</a></p>
+  <div class="container">
+    <h1>mashlib-next examples</h1>
+    <p class="subtitle">Static HTML pages with embedded JSON-LD data, rendered by mashlib panes. View source on any page to see how it works.</p>
+
+    <h2>Built-in panes</h2>
+    <div class="grid">
+      <a class="card" href="profile.html">
+        <div class="card-icon">👤</div>
+        <div class="card-title">Profile</div>
+        <div class="card-desc">Person with photo, email, and role</div>
+        <span class="card-tag">foaf:Person</span>
+      </a>
+      <a class="card" href="event.html">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Event</div>
+        <div class="card-desc">Online conference with date and organizer</div>
+        <span class="card-tag">schema:Event</span>
+      </a>
+      <a class="card" href="product.html">
+        <div class="card-icon">📦</div>
+        <div class="card-title">Product</div>
+        <div class="card-desc">Product with price, rating, and brand</div>
+        <span class="card-tag">schema:Product</span>
+      </a>
+      <a class="card" href="article.html">
+        <div class="card-icon">📰</div>
+        <div class="card-title">Article</div>
+        <div class="card-desc">Blog post with author, date, and full text</div>
+        <span class="card-tag">schema:BlogPosting</span>
+      </a>
+      <a class="card" href="organization.html">
+        <div class="card-icon">🏢</div>
+        <div class="card-title">Organization</div>
+        <div class="card-desc">Company with address, team, and founding date</div>
+        <span class="card-tag">schema:Organization</span>
+      </a>
+      <a class="card" href="bookmarks.html">
+        <div class="card-icon">🔖</div>
+        <div class="card-title">Bookmarks</div>
+        <div class="card-desc">Curated reading list with descriptions and dates</div>
+        <span class="card-tag">bookmark:BookmarkList</span>
+      </a>
+      <a class="card" href="schedule.html">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Schedule</div>
+        <div class="card-desc">Series of monthly events on a timeline</div>
+        <span class="card-tag">schema:EventSeries</span>
+      </a>
+      <a class="card" href="trip.html">
+        <div class="card-icon">✈</div>
+        <div class="card-title">Trip</div>
+        <div class="card-desc">Train journey with itinerary legs</div>
+        <span class="card-tag">schema:Trip</span>
+      </a>
+      <a class="card" href="contacts.html">
+        <div class="card-icon">📇</div>
+        <div class="card-title">Contacts</div>
+        <div class="card-desc">Address book with team members</div>
+        <span class="card-tag">vcard:AddressBook</span>
+      </a>
+      <a class="card" href="gallery.html">
+        <div class="card-icon">🖼</div>
+        <div class="card-title">Gallery</div>
+        <div class="card-desc">Photo gallery from community events</div>
+        <span class="card-tag">schema:ImageGallery</span>
+      </a>
+    </div>
+
+    <h2>External panes</h2>
+    <div class="grid">
+      <a class="card" href="recipe.html">
+        <div class="card-icon">🍳</div>
+        <div class="card-title">Recipe</div>
+        <div class="card-desc">Custom pane loaded via <code>&lt;script data-pane&gt;</code></div>
+        <span class="card-tag external">data-pane</span>
+      </a>
+      <a class="card" href="vc.html">
+        <div class="card-icon">🛡</div>
+        <div class="card-title">Credential</div>
+        <div class="card-desc">Verifiable Credential with issuer and subject</div>
+        <span class="card-tag external">data-pane</span>
+      </a>
+    </div>
+
+    <footer>
+      <a href="https://github.com/mashlib-next/mashlib-next">GitHub</a> · <a href="https://www.npmjs.com/package/mashlib-next">npm</a> · <a href="https://mashlib.com">mashlib.com</a>
+    </footer>
+  </div>
 </body>
 </html>

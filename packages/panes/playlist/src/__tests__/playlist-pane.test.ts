@@ -5,7 +5,7 @@ import { playlistPane } from '../playlist-pane.js'
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const OLO = Namespace('http://purl.org/ontology/olo/core#')
 const DC = Namespace('http://purl.org/dc/elements/1.1/')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 
 function buildPlaylistStore() {
   const store = graph()

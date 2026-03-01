@@ -4,7 +4,7 @@ import type { IndexedFormula } from 'rdflib'
 import { videoPane } from '../video-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const DCT = Namespace('http://purl.org/dc/terms/')
 
 describe('videoPane', () => {

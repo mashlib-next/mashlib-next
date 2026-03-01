@@ -5,7 +5,7 @@ import { imagePane } from '../image-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const DCT = Namespace('http://purl.org/dc/terms/')
 
 describe('imagePane', () => {

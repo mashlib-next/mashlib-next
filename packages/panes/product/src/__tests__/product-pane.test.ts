@@ -4,7 +4,7 @@ import type { IndexedFormula } from 'rdflib'
 import { productPane } from '../product-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 
 describe('productPane', () => {

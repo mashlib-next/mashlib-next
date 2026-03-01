@@ -5,7 +5,7 @@ import { transactionPane } from '../transaction-pane.js'
 
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const QU = Namespace('http://www.w3.org/ns/pim/transaction#')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const DCT = Namespace('http://purl.org/dc/terms/')
 const RDFS = Namespace('http://www.w3.org/2000/01/rdf-schema#')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')

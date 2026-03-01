@@ -5,7 +5,7 @@ import { profilePane } from '../profile-pane.js'
 const RDF = Namespace('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 const FOAF = Namespace('http://xmlns.com/foaf/0.1/')
 const VCARD = Namespace('http://www.w3.org/2006/vcard/ns#')
-const SCHEMA = Namespace('http://schema.org/')
+const SCHEMA = Namespace('https://schema.org/')
 const SOLID = Namespace('http://www.w3.org/ns/solid/terms#')
 const ORG = Namespace('http://www.w3.org/ns/org#')
 const RDFS = Namespace('http://www.w3.org/2000/01/rdf-schema#')

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "vcard": "http://www.w3.org/2006/vcard/ns#",
+      "schema": "https://schema.org/"
+    },
+    "@id": "",
+    "@type": "foaf:Person",
+    "foaf:name": "Alice Doe",
+    "foaf:nick": "alice",
+    "foaf:img": { "@id": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" },
+    "foaf:mbox": { "@id": "mailto:alice@example.org" },
+    "foaf:homepage": { "@id": "https://alice.example.org" },
+    "vcard:role": "Software Engineer",
+    "vcard:organization-name": "Solid Labs",
+    "schema:description": "Building the decentralized web, one triple at a time."
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
