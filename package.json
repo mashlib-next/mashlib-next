@@ -1,6 +1,6 @@
 {
   "name": "mashlib-next",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "Solid data browser — drop-in replacement for mashlib",
   "license": "AGPL-3.0-or-later",
@@ -9,7 +9,10 @@
   "main": "mashlib.js",
   "files": [
     "mashlib.js",
-    "mashlib.css"
+    "mashlib.css",
+    "shim-*.js",
+    "jsonld-*.js",
+    "marked.esm-*.js"
   ],
   "scripts": {
     "dev": "pnpm --filter @mashlib-next/shell dev",
