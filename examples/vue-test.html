@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vue Pane PoC</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "schema": "https://schema.org/",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    "@id": "",
+    "@type": "foaf:Person",
+    "foaf:name": "Alan Turing",
+    "foaf:mbox": { "@id": "mailto:alan@example.org" },
+    "schema:jobTitle": "Mathematician & computer science pioneer",
+    "foaf:img": { "@id": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Alan_Turing_Aged_16.jpg/440px-Alan_Turing_Aged_16.jpg" },
+    "foaf:homepage": { "@id": "https://en.wikipedia.org/wiki/Alan_Turing" }
+  }
+  </script>
+  <script type="module" data-pane src="vue-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
