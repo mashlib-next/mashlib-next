@@ -1,0 +1,38 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc:     <http://purl.org/dc/elements/1.1/> .
+@prefix olo:    <http://purl.org/ontology/olo/core#> .
+@prefix pbo:    <http://purl.org/ontology/pbo/core#> .
+@prefix schema: <http://schema.org/> .
+
+<#myPlaylist>
+    a olo:OrderedList, pbo:Playlist ;
+    dc:title "Tim's Demo Playlist" ;
+    olo:length 3 ;
+    olo:slot <#slot1>, <#slot2>, <#slot3> .
+
+<#slot1>
+    olo:index 1 ;
+    olo:item <#track1> .
+
+<#track1>
+    a pbo:Track ;
+    dc:title "Web We Want - Tim Berners-Lee" ;
+    schema:video "https://www.youtube.com/watch?v=OM6XIICm_qo" .
+
+<#slot2>
+    olo:index 2 ;
+    olo:item <#track2> .
+
+<#track2>
+    a pbo:Track ;
+    dc:title "Tim Berners-Lee: The next web" ;
+    schema:video "https://www.youtube.com/watch?v=J8hzJxb0rpc" .
+
+<#slot3>
+    olo:index 3 ;
+    olo:item <#track3> .
+
+<#track3>
+    a pbo:Track ;
+    dc:title "The Next Web" ;
+    schema:contentUrl "https://www.w3.org/2009/Talks/0427-timbl-tv/timbl-tv.mp4" .

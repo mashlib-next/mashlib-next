@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schedule Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:EventSeries",
+    "schema:name": "Solid World 2026",
+    "schema:description": "Monthly community calls for the Solid ecosystem throughout 2026.",
+    "schema:event": [
+      {
+        "@id": "#jan",
+        "@type": "schema:Event",
+        "schema:name": "Solid World — January",
+        "schema:startDate": "2026-01-09T16:00:00Z",
+        "schema:endDate": "2026-01-09T17:00:00Z",
+        "schema:description": "Kickoff: 2026 roadmap and community goals."
+      },
+      {
+        "@id": "#feb",
+        "@type": "schema:Event",
+        "schema:name": "Solid World — February",
+        "schema:startDate": "2026-02-06T16:00:00Z",
+        "schema:endDate": "2026-02-06T17:00:00Z",
+        "schema:description": "Demo day: new apps built on Solid pods."
+      },
+      {
+        "@id": "#mar",
+        "@type": "schema:Event",
+        "schema:name": "Solid World — March",
+        "schema:startDate": "2026-03-05T16:00:00Z",
+        "schema:endDate": "2026-03-05T17:00:00Z",
+        "schema:description": "mashlib-next and the future of data browsers."
+      },
+      {
+        "@id": "#apr",
+        "@type": "schema:Event",
+        "schema:name": "Solid World — April",
+        "schema:startDate": "2026-04-02T16:00:00Z",
+        "schema:endDate": "2026-04-02T17:00:00Z",
+        "schema:description": "Interoperability: making Solid apps work together."
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

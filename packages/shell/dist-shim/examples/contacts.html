@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contacts Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "vcard": "http://www.w3.org/2006/vcard/ns#",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    "@id": "",
+    "@type": "vcard:AddressBook",
+    "vcard:fn": "Solid Team Contacts",
+    "vcard:hasMember": [
+      {
+        "@type": "vcard:Individual",
+        "vcard:fn": "Alice Chen",
+        "vcard:hasEmail": { "@id": "mailto:alice@example.org" },
+        "vcard:role": "Lead Developer",
+        "vcard:organization-name": "Solid Labs"
+      },
+      {
+        "@type": "vcard:Individual",
+        "vcard:fn": "Bob Martinez",
+        "vcard:hasEmail": { "@id": "mailto:bob@example.org" },
+        "vcard:role": "UX Designer",
+        "vcard:organization-name": "Solid Labs"
+      },
+      {
+        "@type": "vcard:Individual",
+        "vcard:fn": "Carol Okonkwo",
+        "vcard:hasEmail": { "@id": "mailto:carol@example.org" },
+        "vcard:role": "Community Manager",
+        "vcard:organization-name": "Solid Project"
+      },
+      {
+        "@type": "vcard:Individual",
+        "vcard:fn": "David Kim",
+        "vcard:hasEmail": { "@id": "mailto:david@example.org" },
+        "vcard:role": "Backend Engineer",
+        "vcard:organization-name": "Inrupt"
+      },
+      {
+        "@type": "vcard:Individual",
+        "vcard:fn": "Eva Johansson",
+        "vcard:hasEmail": { "@id": "mailto:eva@example.org" },
+        "vcard:role": "Spec Editor",
+        "vcard:organization-name": "W3C"
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

@@ -8707,7 +8707,7 @@ function Dd(n, e) {
 }
 async function Wl(n, e, t) {
   const r = t && Object.prototype.hasOwnProperty.call(t, "termType") ? t.value : t;
-  return (await (await import("./jsonld-Z1_YhfTA.js").then((a) => a.j)).default.flatten(JSON.parse(n), null, {
+  return (await (await import("./jsonld-B5wruJ9w.js").then((a) => a.j)).default.flatten(JSON.parse(n), null, {
     base: r
   })).reduce((a, l) => Vl(a, t, l), e);
 }
@@ -15480,7 +15480,7 @@ function ul(n, e, t, r, i) {
   }
 }
 Fe(tf);
-const me = Ne("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), at = Ne("http://www.w3.org/2000/01/rdf-schema#"), tt = Ne("http://purl.org/dc/elements/1.1/"), de = Ne("http://purl.org/dc/terms/"), be = Ne("http://xmlns.com/foaf/0.1/"), et = Ne("http://www.w3.org/ns/ldp#"), nn = Ne("http://www.w3.org/ns/solid/terms#"), cl = Ne("http://www.w3.org/ns/posix/stat#"), we = Ne("http://www.w3.org/2006/vcard/ns#"), dr = Ne("http://www.w3.org/ns/pim/space#"), vt = Ne("http://www.w3.org/ns/auth/acl#"), yt = Ne("http://www.w3.org/ns/ui#"), Rt = Ne("http://rdfs.org/sioc/ns#"), Mt = Ne("http://www.w3.org/ns/pim/meeting#"), wt = Ne("http://www.w3.org/2005/01/wf/flow#"), gt = Ne("http://www.w3.org/ns/pim/transaction#"), Ci = Ne("http://www.w3.org/ns/pim/tracker#"), ze = Ne("https://www.w3.org/ns/activitystreams#"), Pn = Ne("http://www.w3.org/2002/01/bookmark#"), si = Ne("http://www.w3.org/ns/org#"), Da = Ne("http://www.w3.org/ns/pim/pad#"), wa = Ne("http://rdfs.org/sioc/types#"), Lr = Ne("http://purl.org/ontology/olo/core#"), rf = Ne("http://purl.org/ontology/pbo/core#"), af = Ne("http://purl.org/ontology/mo/"), B = Ne("http://schema.org/");
+const me = Ne("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), at = Ne("http://www.w3.org/2000/01/rdf-schema#"), tt = Ne("http://purl.org/dc/elements/1.1/"), de = Ne("http://purl.org/dc/terms/"), be = Ne("http://xmlns.com/foaf/0.1/"), et = Ne("http://www.w3.org/ns/ldp#"), nn = Ne("http://www.w3.org/ns/solid/terms#"), cl = Ne("http://www.w3.org/ns/posix/stat#"), we = Ne("http://www.w3.org/2006/vcard/ns#"), dr = Ne("http://www.w3.org/ns/pim/space#"), vt = Ne("http://www.w3.org/ns/auth/acl#"), yt = Ne("http://www.w3.org/ns/ui#"), Rt = Ne("http://rdfs.org/sioc/ns#"), Mt = Ne("http://www.w3.org/ns/pim/meeting#"), wt = Ne("http://www.w3.org/2005/01/wf/flow#"), gt = Ne("http://www.w3.org/ns/pim/transaction#"), Ci = Ne("http://www.w3.org/ns/pim/tracker#"), ze = Ne("https://www.w3.org/ns/activitystreams#"), Pn = Ne("http://www.w3.org/2002/01/bookmark#"), si = Ne("http://www.w3.org/ns/org#"), Da = Ne("http://www.w3.org/ns/pim/pad#"), wa = Ne("http://rdfs.org/sioc/types#"), Lr = Ne("http://purl.org/ontology/olo/core#"), rf = Ne("http://purl.org/ontology/pbo/core#"), af = Ne("http://purl.org/ontology/mo/"), B = Ne("https://schema.org/");
 function sf(n) {
   const e = n.indexOf("#");
   return e >= 0 ? n.slice(e + 1) : "";

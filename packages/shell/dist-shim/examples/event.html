@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Event Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:Event",
+    "schema:name": "Solid World — March 2026",
+    "schema:description": "Monthly community call for the Solid ecosystem. Learn about the latest developments, demo new apps, and connect with builders from around the world. This month: mashlib-next and the future of data browsers.",
+    "schema:image": { "@id": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=640&q=80" },
+    "schema:startDate": "2026-03-05T16:00:00Z",
+    "schema:endDate": "2026-03-05T17:00:00Z",
+    "schema:eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+    "schema:eventStatus": "https://schema.org/EventScheduled",
+    "schema:location": {
+      "@type": "schema:VirtualLocation",
+      "schema:name": "Zoom"
+    },
+    "schema:organizer": {
+      "@type": "schema:Organization",
+      "schema:name": "Solid Project"
+    },
+    "schema:url": { "@id": "https://solidproject.org/events" }
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
