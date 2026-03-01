@@ -7,16 +7,11 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/shim.ts'),
       name: 'mashlib',
       fileName: () => 'mashlib.js',
-      formats: ['iife'],
+      formats: ['es'],
       cssFileName: 'mashlib',
     },
     outDir: 'dist-shim',
     cssCodeSplit: false,
-    rollupOptions: {
-      output: {
-        inlineDynamicImports: true,
-      },
-    },
   },
   resolve: {
     alias: {

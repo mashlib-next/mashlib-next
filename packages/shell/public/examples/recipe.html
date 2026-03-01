@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recipe Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:Recipe",
+    "schema:name": "Grandma's Pasta Aglio e Olio",
+    "schema:description": "Simple Roman pasta with garlic, olive oil, and chili flakes.",
+    "schema:prepTime": "5 min",
+    "schema:cookTime": "15 min",
+    "schema:recipeIngredient": [
+      "400g spaghetti",
+      "6 cloves garlic, sliced",
+      "100ml extra virgin olive oil",
+      "1 tsp chili flakes",
+      "Fresh parsley, chopped",
+      "Parmesan to serve"
+    ],
+    "schema:recipeInstructions": "Cook spaghetti until al dente. Meanwhile, gently fry sliced garlic in olive oil until golden. Add chili flakes. Toss drained pasta in the garlic oil. Finish with parsley and parmesan."
+  }
+  </script>
+  <script type="module" data-pane src="recipe-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

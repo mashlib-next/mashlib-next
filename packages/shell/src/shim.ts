@@ -9,6 +9,7 @@
  *   <script src="mashlib.js"></script>
  */
 import { loadResource, initAuth, onAuthChange, session, loadFromStore } from './app.js'
+import { register } from '@mashlib-next/pane-registry'
 import { NAVIGATE_EVENT } from '@mashlib-next/utils'
 import type { NavigateDetail } from '@mashlib-next/utils'
 import { labelFromUri } from '@mashlib-next/utils'
@@ -165,6 +166,28 @@ window.addEventListener('popstate', () => {
   }
 })
 
+// --- Expose register globally for external panes ---
+;(window as any).mashlib = { register }
+
+// --- Load external panes from <script data-pane src="..."> ---
+async function loadExternalPanes(): Promise<void> {
+  const scripts = document.querySelectorAll('script[data-pane]')
+  const imports = Array.from(scripts).map(async (el) => {
+    const src = (el as HTMLScriptElement).src
+    if (!src) return
+    try {
+      const mod = await import(/* @vite-ignore */ src)
+      const pane = mod.default || mod.pane
+      if (pane && typeof pane.canHandle === 'function') {
+        register(pane)
+      }
+    } catch {
+      // Skip panes that fail to load
+    }
+  })
+  await Promise.all(imports)
+}
+
 // --- Init ---
 async function init(): Promise<void> {
   // Shim mode: use current page URL as the resource
@@ -172,6 +195,9 @@ async function init(): Promise<void> {
   const initialUri = params.get('uri') || window.location.href
 
   input.value = initialUri
+
+  // Load external panes before auth/render
+  await loadExternalPanes()
 
   await initAuth()
   updateAuthUI()
