@@ -230,35 +230,126 @@ main {
 }
 
 /* Playlist-specific styles */
+.playlist-container {
+  padding: 0.75rem;
+}
+
+.playlist-title {
+  margin: 0 0 0.75rem;
+}
+
+.playlist-media {
+  margin: 0;
+  max-width: 850px;
+  width: 100%;
+}
+
+.playlist-media iframe,
+.playlist-media video {
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 8px;
+}
+
+.playlist-caption {
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  color: #1a1a1a;
+}
+
+.playlist-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.playlist-nav-link {
+  color: #7C4DFF;
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+}
+
+.playlist-nav-link:hover {
+  background: #f3f0ff;
+}
+
+.playlist-nav-link:focus-visible {
+  outline: 2px solid #7C4DFF;
+  outline-offset: 2px;
+}
+
+.playlist-slot-info {
+  font-size: 0.9rem;
+  color: #666;
+}
+
 .playlist-tracks {
   list-style: none;
   counter-reset: track;
+  padding: 0;
+  margin: 0.75rem 0 0;
+  border-top: 1px solid #eee;
 }
 
 .playlist-track {
   counter-increment: track;
-  padding: 1rem 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.playlist-track::before {
-  content: counter(track) ". ";
-  font-weight: bold;
-  color: #7C3AED;
-}
-
-.track-title {
-  font-size: 1.1rem;
-}
-
-.track-video {
-  margin-top: 0.5rem;
-}
-
-.track-video iframe,
-.track-video video {
-  max-width: 100%;
+.playlist-track-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: left;
+  color: #333;
   border-radius: 4px;
+}
+
+.playlist-track-btn::before {
+  content: counter(track);
+  font-weight: 700;
+  color: #999;
+  min-width: 1.5em;
+  text-align: center;
+}
+
+.playlist-track-btn:hover {
+  background: #f8f7ff;
+}
+
+.playlist-track-btn:focus-visible {
+  outline: 2px solid #7C4DFF;
+  outline-offset: -2px;
+}
+
+.playlist-track--active .playlist-track-btn {
+  background: #f3f0ff;
+  font-weight: 600;
+  color: #7C4DFF;
+}
+
+.playlist-track--active .playlist-track-btn::before {
+  color: #7C4DFF;
 }
 
 /* Source pane styles */

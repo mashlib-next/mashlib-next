@@ -56,16 +56,25 @@ describe('playlistPane.canHandle', () => {
 })
 
 describe('playlistPane.render', () => {
-  it('renders track titles into the container', () => {
+  it('renders playlist container with title and tracks', () => {
     const { store, playlist } = buildPlaylistStore()
     const container = document.createElement('div')
     playlistPane.render(playlist, store, container)
 
-    expect(container.querySelector('h2')?.textContent).toBe('My Test Playlist')
+    expect(container.querySelector('.playlist-title')?.textContent).toBe('My Test Playlist')
     const items = container.querySelectorAll('.playlist-track')
     expect(items).toHaveLength(2)
-    expect(items[0].querySelector('.track-title')?.textContent).toBe('First Track')
-    expect(items[1].querySelector('.track-title')?.textContent).toBe('Second Track')
+  })
+
+  it('renders track list with clickable buttons', () => {
+    const { store, playlist } = buildPlaylistStore()
+    const container = document.createElement('div')
+    playlistPane.render(playlist, store, container)
+
+    const buttons = container.querySelectorAll('.playlist-track-btn')
+    expect(buttons).toHaveLength(2)
+    expect(buttons[0].textContent).toBe('First Track')
+    expect(buttons[1].textContent).toBe('Second Track')
   })
 
   it('embeds YouTube video for tracks with video URL', () => {
@@ -76,6 +85,51 @@ describe('playlistPane.render', () => {
     const iframe = container.querySelector('iframe')
     expect(iframe).not.toBeNull()
     expect(iframe?.src).toContain('youtube-nocookie.com/embed/dQw4w9WgXcQ')
+  })
+
+  it('wraps media in a figure element', () => {
+    const { store, playlist } = buildPlaylistStore()
+    const container = document.createElement('div')
+    playlistPane.render(playlist, store, container)
+
+    const figure = container.querySelector('figure.playlist-media')
+    expect(figure).not.toBeNull()
+    expect(figure?.querySelector('figcaption')?.textContent).toBe('First Track')
+  })
+
+  it('has prev/next navigation', () => {
+    const { store, playlist } = buildPlaylistStore()
+    const container = document.createElement('div')
+    playlistPane.render(playlist, store, container)
+
+    const nav = container.querySelector('nav.playlist-nav')
+    expect(nav).not.toBeNull()
+    expect(nav?.getAttribute('aria-label')).toBe('Playlist navigation')
+
+    const buttons = nav?.querySelectorAll('.playlist-nav-link')
+    expect(buttons).toHaveLength(2)
+    expect(buttons?.[0].getAttribute('aria-label')).toBe('Previous track')
+    expect(buttons?.[1].getAttribute('aria-label')).toBe('Next track')
+  })
+
+  it('has container with proper ARIA', () => {
+    const { store, playlist } = buildPlaylistStore()
+    const container = document.createElement('div')
+    playlistPane.render(playlist, store, container)
+
+    const wrapper = container.querySelector('.playlist-container')
+    expect(wrapper?.getAttribute('role')).toBe('region')
+    expect(wrapper?.getAttribute('aria-label')).toBe('My Test Playlist')
+  })
+
+  it('marks first track as active', () => {
+    const { store, playlist } = buildPlaylistStore()
+    const container = document.createElement('div')
+    playlistPane.render(playlist, store, container)
+
+    const active = container.querySelector('.playlist-track--active')
+    expect(active).not.toBeNull()
+    expect(active?.querySelector('.playlist-track-btn')?.textContent).toBe('First Track')
   })
 
   it('renders empty message when no tracks', () => {
