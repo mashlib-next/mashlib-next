@@ -41,24 +41,29 @@ describe('markdownPane', () => {
   })
 
   describe('render', () => {
-    it('renders markdown from solid:content triple', () => {
+    it('renders markdown from solid:content triple', async () => {
       const subject = sym('https://example.com/README.md')
       store.add(subject, SOLID('content'), lit('# Hello\n\nThis is **bold**.'), subject.doc())
 
       const container = document.createElement('div')
       markdownPane.render(subject, store, container)
 
+      // Wait for dynamic import('marked') to resolve
+      await new Promise(r => setTimeout(r, 50))
+
       const view = container.querySelector('.markdown-view')!
       expect(view.querySelector('h1')!.textContent).toBe('Hello')
       expect(view.querySelector('strong')!.textContent).toBe('bold')
     })
 
-    it('renders markdown from dct:content triple', () => {
+    it('renders markdown from dct:content triple', async () => {
       const subject = sym('https://example.com/README.md')
       store.add(subject, DCT('content'), lit('- item one\n- item two'), subject.doc())
 
       const container = document.createElement('div')
       markdownPane.render(subject, store, container)
+
+      await new Promise(r => setTimeout(r, 50))
 
       const view = container.querySelector('.markdown-view')!
       const items = view.querySelectorAll('li')

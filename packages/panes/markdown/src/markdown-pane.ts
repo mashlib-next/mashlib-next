@@ -1,6 +1,5 @@
 import type { Pane } from '@mashlib-next/pane-registry'
 import type { NamedNode, Store } from '@mashlib-next/store'
-import { marked } from 'marked'
 
 const MARKDOWN_EXTENSIONS = ['.md', '.markdown', '.mdown', '.mkd', '.mkdn']
 
@@ -55,35 +54,34 @@ export const markdownPane: Pane = {
 
     const wrapper = document.createElement('div')
     wrapper.className = 'markdown-view'
+    container.appendChild(wrapper)
 
     const sourceText = getSourceText(subject, store)
+    const textPromise = sourceText
+      ? Promise.resolve(sourceText)
+      : fetch(subject.value)
+          .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`)
+            return res.text()
+          })
 
-    if (sourceText) {
-      wrapper.innerHTML = marked.parse(sourceText) as string
-    } else {
-      // If we can't extract the text from the store, fetch it directly
+    if (!sourceText) {
       const fallback = document.createElement('p')
       fallback.className = 'loading'
       fallback.textContent = 'Loading markdown...'
       wrapper.appendChild(fallback)
-
-      fetch(subject.value)
-        .then(res => {
-          if (!res.ok) throw new Error(`HTTP ${res.status}`)
-          return res.text()
-        })
-        .then(text => {
-          wrapper.innerHTML = marked.parse(text) as string
-        })
-        .catch(() => {
-          wrapper.innerHTML = ''
-          const err = document.createElement('p')
-          err.className = 'error'
-          err.textContent = 'Failed to load markdown content.'
-          wrapper.appendChild(err)
-        })
     }
 
-    container.appendChild(wrapper)
+    Promise.all([textPromise, import('marked')])
+      .then(([text, { marked }]) => {
+        wrapper.innerHTML = marked.parse(text) as string
+      })
+      .catch(() => {
+        wrapper.innerHTML = ''
+        const err = document.createElement('p')
+        err.className = 'error'
+        err.textContent = 'Failed to load markdown content.'
+        wrapper.appendChild(err)
+      })
   },
 }
