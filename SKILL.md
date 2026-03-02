@@ -77,6 +77,17 @@ A complete example has three parts: data, pane, and shell.
 </html>
 ```
 
+### Headless mode (no header chrome)
+
+To embed just the pane viewer without the header, URL bar, or auth controls, add `data-chrome="hidden"` to the container:
+
+```html
+<div id="mashlib" data-chrome="hidden"></div>
+<script type="module" src="https://mashlib.com/mashlib.js"></script>
+```
+
+Navigation still works via `?uri=` query params and the `mashlib:navigate` custom event. See `examples/headless.html` for a complete example.
+
 ### 2. The pane file (my-pane.js)
 
 ```js
@@ -291,7 +302,7 @@ No `package.json`, no build, no dependencies. Open `index.html` in a browser (vi
 - [ ] JSON-LD data island with `@context`, `@id`, and `@type`
 - [ ] Pane file with `canHandle` and `render` exported as default
 - [ ] `<script type="module" data-pane src="my-pane.js">` before the mashlib script
-- [ ] `<div id="mashlib"></div>` as the render target
+- [ ] `<div id="mashlib"></div>` as the render target (add `data-chrome="hidden"` for headless mode)
 - [ ] `<script type="module" src="https://mashlib.com/mashlib.js">` loads the shell
 - [ ] `canHandle` checks `subject.termType === 'NamedNode'`
 - [ ] `render` only uses the `container` DOM element — no globals
