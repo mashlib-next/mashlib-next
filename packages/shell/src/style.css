@@ -4,6 +4,51 @@
   padding: 0;
 }
 
+/* === Skip navigation === */
+.skip-nav {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: #7C3AED;
+  color: white;
+  border-radius: 0 0 8px 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s;
+}
+
+.skip-nav:focus {
+  top: 0;
+}
+
+/* === Screen reader only === */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* === Global focus styles === */
+:focus-visible {
+  outline: 2px solid #7C3AED;
+  outline-offset: 2px;
+}
+
+/* Focus styles for elements on the gradient header */
+header :focus-visible {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   line-height: 1.6;
@@ -109,7 +154,8 @@ header h1 svg {
 
 #url-input:focus {
   border-color: white;
-  box-shadow: 0 0 0 3px rgba(255,255,255,0.2);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.45);
+  outline: none;
 }
 
 #url-form button {
@@ -140,7 +186,7 @@ header h1 svg {
 
 .quick-links-label {
   font-size: 0.8rem;
-  opacity: 0.7;
+  opacity: 0.9;
   margin-right: 0.1rem;
 }
 
@@ -235,7 +281,7 @@ main {
 }
 
 .error {
-  color: #dc3545;
+  color: #c82333;
   padding: 1rem;
   background: #fff5f5;
   border: 1px solid #dc3545;
@@ -347,7 +393,7 @@ main {
 .playlist-track-btn::before {
   content: counter(track);
   font-weight: 700;
-  color: #999;
+  color: #6b7280;
   min-width: 1.5em;
   text-align: center;
 }
@@ -428,7 +474,7 @@ main {
 .source-editor:focus {
   outline: none;
   border-color: #6D28D9;
-  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
 }
 
 .source-status {
@@ -590,7 +636,7 @@ main {
 }
 
 .folder-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -609,7 +655,7 @@ main {
 }
 
 .folder-breadcrumb-sep {
-  color: #ccc;
+  color: #9ca3af;
 }
 
 .folder-breadcrumb-current {
@@ -681,7 +727,7 @@ main {
 .folder-create-input:focus {
   outline: none;
   border-color: #7C3AED;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
 }
 
 .folder-create-status {
@@ -803,13 +849,13 @@ main {
 
 .profile-webid {
   font-size: 0.8rem;
-  color: #999;
+  color: #6b7280;
   margin-bottom: 1.5rem;
   word-break: break-all;
 }
 
 .profile-webid a {
-  color: #999;
+  color: #6b7280;
 }
 
 .profile-details {
@@ -877,7 +923,7 @@ main {
 }
 
 .profile-pronouns {
-  color: #888;
+  color: #6b7280;
   font-size: 0.9rem;
   margin-bottom: 0.25rem;
 }
@@ -922,7 +968,7 @@ main {
 }
 
 .profile-role-dates {
-  color: #999;
+  color: #6b7280;
   font-size: 0.85rem;
   margin-left: 0.5rem;
 }
@@ -1027,7 +1073,7 @@ main {
 .profile-field-input:focus {
   outline: none;
   border-color: #7C3AED;
-  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
 }
 
 textarea.profile-field-input {
@@ -1312,7 +1358,7 @@ textarea.profile-field-input {
 }
 
 .article-date {
-  color: #999;
+  color: #6b7280;
 }
 
 .article-image {
@@ -1339,7 +1385,7 @@ textarea.profile-field-input {
 }
 
 .article-publisher {
-  color: #999;
+  color: #6b7280;
   font-size: 0.85rem;
   margin-top: 1.5rem;
   padding-top: 1rem;
@@ -1407,7 +1453,7 @@ textarea.profile-field-input {
 }
 
 .map-no-coords {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
   margin-top: 0.5rem;
 }
@@ -1483,7 +1529,7 @@ textarea.profile-field-input {
 }
 
 .bookmarks-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -1511,7 +1557,7 @@ textarea.profile-field-input {
 
 .bookmark-url {
   display: block;
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
   word-break: break-all;
   margin-bottom: 0.2rem;
@@ -1545,7 +1591,7 @@ textarea.profile-field-input {
 }
 
 .activity-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -1595,7 +1641,7 @@ textarea.profile-field-input {
 
 .activity-time {
   display: block;
-  color: #999;
+  color: #6b7280;
   font-size: 0.75rem;
   margin-top: 0.3rem;
 }
@@ -1617,7 +1663,7 @@ textarea.profile-field-input {
 }
 
 .chat-creator {
-  color: #888;
+  color: #6b7280;
   font-size: 0.85rem;
   margin-bottom: 0.1rem;
 }
@@ -1628,7 +1674,7 @@ textarea.profile-field-input {
 }
 
 .chat-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
   padding: 1rem 0;
 }
@@ -1696,7 +1742,7 @@ textarea.profile-field-input {
 }
 
 .chat-time {
-  color: #999;
+  color: #6b7280;
   font-size: 0.75rem;
 }
 
@@ -1758,7 +1804,7 @@ textarea.profile-field-input {
 }
 
 .contacts-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -1850,7 +1896,7 @@ textarea.profile-field-input {
 }
 
 .contact-note {
-  color: #888;
+  color: #6b7280;
   font-size: 0.8rem;
   font-style: italic;
   margin-top: 0.2rem;
@@ -1868,7 +1914,7 @@ textarea.profile-field-input {
 .contacts-search:focus {
   outline: none;
   border-color: #7C3AED;
-  box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1);
+  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
 }
 
 .contacts-groups {
@@ -1920,7 +1966,7 @@ textarea.profile-field-input {
 }
 
 .table-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -1983,7 +2029,7 @@ textarea.profile-field-input {
 }
 
 .table-more {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
   font-style: italic;
   margin-top: 0.5rem;
@@ -2011,7 +2057,7 @@ textarea.profile-field-input {
 }
 
 .gallery-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -2153,7 +2199,7 @@ textarea.profile-field-input {
 .code-line-number {
   text-align: right;
   padding: 0 0.75rem;
-  color: #aaa;
+  color: #6b7280;
   user-select: none;
   white-space: nowrap;
   vertical-align: top;
@@ -2184,7 +2230,7 @@ textarea.profile-field-input {
 }
 
 .code-error {
-  color: #dc3545;
+  color: #c82333;
 }
 
 /* Transaction pane styles */
@@ -2210,7 +2256,7 @@ textarea.profile-field-input {
 }
 
 .txn-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -2270,11 +2316,19 @@ textarea.profile-field-input {
 }
 
 .txn-negative {
-  color: #dc3545;
+  color: #c82333;
+}
+
+.txn-negative::before {
+  content: "\2212 ";
 }
 
 .txn-positive {
   color: #1a7f37;
+}
+
+.txn-positive::before {
+  content: "+ ";
 }
 
 /* Single transaction detail view */
@@ -2410,7 +2464,7 @@ textarea.profile-field-input {
 }
 
 .notif-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -2460,7 +2514,7 @@ textarea.profile-field-input {
 
 .notif-time {
   display: block;
-  color: #999;
+  color: #6b7280;
   font-size: 0.75rem;
   margin-top: 0.3rem;
 }
@@ -2645,7 +2699,7 @@ textarea.profile-field-input {
 }
 
 .tracker-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -2821,7 +2875,7 @@ textarea.profile-field-input {
 }
 
 .recipe-author {
-  color: #999;
+  color: #6b7280;
   font-size: 0.85rem;
   margin-top: 1rem;
   font-style: italic;
@@ -2891,7 +2945,7 @@ textarea.profile-field-input {
 }
 
 .product-sku {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
 }
@@ -2925,7 +2979,7 @@ textarea.profile-field-input {
 }
 
 .sched-count {
-  color: #888;
+  color: #6b7280;
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
@@ -3051,7 +3105,7 @@ textarea.profile-field-input {
 }
 
 .sched-event-location {
-  color: #888;
+  color: #6b7280;
   font-size: 0.85rem;
   margin-left: 0.5rem;
 }
@@ -3079,7 +3133,7 @@ textarea.profile-field-input {
 }
 
 .pad-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3118,7 +3172,7 @@ textarea.profile-field-input {
 }
 
 .pad-count {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
 }
 
@@ -3144,7 +3198,7 @@ textarea.profile-field-input {
 }
 
 .microblog-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3175,7 +3229,7 @@ textarea.profile-field-input {
 }
 
 .microblog-post-time {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
 }
 
@@ -3197,7 +3251,7 @@ textarea.profile-field-input {
 .microblog-char-count {
   display: block;
   text-align: right;
-  color: #ccc;
+  color: #9ca3af;
   font-size: 0.7rem;
   margin-top: 0.3rem;
 }
@@ -3232,7 +3286,7 @@ textarea.profile-field-input {
 }
 
 .outline-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3290,19 +3344,19 @@ textarea.profile-field-input {
 }
 
 .outline-lang {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
   margin-left: 0.25rem;
 }
 
 .outline-datatype {
-  color: #999;
+  color: #6b7280;
   font-size: 0.8rem;
   margin-left: 0.25rem;
 }
 
 .outline-blank {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3330,7 +3384,7 @@ textarea.profile-field-input {
 }
 
 .sharing-no-acl {
-  color: #888;
+  color: #6b7280;
   font-style: italic;
   margin-bottom: 1rem;
 }
@@ -3438,7 +3492,7 @@ textarea.profile-field-input {
 
 .form-empty,
 .form-no-fields {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3519,11 +3573,11 @@ textarea.profile-field-input {
 }
 
 .form-bool-false {
-  color: #dc3545;
+  color: #c82333;
 }
 
 .form-bool-null {
-  color: #999;
+  color: #6b7280;
 }
 
 .form-comment {
@@ -3535,7 +3589,7 @@ textarea.profile-field-input {
 .form-heading {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #888;
+  color: #6b7280;
   margin: 0.75rem 0 0.25rem;
 }
 
@@ -3601,7 +3655,7 @@ textarea.profile-field-input {
 }
 
 .dashboard-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
 }
 
@@ -3655,7 +3709,7 @@ textarea.profile-field-input {
 }
 
 .trusted-apps-empty {
-  color: #999;
+  color: #6b7280;
   font-style: italic;
   margin-bottom: 1rem;
 }
@@ -3718,7 +3772,7 @@ textarea.profile-field-input {
 
 .trusted-apps-mode-inactive {
   background: #f0f0f0;
-  color: #999;
+  color: #6b7280;
 }
 
 .trusted-apps-notes {
@@ -3747,7 +3801,7 @@ footer {
   max-width: 900px;
   margin: 2rem auto 0;
   padding: 1rem 1.5rem;
-  color: #94a3b8;
+  color: #64748b;
   text-align: center;
   font-size: 0.85rem;
 }
