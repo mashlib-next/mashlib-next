@@ -15,7 +15,7 @@ body {
 header {
   background: linear-gradient(135deg, #7C3AED, #2563EB);
   color: white;
-  padding: 1.5rem 2rem;
+  padding: 1.75rem 2rem 1.25rem;
   margin-bottom: 1.5rem;
 }
 
@@ -23,12 +23,23 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.75rem;
 }
 
 header h1 {
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.65rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+header h1 svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.4));
+  position: relative;
+  top: -1px;
 }
 
 .header-tagline {
@@ -77,12 +88,13 @@ header h1 {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  margin-left: -2px;
 }
 
 #url-input {
   flex: 1;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
   border: 2px solid rgba(255,255,255,0.3);
   border-radius: 12px;
   background: rgba(255,255,255,0.15);
@@ -101,8 +113,8 @@ header h1 {
 }
 
 #url-form button {
-  padding: 0.6rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
   background: white;
   color: #7C3AED;
   font-weight: 600;
@@ -121,8 +133,15 @@ header h1 {
 #quick-links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
   margin-top: 0.75rem;
+}
+
+.quick-links-label {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-right: 0.1rem;
 }
 
 .quick-link {

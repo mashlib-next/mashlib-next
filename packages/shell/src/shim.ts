@@ -26,7 +26,7 @@ const headerRow = document.createElement('div')
 headerRow.id = 'header-row'
 
 const h1 = document.createElement('h1')
-h1.textContent = 'mashlib-next'
+h1.innerHTML = '<svg width="40" height="40" viewBox="0 0 100 100" aria-label="Solid" fill="none"><path d="M91 37.88Q98 50 91 62.12L81 79.45Q74 91.57 60 91.57L40 91.57Q26 91.57 19 79.45L9 62.12Q2 50 9 37.88L19 20.55Q26 8.43 40 8.43L60 8.43Q74 8.43 81 20.55Z" fill="#7C4DFF"/><g transform="translate(50 50) scale(.323) translate(-176 -161)"><path d="M118.47 142.23h117.53c1.48 0 2.65-1.2 2.65-2.65v-22.04c0-14.65-11.89-26.54-26.54-26.54h-70.57c-20.53-.03-37.16 16.6-37.16 37.13 0 7.83 6.27 14.1 14.08 14.1zM130 239.6h70.23c21.2 0 38.43-17.23 38.43-38.43 0-7.08-5.72-12.83-12.83-12.83H106.94c-1.46 0-2.55 1.17-2.55 2.55v23.05c-.03 14.18 11.48 25.66 25.6 25.66z" fill="#F7F7F7"/><path d="M109.6 139.32l87.66 87.66c5.8 5.8 15.2 5.8 21 0l15.2-15.2c5.8-5.8 5.8-15.2 0-21l-87.64-87.66c-5.8-5.8-15.2-5.8-21 0l-15.2 15.2c-5.85 5.8-5.85 15.22-.02 21z" fill="#F7F7F7"/></g></svg> SolidOS Browser'
 headerRow.appendChild(h1)
 
 // Auth controls
