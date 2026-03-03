@@ -25,6 +25,17 @@ A lightweight, modular [Solid](https://solidproject.org) data browser. Drop a si
 
 That's it. The shell parses the JSON-LD, finds matching panes, and renders tabs.
 
+### Headless mode
+
+To embed just the pane viewer without the header chrome (logo, URL bar, auth controls), add `data-chrome="hidden"`:
+
+```html
+<div id="mashlib" data-chrome="hidden"></div>
+<script type="module" src="https://mashlib.com/mashlib.js"></script>
+```
+
+Navigation still works via `?uri=` query params and the `mashlib:navigate` custom event.
+
 ## Pane API
 
 A pane is a plain JavaScript object with three properties:
@@ -124,9 +135,9 @@ See all panes in [`packages/panes/`](packages/panes/).
 
 ## Examples
 
-15 example pages at [mashlib.com/examples/](https://mashlib.com/examples/), each a self-contained HTML file with embedded JSON-LD. View source on any page to see how it works.
+16 example pages at [mashlib.com/examples/](https://mashlib.com/examples/), each a self-contained HTML file with embedded JSON-LD. View source on any page to see how it works.
 
-Includes two **external data-pane** examples (Recipe, Verifiable Credential) that load custom panes via `<script data-pane>`.
+Includes two **external data-pane** examples (Recipe, Verifiable Credential) that load custom panes via `<script data-pane>`, plus a **headless** example showing `data-chrome="hidden"` for embedding without the header.
 
 ## Development
 
