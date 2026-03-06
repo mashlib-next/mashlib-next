@@ -114,6 +114,7 @@ describe('sourcePane.render', () => {
     const subject = sym('http://example.org/doc#thing')
     store.add(subject, DC('title'), 'Hello', subject.doc())
     const fetcher = new Fetcher(store, {})
+    fetcher.requested[subject.doc().value] = true
     fetcher.webOperation = vi.fn().mockResolvedValue({ ok: true, status: 200 })
 
     const container = document.createElement('div')

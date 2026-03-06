@@ -10,6 +10,7 @@ const sourcePane = {
     const docUri = subject.doc();
     const stmts = store.match(null, null, null, docUri);
     const fetcher = store.fetcher;
+    const contentType = getContentType(docUri, store);
     const sourceText = getSourceText(stmts, docUri, store);
     const headerRow = document.createElement("div");
     headerRow.className = "source-header";
@@ -21,7 +22,7 @@ const sourcePane = {
       editBtn.className = "source-edit-btn";
       editBtn.textContent = "Edit";
       editBtn.addEventListener("click", () => {
-        showEditor(container, headerRow, sourceText, docUri, fetcher);
+        showEditor(container, headerRow, sourceText, docUri, fetcher, contentType);
       });
       headerRow.appendChild(editBtn);
     }
@@ -38,17 +39,21 @@ const sourcePane = {
     container.appendChild(pre);
   }
 };
+function getContentType(docUri, store) {
+  const fetched = store.fetcher?.requested?.[docUri.value];
+  return fetched ? "text/turtle" : "application/ld+json";
+}
 function getSourceText(stmts, docUri, store) {
   if (stmts.length === 0) return "";
   try {
-    return serialize(docUri, store, void 0, "text/turtle") ?? "";
+    return serialize(docUri, store, void 0, getContentType(docUri, store)) ?? "";
   } catch {
     return stmts.map(
       (st) => `<${st.subject.value}> <${st.predicate.value}> ${st.object.termType === "NamedNode" ? `<${st.object.value}>` : `"${st.object.value}"`} .`
     ).join("\n");
   }
 }
-function showEditor(container, headerRow, sourceText, docUri, fetcher) {
+function showEditor(container, headerRow, sourceText, docUri, fetcher, contentType) {
   while (headerRow.nextSibling) {
     headerRow.nextSibling.remove();
   }
@@ -85,7 +90,7 @@ function showEditor(container, headerRow, sourceText, docUri, fetcher) {
     try {
       const response = await fetcher.webOperation("PUT", docUri.value, {
         data: textarea.value,
-        contentType: "text/turtle"
+        contentType
       });
       if (!response.ok) {
         throw new Error(`${response.status} ${response.statusText}`);
@@ -93,7 +98,7 @@ function showEditor(container, headerRow, sourceText, docUri, fetcher) {
       status.textContent = "Saved!";
       status.className = "source-status source-status-ok";
       setTimeout(() => {
-        showViewer(container, headerRow, textarea.value, docUri, fetcher);
+        showViewer(container, headerRow, textarea.value, docUri, fetcher, contentType);
       }, 800);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -104,7 +109,7 @@ function showEditor(container, headerRow, sourceText, docUri, fetcher) {
     }
   });
 }
-function showViewer(container, headerRow, sourceText, docUri, fetcher) {
+function showViewer(container, headerRow, sourceText, docUri, fetcher, contentType) {
   while (headerRow.nextSibling) {
     headerRow.nextSibling.remove();
   }
@@ -114,7 +119,7 @@ function showViewer(container, headerRow, sourceText, docUri, fetcher) {
   editBtn.className = "source-edit-btn";
   editBtn.textContent = "Edit";
   editBtn.addEventListener("click", () => {
-    showEditor(container, headerRow, sourceText, docUri, fetcher);
+    showEditor(container, headerRow, sourceText, docUri, fetcher, contentType);
   });
   headerRow.appendChild(editBtn);
   if (!sourceText) {
