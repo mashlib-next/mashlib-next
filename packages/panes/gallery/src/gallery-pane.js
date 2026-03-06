@@ -44,6 +44,18 @@ function collectImages(subject, store) {
   }
   return Array.from(images);
 }
+function getM3uUrl(subject, store) {
+  const url = store.any(subject, SCHEMA("url"), null, null)?.value;
+  if (url && url.split("?")[0].split("#")[0].toLowerCase().endsWith(".m3u")) {
+    return new URL(url, subject.value).href;
+  }
+  return null;
+}
+function parseM3u(text) {
+  return text.split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && !l.startsWith("#"));
+}
 function isImageUri(uri) {
   const path = uri.split("?")[0].split("#")[0].toLowerCase();
   return IMAGE_EXTENSIONS.some((ext) => path.endsWith(ext));
@@ -69,5 +81,7 @@ const galleryPane = {
 };
 export {
   collectImages,
+  getM3uUrl,
+  parseM3u,
   galleryPane
 };

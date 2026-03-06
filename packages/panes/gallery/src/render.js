@@ -1,6 +1,6 @@
 import { SCHEMA, DCT } from "@mashlib-next/utils";
 import { labelFromUri } from "@mashlib-next/utils";
-import { collectImages } from "./gallery-pane.js";
+import { collectImages, getM3uUrl, parseM3u } from "./gallery-pane.js";
 function renderGallery(subject, store, container) {
   container.innerHTML = "";
   const wrapper = document.createElement("div");
@@ -18,6 +18,26 @@ function renderGallery(subject, store, container) {
     wrapper.appendChild(descEl);
   }
   const images = collectImages(subject, store);
+  const m3uUrl = getM3uUrl(subject, store);
+  if (m3uUrl && images.length === 0) {
+    const loading = document.createElement("p");
+    loading.className = "gallery-count";
+    loading.textContent = "Loading...";
+    wrapper.appendChild(loading);
+    container.appendChild(wrapper);
+    fetch(m3uUrl).then((res) => res.text()).then((text) => {
+      const urls = parseM3u(text);
+      loading.remove();
+      renderGrid(urls, wrapper);
+    }).catch(() => {
+      loading.textContent = "Failed to load playlist.";
+    });
+    return;
+  }
+  renderGrid(images, wrapper);
+  container.appendChild(wrapper);
+}
+function renderGrid(images, wrapper) {
   const countEl = document.createElement("p");
   countEl.className = "gallery-count";
   countEl.textContent = `${images.length} image${images.length !== 1 ? "s" : ""}`;
@@ -27,7 +47,6 @@ function renderGallery(subject, store, container) {
     empty.className = "gallery-empty";
     empty.textContent = "No images found.";
     wrapper.appendChild(empty);
-    container.appendChild(wrapper);
     return;
   }
   const grid = document.createElement("div");
@@ -47,7 +66,6 @@ function renderGallery(subject, store, container) {
     grid.appendChild(cell);
   }
   wrapper.appendChild(grid);
-  container.appendChild(wrapper);
 }
 function filenameFromUrl(url) {
   const path = url.split("?")[0].split("#")[0];
