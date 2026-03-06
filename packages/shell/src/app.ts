@@ -239,17 +239,13 @@ export async function loadFromStore(
 
   await Promise.all(jsonldBlocks.map(block => parseJsonLd(block, store, docUri)))
 
-  // Detect fragment subjects (e.g. #this) as primary topic
+  // Detect #this as primary topic (Solid/Linked Data convention)
   const entries: PaneEntry[] = []
-  const fragSubjects = store.statementsMatching(null, null, null, sym(docUri))
-    .map(st => st.subject)
-    .filter(s => s.termType === 'NamedNode' && s.value.startsWith(docUri + '#'))
-  const seen = new Set<string>()
-  for (const s of fragSubjects) {
-    if (seen.has(s.value)) continue
-    seen.add(s.value)
-    for (const pane of findMatchingPanes(s as ReturnType<typeof sym>, store)) {
-      entries.push({ pane, subject: s as ReturnType<typeof sym> })
+  const primaryTopic = sym(docUri + '#this')
+  const hasPrimaryTopic = store.statementsMatching(primaryTopic, null, null, sym(docUri)).length > 0
+  if (hasPrimaryTopic) {
+    for (const pane of findMatchingPanes(primaryTopic, store)) {
+      entries.push({ pane, subject: primaryTopic })
     }
   }
 

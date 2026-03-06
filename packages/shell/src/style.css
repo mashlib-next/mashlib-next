@@ -1652,24 +1652,27 @@ textarea.profile-field-input {
 }
 
 .chat-header {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #eee;
+  background: linear-gradient(135deg, #7c4dff, #448aff);
+  color: #fff;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
   margin-bottom: 0.5rem;
 }
 
 .chat-title {
   font-size: 1.5rem;
   margin-bottom: 0.15rem;
+  color: #fff;
 }
 
 .chat-creator {
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.85rem;
   margin-bottom: 0.1rem;
 }
 
 .chat-count {
-  color: #666;
+  color: rgba(255, 255, 255, 0.85);
   font-size: 0.9rem;
 }
 

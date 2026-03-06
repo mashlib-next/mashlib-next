@@ -82,9 +82,6 @@ function showLightbox(currentUrl, allImages, wrapper) {
   img.className = "gallery-lightbox-img";
   img.src = allImages[currentIndex];
   img.alt = "Full size image";
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) overlay.remove();
-  });
   if (allImages.length > 1) {
     const prev = document.createElement("button");
     prev.className = "gallery-lightbox-prev";
@@ -108,7 +105,25 @@ function showLightbox(currentUrl, allImages, wrapper) {
   const close = document.createElement("button");
   close.className = "gallery-lightbox-close";
   close.textContent = "\xD7";
-  close.addEventListener("click", () => overlay.remove());
+  close.addEventListener("click", () => cleanup());
+  function cleanup() {
+    overlay.remove();
+    document.removeEventListener("keydown", onKey);
+  }
+  function onKey(e) {
+    if (e.key === "Escape") { cleanup(); }
+    else if (e.key === "ArrowLeft" && allImages.length > 1) {
+      currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+      img.src = allImages[currentIndex];
+    } else if (e.key === "ArrowRight" && allImages.length > 1) {
+      currentIndex = (currentIndex + 1) % allImages.length;
+      img.src = allImages[currentIndex];
+    }
+  }
+  document.addEventListener("keydown", onKey);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) cleanup();
+  });
   overlay.appendChild(img);
   overlay.appendChild(close);
   wrapper.appendChild(overlay);
