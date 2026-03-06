@@ -32,10 +32,13 @@ const imagePane = {
     container.innerHTML = "";
     const wrapper = document.createElement("div");
     wrapper.className = "image-view";
+    const imgUrl = store.any(subject, SCHEMA("contentUrl"), null, null)?.value
+      ?? store.any(subject, SCHEMA("url"), null, null)?.value
+      ?? subject.value;
     const img = document.createElement("img");
     img.className = "image-main";
-    img.src = subject.value;
-    img.alt = labelFromUri(subject.value);
+    img.src = imgUrl;
+    img.alt = labelFromUri(imgUrl);
     img.addEventListener("error", () => {
       img.style.display = "none";
       const errMsg = document.createElement("p");
