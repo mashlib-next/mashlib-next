@@ -6,7 +6,6 @@ const PRODUCT_TYPES = [
   "SomeProducts",
   "Vehicle",
   "Car",
-  "CreativeWork",
   "SoftwareApplication",
   "Book",
   "Movie",

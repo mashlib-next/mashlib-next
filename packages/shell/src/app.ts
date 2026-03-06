@@ -61,26 +61,31 @@ function rebuildStore(): void {
   mashlibStore = createStore(fetchFn ? { fetch: fetchFn } : undefined)
 }
 
+/** A pane paired with the subject it should render. */
+interface PaneEntry {
+  pane: Pane
+  subject: ReturnType<typeof sym>
+}
+
 /**
  * Build the tab bar and render the active pane.
  */
 function renderTabs(
-  panes: Pane[],
-  subject: ReturnType<typeof sym>,
+  entries: PaneEntry[],
   container: HTMLElement,
   tabsNav: HTMLElement
 ): void {
   const { store } = mashlibStore
   tabsNav.innerHTML = ''
 
-  if (panes.length <= 1) {
+  if (entries.length <= 1) {
     tabsNav.hidden = true
   } else {
     tabsNav.hidden = false
   }
 
-  for (let i = 0; i < panes.length; i++) {
-    const pane = panes[i]
+  for (let i = 0; i < entries.length; i++) {
+    const { pane, subject } = entries[i]
     const btn = document.createElement('button')
     btn.className = 'pane-tab'
     btn.role = 'tab'
@@ -101,7 +106,7 @@ function renderTabs(
   }
 
   container.innerHTML = ''
-  panes[0].render(subject, store, container)
+  entries[0].pane.render(entries[0].subject, store, container)
 }
 
 // --- WebSocket live updates ---
@@ -194,10 +199,10 @@ async function reloadCurrentPane(
 
     // Try to stay on the same tab
     const matchIdx = panes.findIndex(p => `${p.icon} ${p.label}` === activeLabel)
-    const pane = matchIdx >= 0 ? panes[matchIdx] : panes[0]
+    const entry = matchIdx >= 0 ? { pane: panes[matchIdx], subject } : { pane: panes[0], subject }
 
     container.innerHTML = ''
-    pane.render(subject, mashlibStore.store, container)
+    entry.pane.render(entry.subject, mashlibStore.store, container)
   } catch {
     // Silent failure — next pub will retry
   }
@@ -234,10 +239,29 @@ export async function loadFromStore(
 
   await Promise.all(jsonldBlocks.map(block => parseJsonLd(block, store, docUri)))
 
-  const subject = sym(uri)
-  const panes = findMatchingPanes(subject, store)
+  // Detect fragment subjects (e.g. #this) as primary topic
+  const entries: PaneEntry[] = []
+  const fragSubjects = store.statementsMatching(null, null, null, sym(docUri))
+    .map(st => st.subject)
+    .filter(s => s.termType === 'NamedNode' && s.value.startsWith(docUri + '#'))
+  const seen = new Set<string>()
+  for (const s of fragSubjects) {
+    if (seen.has(s.value)) continue
+    seen.add(s.value)
+    for (const pane of findMatchingPanes(s as ReturnType<typeof sym>, store)) {
+      entries.push({ pane, subject: s as ReturnType<typeof sym> })
+    }
+  }
 
-  if (panes.length === 0) {
+  // Append document-level panes, skipping any already shown for #this
+  const usedLabels = new Set(entries.map(e => e.pane.label))
+  const docSubject = sym(docUri)
+  for (const pane of findMatchingPanes(docSubject, store)) {
+    if (usedLabels.has(pane.label)) continue
+    entries.push({ pane, subject: docSubject })
+  }
+
+  if (entries.length === 0) {
     container.innerHTML = `
       <div class="error">
         <p><strong>No pane available</strong> for this resource.</p>
@@ -247,7 +271,7 @@ export async function loadFromStore(
     return
   }
 
-  renderTabs(panes, subject, container, tabsNav)
+  renderTabs(entries, container, tabsNav)
 }
 
 /**
@@ -283,7 +307,7 @@ export async function loadResource(
       return
     }
 
-    renderTabs(panes, subject, container, tabsNav)
+    renderTabs(panes.map(pane => ({ pane, subject })), container, tabsNav)
 
     // Subscribe to live updates for this document
     const docUri = uri.replace(/#.*$/, '')
