@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:Product",
+    "schema:name": "Solid Pod — Personal Data Store",
+    "schema:description": "Your own personal data pod. Store your photos, contacts, calendar, and documents in a place you control. Works with any Solid-compatible app. GDPR-friendly by design.",
+    "schema:image": { "@id": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&q=80" },
+    "schema:brand": {
+      "@type": "schema:Brand",
+      "schema:name": "Solid Labs"
+    },
+    "schema:sku": "POD-PRO-2026",
+    "schema:offers": {
+      "@type": "schema:Offer",
+      "schema:price": "4.99",
+      "schema:priceCurrency": "EUR"
+    },
+    "schema:aggregateRating": {
+      "@type": "schema:AggregateRating",
+      "schema:ratingValue": "4.7",
+      "schema:reviewCount": "328",
+      "schema:bestRating": "5"
+    },
+    "schema:url": { "@id": "https://solidproject.org" }
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

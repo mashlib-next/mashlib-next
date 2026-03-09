@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Organization Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:Organization",
+    "schema:name": "Solid Labs",
+    "schema:description": "Building open-source tools for the decentralized web. We create data browsers, pod servers, and developer libraries for the Solid ecosystem.",
+    "schema:logo": { "@id": "https://solidproject.org/assets/img/solid-emblem.svg" },
+    "schema:url": { "@id": "https://solidproject.org" },
+    "schema:email": "info@solidproject.org",
+    "schema:foundingDate": "2015",
+    "schema:address": {
+      "@type": "schema:PostalAddress",
+      "schema:addressLocality": "Cambridge",
+      "schema:addressRegion": "MA",
+      "schema:addressCountry": "US"
+    },
+    "schema:employee": [
+      {
+        "@type": "schema:Person",
+        "schema:name": "Tim Berners-Lee",
+        "schema:jobTitle": "Director"
+      },
+      {
+        "@type": "schema:Person",
+        "schema:name": "Sarven Capadisli",
+        "schema:jobTitle": "Spec Editor"
+      },
+      {
+        "@type": "schema:Person",
+        "schema:name": "Ruben Verborgh",
+        "schema:jobTitle": "Researcher"
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

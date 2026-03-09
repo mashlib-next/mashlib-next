@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trip Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:Trip",
+    "schema:name": "Amsterdam → Berlin by Train",
+    "schema:description": "A weekend rail journey through the heart of Europe, with a stopover in Hanover.",
+    "schema:image": { "@id": "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=640&q=80" },
+    "schema:departureTime": "2026-04-18T08:30:00+02:00",
+    "schema:arrivalTime": "2026-04-18T15:10:00+02:00",
+    "schema:itinerary": [
+      {
+        "@type": "schema:TrainTrip",
+        "schema:name": "ICE 123 — Amsterdam → Hanover",
+        "schema:departureTime": "2026-04-18T08:30:00+02:00",
+        "schema:arrivalTime": "2026-04-18T12:00:00+02:00",
+        "schema:departureStation": {
+          "@type": "schema:TrainStation",
+          "schema:name": "Amsterdam Centraal"
+        },
+        "schema:arrivalStation": {
+          "@type": "schema:TrainStation",
+          "schema:name": "Hanover Hbf"
+        },
+        "schema:trainNumber": "ICE 123"
+      },
+      {
+        "@type": "schema:TrainTrip",
+        "schema:name": "ICE 456 — Hanover → Berlin",
+        "schema:departureTime": "2026-04-18T13:00:00+02:00",
+        "schema:arrivalTime": "2026-04-18T15:10:00+02:00",
+        "schema:departureStation": {
+          "@type": "schema:TrainStation",
+          "schema:name": "Hanover Hbf"
+        },
+        "schema:arrivalStation": {
+          "@type": "schema:TrainStation",
+          "schema:name": "Berlin Hauptbahnhof"
+        },
+        "schema:trainNumber": "ICE 456"
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

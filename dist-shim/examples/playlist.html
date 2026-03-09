@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Playlist Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "olo": "http://purl.org/ontology/olo/core#",
+      "pbo": "http://purl.org/ontology/pbo/core#",
+      "dc": "http://purl.org/dc/elements/1.1/",
+      "schema": "https://schema.org/"
+    },
+    "@id": "",
+    "@type": ["olo:OrderedList", "pbo:Playlist"],
+    "dc:title": "Classic Web Talks",
+    "olo:slot": [
+      {
+        "@id": "#slot1",
+        "olo:index": 1,
+        "olo:item": {
+          "@id": "#track1",
+          "@type": "pbo:Track",
+          "dc:title": "Tim Berners-Lee — The Next Web",
+          "schema:video": { "@id": "https://www.youtube.com/watch?v=OM6XIICm_qo" }
+        }
+      },
+      {
+        "@id": "#slot2",
+        "olo:index": 2,
+        "olo:item": {
+          "@id": "#track2",
+          "@type": "pbo:Track",
+          "dc:title": "A-ha — Take On Me",
+          "schema:video": { "@id": "https://www.youtube.com/watch?v=djV11Xbc914" }
+        }
+      },
+      {
+        "@id": "#slot3",
+        "olo:index": 3,
+        "olo:item": {
+          "@id": "#track3",
+          "@type": "pbo:Track",
+          "dc:title": "Toto — Africa",
+          "schema:video": { "@id": "https://www.youtube.com/watch?v=FTQbiNvZqaY" }
+        }
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

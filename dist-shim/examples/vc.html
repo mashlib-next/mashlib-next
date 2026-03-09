@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verifiable Credential Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "cred": "https://www.w3.org/2018/credentials#",
+      "schema": "https://schema.org/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@id": "",
+    "@type": "cred:VerifiableCredential",
+    "schema:name": "University Degree Credential",
+    "schema:description": "A verifiable credential certifying the completion of a Bachelor of Computer Science degree.",
+    "cred:issuer": {
+      "@type": "schema:Organization",
+      "schema:name": "Example University",
+      "schema:url": { "@id": "https://example.edu" }
+    },
+    "cred:issuanceDate": {
+      "@value": "2025-06-15T00:00:00Z",
+      "@type": "xsd:dateTime"
+    },
+    "cred:expirationDate": {
+      "@value": "2030-06-15T00:00:00Z",
+      "@type": "xsd:dateTime"
+    },
+    "cred:credentialSubject": {
+      "@id": "did:example:student123",
+      "schema:name": "Jane Doe",
+      "schema:identifier": "did:example:student123",
+      "cred:degree": {
+        "@type": "schema:EducationalOccupationalCredential",
+        "schema:name": "Bachelor of Computer Science"
+      }
+    },
+    "cred:credentialStatus": {
+      "@type": "cred:StatusList2021Entry",
+      "cred:statusPurpose": "revocation",
+      "cred:statusListIndex": "42"
+    }
+  }
+  </script>
+  <script type="module" data-pane src="vc-pane.js"></script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

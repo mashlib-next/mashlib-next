@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Article Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": { "schema": "https://schema.org/" },
+    "@id": "",
+    "@type": "schema:BlogPosting",
+    "schema:headline": "Why the Web Needs Personal Data Stores",
+    "schema:description": "A look at how Solid pods give people control over their data, and why it matters for the future of the web.",
+    "schema:image": { "@id": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=640&q=80" },
+    "schema:author": {
+      "@type": "schema:Person",
+      "schema:name": "Tim Berners-Lee"
+    },
+    "schema:publisher": {
+      "@type": "schema:Organization",
+      "schema:name": "Solid Project"
+    },
+    "schema:datePublished": "2026-02-15",
+    "schema:keywords": ["Solid", "Linked Data", "Decentralization", "Privacy"],
+    "schema:articleBody": "The web was designed as a decentralized system, but over time our data has become concentrated in the hands of a few large platforms. Solid changes this by giving every person their own data pod — a personal online data store that they fully control.\n\nWith a Solid pod, your data stays yours. Apps come to your data, not the other way around. You choose which apps can read or write to your pod, and you can revoke access at any time.\n\nThis isn't just about privacy. It's about innovation. When data is interoperable and user-controlled, new apps can build on existing data without needing to bootstrap a new silo. A calendar app can read your contacts. A recipe app can add to your shopping list. All without any single company owning the platform.\n\nThe technical foundation is Linked Data — the same technology that powers the Semantic Web. Every piece of data has a URI, every relationship is explicit, and every format is open. This makes data portable, composable, and future-proof.\n\nWe believe this is the web as it was meant to be: a collaborative space where people own their identity and their data."
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat Demo</title>
+  <link rel="stylesheet" href="../mashlib.css">
+</head>
+<body>
+  <script type="application/ld+json">
+  {
+    "@context": {
+      "mee": "http://www.w3.org/ns/pim/meeting#",
+      "wf": "http://www.w3.org/2005/01/wf/flow#",
+      "sioc": "http://rdfs.org/sioc/ns#",
+      "dct": "http://purl.org/dc/terms/",
+      "foaf": "http://xmlns.com/foaf/0.1/",
+      "xsd": "http://www.w3.org/2001/XMLSchema#"
+    },
+    "@id": "",
+    "@type": "mee:LongChat",
+    "dct:title": "Project Team",
+    "dct:creator": {
+      "@id": "https://bob.pod.example/profile/card#me",
+      "foaf:name": "Bob"
+    },
+    "wf:message": [
+      {
+        "@id": "#msg1",
+        "sioc:content": "Hey team, how is the sprint going?",
+        "dct:created": { "@value": "2026-02-04T09:15:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://bob.pod.example/profile/card#me",
+          "foaf:name": "Bob"
+        }
+      },
+      {
+        "@id": "#msg2",
+        "sioc:content": "Pretty good! I finished the login feature yesterday.",
+        "dct:created": { "@value": "2026-02-04T09:18:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://alice.pod.example/profile/card#me",
+          "foaf:name": "Alice"
+        }
+      },
+      {
+        "@id": "#msg3",
+        "sioc:content": "Nice work Alice! I'm still working on the API integration.",
+        "dct:created": { "@value": "2026-02-04T09:20:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://carol.pod.example/profile/card#me",
+          "foaf:name": "Carol"
+        }
+      },
+      {
+        "@id": "#msg4",
+        "sioc:content": "Great progress everyone. Let's sync up this afternoon to review.",
+        "dct:created": { "@value": "2026-02-04T09:25:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://bob.pod.example/profile/card#me",
+          "foaf:name": "Bob"
+        }
+      },
+      {
+        "@id": "#msg5",
+        "sioc:content": "Sounds good, 3pm works for me",
+        "dct:created": { "@value": "2026-02-04T09:27:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://alice.pod.example/profile/card#me",
+          "foaf:name": "Alice"
+        }
+      },
+      {
+        "@id": "#msg6",
+        "sioc:content": "3pm is perfect",
+        "dct:created": { "@value": "2026-02-04T09:28:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://carol.pod.example/profile/card#me",
+          "foaf:name": "Carol"
+        }
+      },
+      {
+        "@id": "#msg7",
+        "sioc:content": "Also, don't forget we have the client demo on Friday. Make sure everything is ready for that.",
+        "dct:created": { "@value": "2026-02-04T10:45:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://bob.pod.example/profile/card#me",
+          "foaf:name": "Bob"
+        }
+      },
+      {
+        "@id": "#msg8",
+        "sioc:content": "Will do! I'll prepare the demo environment today.",
+        "dct:created": { "@value": "2026-02-04T10:50:00Z", "@type": "xsd:dateTime" },
+        "foaf:maker": {
+          "@id": "https://alice.pod.example/profile/card#me",
+          "foaf:name": "Alice"
+        }
+      }
+    ]
+  }
+  </script>
+  <div id="mashlib"></div>
+  <script type="module" src="../mashlib.js"></script>
+</body>
+</html>
