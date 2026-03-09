@@ -90,56 +90,112 @@ function getTitle(subject, store) {
 function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
+const AVATAR_COLORS = [
+  "#7C3AED", "#2563EB", "#0891B2", "#059669", "#D97706",
+  "#DC2626", "#DB2777", "#4F46E5", "#0D9488", "#EA580C"
+];
+function avatarColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) | 0;
+  return AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+}
+function makeAvatar(name, photo, size) {
+  if (photo) {
+    const img = document.createElement("img");
+    img.className = `contact-photo contact-photo-${size}`;
+    img.src = photo;
+    img.alt = name;
+    return img;
+  }
+  const el = document.createElement("div");
+  el.className = `contact-photo-placeholder contact-photo-${size}`;
+  el.textContent = name.charAt(0).toUpperCase();
+  el.style.background = avatarColor(name);
+  return el;
+}
+function showDetail(contact, detailPanel) {
+  detailPanel.innerHTML = "";
+  const avatar = makeAvatar(contact.name, contact.photo, "lg");
+  detailPanel.appendChild(avatar);
+  const name = document.createElement("h2");
+  name.className = "contact-detail-name";
+  name.textContent = contact.name;
+  detailPanel.appendChild(name);
+  if (contact.title || contact.org) {
+    const role = document.createElement("p");
+    role.className = "contact-role";
+    role.textContent = [contact.title, contact.org].filter(Boolean).join(" \u00B7 ");
+    detailPanel.appendChild(role);
+  }
+  const fields = document.createElement("div");
+  fields.className = "contact-fields";
+  for (const email of contact.emails) {
+    const addr = email.replace("mailto:", "");
+    const row = document.createElement("div");
+    row.className = "contact-field";
+    row.innerHTML = `<span class="contact-field-label">Email</span><a class="contact-field-value contact-email" href="${email.startsWith("mailto:") ? email : "mailto:" + addr}">${escapeHtml(addr)}</a>`;
+    fields.appendChild(row);
+  }
+  for (const phone of contact.phones) {
+    const num = phone.replace("tel:", "");
+    const row = document.createElement("div");
+    row.className = "contact-field";
+    row.innerHTML = `<span class="contact-field-label">Phone</span><a class="contact-field-value contact-phone" href="${phone.startsWith("tel:") ? phone : "tel:" + num}">${escapeHtml(num)}</a>`;
+    fields.appendChild(row);
+  }
+  if (contact.address) {
+    const row = document.createElement("div");
+    row.className = "contact-field";
+    row.innerHTML = `<span class="contact-field-label">Address</span><span class="contact-field-value contact-address">${escapeHtml(contact.address)}</span>`;
+    fields.appendChild(row);
+  }
+  if (contact.note) {
+    const row = document.createElement("div");
+    row.className = "contact-field";
+    row.innerHTML = `<span class="contact-field-label">Note</span><span class="contact-field-value contact-note">${escapeHtml(contact.note)}</span>`;
+    fields.appendChild(row);
+  }
+  if (fields.children.length > 0) detailPanel.appendChild(fields);
+}
 function renderContacts(subject, store, container) {
   container.innerHTML = "";
   const wrapper = document.createElement("div");
   wrapper.className = "contacts-view";
-  const title = getTitle(subject, store);
-  const header = document.createElement("h2");
-  header.className = "contacts-title";
-  header.textContent = title;
-  wrapper.appendChild(header);
   const contacts = getContacts(subject, store);
   const groups = getGroups(subject, store);
-  const countEl = document.createElement("p");
+  const header = document.createElement("div");
+  header.className = "contacts-header";
+  const title = getTitle(subject, store);
+  const titleEl = document.createElement("h2");
+  titleEl.className = "contacts-title";
+  titleEl.textContent = title;
+  header.appendChild(titleEl);
+  const countEl = document.createElement("span");
   countEl.className = "contacts-count";
-  countEl.textContent = `${contacts.length} contact${contacts.length !== 1 ? "s" : ""}`;
-  wrapper.appendChild(countEl);
-  if (contacts.length > 5) {
-    const searchInput = document.createElement("input");
-    searchInput.className = "contacts-search";
-    searchInput.type = "search";
-    searchInput.placeholder = "Filter contacts...";
-    searchInput.setAttribute("aria-label", "Filter contacts");
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.toLowerCase();
-      const cards = wrapper.querySelectorAll(".contact-card");
-      for (const card of cards) {
-        const el = card;
-        const name = el.getAttribute("data-name") ?? "";
-        el.style.display = name.toLowerCase().includes(query) ? "" : "none";
-      }
-    });
-    wrapper.appendChild(searchInput);
-  }
+  countEl.textContent = `${contacts.length}`;
+  header.appendChild(countEl);
+  wrapper.appendChild(header);
   if (groups.length > 0) {
-    const groupsSection = document.createElement("div");
-    groupsSection.className = "contacts-groups";
-    const groupsHeader = document.createElement("h3");
-    groupsHeader.textContent = "Groups";
-    groupsSection.appendChild(groupsHeader);
-    const groupList = document.createElement("ul");
-    groupList.className = "contacts-group-list";
+    const chips = document.createElement("div");
+    chips.className = "contacts-group-chips";
+    const allChip = document.createElement("button");
+    allChip.className = "contacts-chip contacts-chip-active";
+    allChip.textContent = "All";
+    chips.appendChild(allChip);
     for (const group of groups) {
-      const li = document.createElement("li");
-      li.className = "contacts-group-item";
-      const link = createNavLink(group.uri, `${group.name} (${group.count})`);
-      li.appendChild(link);
-      groupList.appendChild(li);
+      const chip = document.createElement("button");
+      chip.className = "contacts-chip";
+      chip.textContent = group.name;
+      chips.appendChild(chip);
     }
-    groupsSection.appendChild(groupList);
-    wrapper.appendChild(groupsSection);
+    wrapper.appendChild(chips);
   }
+  const searchInput = document.createElement("input");
+  searchInput.className = "contacts-search";
+  searchInput.type = "search";
+  searchInput.placeholder = "Search by name";
+  searchInput.setAttribute("aria-label", "Filter contacts");
+  wrapper.appendChild(searchInput);
   if (contacts.length === 0) {
     const empty = document.createElement("p");
     empty.className = "contacts-empty";
@@ -148,75 +204,54 @@ function renderContacts(subject, store, container) {
     container.appendChild(wrapper);
     return;
   }
+  const body = document.createElement("div");
+  body.className = "contacts-body";
+  const listPanel = document.createElement("div");
+  listPanel.className = "contacts-list-panel";
   const list = document.createElement("ul");
   list.className = "contacts-list";
+  const detailPanel = document.createElement("div");
+  detailPanel.className = "contacts-detail-panel";
+  let activeRow = null;
   for (const contact of contacts) {
     const li = document.createElement("li");
-    li.className = "contact-card";
+    li.className = "contact-row";
     li.setAttribute("data-name", contact.name);
-    if (contact.photo) {
-      const photo = document.createElement("img");
-      photo.className = "contact-photo";
-      photo.src = contact.photo;
-      photo.alt = contact.name;
-      li.appendChild(photo);
-    } else {
-      const placeholder = document.createElement("div");
-      placeholder.className = "contact-photo-placeholder";
-      placeholder.textContent = contact.name.charAt(0).toUpperCase();
-      li.appendChild(placeholder);
-    }
-    const info = document.createElement("div");
-    info.className = "contact-info";
-    const nameLink = createNavLink(contact.uri, contact.name);
-    nameLink.className = "contact-name";
-    nameLink.title = contact.uri;
-    info.appendChild(nameLink);
-    if (contact.title) {
-      const titleEl = document.createElement("span");
-      titleEl.className = "contact-title";
-      titleEl.textContent = contact.title;
-      info.appendChild(titleEl);
-    }
-    if (contact.org) {
-      const orgEl = document.createElement("span");
-      orgEl.className = "contact-org";
-      orgEl.textContent = contact.org;
-      info.appendChild(orgEl);
-    }
-    for (const email of contact.emails) {
-      const emailEl = document.createElement("a");
-      emailEl.className = "contact-email";
-      const addr = email.replace("mailto:", "");
-      emailEl.href = email.startsWith("mailto:") ? email : `mailto:${addr}`;
-      emailEl.textContent = addr;
-      info.appendChild(emailEl);
-    }
-    for (const phone of contact.phones) {
-      const phoneEl = document.createElement("a");
-      phoneEl.className = "contact-phone";
-      const num = phone.replace("tel:", "");
-      phoneEl.href = phone.startsWith("tel:") ? phone : `tel:${num}`;
-      phoneEl.textContent = num;
-      info.appendChild(phoneEl);
-    }
-    if (contact.address) {
-      const addrEl = document.createElement("span");
-      addrEl.className = "contact-address";
-      addrEl.textContent = contact.address;
-      info.appendChild(addrEl);
-    }
-    if (contact.note) {
-      const noteEl = document.createElement("p");
-      noteEl.className = "contact-note";
-      noteEl.textContent = contact.note;
-      info.appendChild(noteEl);
-    }
-    li.appendChild(info);
+    li.setAttribute("data-search", [contact.org ?? "", contact.title ?? "", ...contact.emails].join(" "));
+    const avatar = makeAvatar(contact.name, contact.photo, "sm");
+    li.appendChild(avatar);
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "contact-row-name";
+    nameSpan.textContent = contact.name;
+    li.appendChild(nameSpan);
+    const chevron = document.createElement("span");
+    chevron.className = "contact-row-chevron";
+    chevron.textContent = "\u203A";
+    li.appendChild(chevron);
+    li.addEventListener("click", () => {
+      if (activeRow) activeRow.classList.remove("contact-row-active");
+      li.classList.add("contact-row-active");
+      activeRow = li;
+      showDetail(contact, detailPanel);
+    });
     list.appendChild(li);
   }
-  wrapper.appendChild(list);
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase();
+    for (const row of list.children) {
+      const el = row;
+      const text = (el.getAttribute("data-name") ?? "") + " " + (el.getAttribute("data-search") ?? "");
+      el.style.display = text.toLowerCase().includes(query) ? "" : "none";
+    }
+  });
+  listPanel.appendChild(list);
+  body.appendChild(listPanel);
+  body.appendChild(detailPanel);
+  wrapper.appendChild(body);
   container.appendChild(wrapper);
+  if (contacts.length > 0) {
+    list.children[0].click();
+  }
 }
 export {
   renderContacts

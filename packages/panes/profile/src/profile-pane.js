@@ -6,6 +6,8 @@ function isPerson(subject, store) {
   if (typeUris.includes(FOAF("Person").value)) return true;
   if (typeUris.includes(SCHEMA("Person").value)) return true;
   if (typeUris.includes(VCARD("Individual").value)) return true;
+  if (typeUris.includes(VCARD("AddressBook").value)) return false;
+  if (typeUris.includes(VCARD("Group").value)) return false;
   if (store.any(subject, FOAF("name"), null, null)) return true;
   if (store.any(subject, VCARD("fn"), null, null)) return true;
   return false;

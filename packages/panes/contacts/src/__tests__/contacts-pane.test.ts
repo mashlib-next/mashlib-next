@@ -60,11 +60,11 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contacts-count')!.textContent).toBe('0 contacts')
+      expect(container.querySelector('.contacts-count')!.textContent).toBe('0')
       expect(container.querySelector('.contacts-empty')).not.toBeNull()
     })
 
-    it('renders contacts sorted alphabetically', () => {
+    it('renders contacts sorted alphabetically in list', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -78,7 +78,7 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      const names = container.querySelectorAll('.contact-name')
+      const names = container.querySelectorAll('.contact-row-name')
       expect(names.length).toBe(2)
       expect(names[0].textContent).toBe('Alice Jones')
       expect(names[1].textContent).toBe('Bob Smith')
@@ -101,10 +101,10 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contacts-count')!.textContent).toBe('3 contacts')
+      expect(container.querySelector('.contacts-count')!.textContent).toBe('3')
     })
 
-    it('renders contact email', () => {
+    it('shows selected contact email in detail panel', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -118,12 +118,13 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
+      // First contact is auto-selected
       const email = container.querySelector('.contact-email')
       expect(email).not.toBeNull()
-      expect(email!.textContent).toBe('alice@example.com')
+      expect(email!.textContent).toContain('alice@example.com')
     })
 
-    it('renders organization', () => {
+    it('shows organization in detail panel role', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -135,7 +136,7 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contact-org')!.textContent).toBe('ACME Corp')
+      expect(container.querySelector('.contact-role')!.textContent).toBe('ACME Corp')
     })
 
     it('renders initial placeholder when no photo', () => {
@@ -154,7 +155,7 @@ describe('contactsPane', () => {
       expect(placeholder!.textContent).toBe('A')
     })
 
-    it('renders contact title', () => {
+    it('shows title in detail panel role', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -166,10 +167,10 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contact-title')!.textContent).toBe('CEO')
+      expect(container.querySelector('.contact-role')!.textContent).toBe('CEO')
     })
 
-    it('renders contact address', () => {
+    it('shows address in detail panel', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -186,10 +187,10 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contact-address')!.textContent).toBe('Cambridge, MA, USA')
+      expect(container.querySelector('.contact-address')!.textContent).toContain('Cambridge, MA, USA')
     })
 
-    it('renders contact note', () => {
+    it('shows note in detail panel', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -201,10 +202,10 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contact-note')!.textContent).toBe('Met at conference')
+      expect(container.querySelector('.contact-note')!.textContent).toContain('Met at conference')
     })
 
-    it('renders groups section', () => {
+    it('renders group chips', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
@@ -220,19 +221,17 @@ describe('contactsPane', () => {
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
 
-      expect(container.querySelector('.contacts-groups')).not.toBeNull()
+      expect(container.querySelector('.contacts-group-chips')).not.toBeNull()
       expect(container.textContent).toContain('Work Friends')
     })
 
-    it('renders search box for many contacts', () => {
+    it('renders search box', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
-      for (let i = 0; i < 8; i++) {
-        const c = sym(`https://example.com/c${i}`)
-        store.add(subject, VCARD('hasMember'), c, subject.doc())
-        store.add(c, VCARD('fn'), lit(`Contact ${i}`), c.doc())
-      }
+      const alice = sym('https://example.com/alice')
+      store.add(subject, VCARD('hasMember'), alice, subject.doc())
+      store.add(alice, VCARD('fn'), lit('Alice'), alice.doc())
 
       const container = document.createElement('div')
       contactsPane.render(subject, store, container)
@@ -240,7 +239,46 @@ describe('contactsPane', () => {
       expect(container.querySelector('.contacts-search')).not.toBeNull()
     })
 
-    it('renders multiple emails for a contact', () => {
+    it('auto-selects first contact and shows detail', () => {
+      const subject = sym('https://example.com/contacts')
+      store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
+
+      const alice = sym('https://example.com/alice')
+      store.add(subject, VCARD('hasMember'), alice, subject.doc())
+      store.add(alice, VCARD('fn'), lit('Alice'), alice.doc())
+
+      const container = document.createElement('div')
+      contactsPane.render(subject, store, container)
+
+      expect(container.querySelector('.contact-detail-name')!.textContent).toBe('Alice')
+      expect(container.querySelector('.contact-row-active')).not.toBeNull()
+    })
+
+    it('switches detail when clicking another contact', () => {
+      const subject = sym('https://example.com/contacts')
+      store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
+
+      const alice = sym('https://example.com/alice')
+      const bob = sym('https://example.com/bob')
+      store.add(subject, VCARD('hasMember'), alice, subject.doc())
+      store.add(subject, VCARD('hasMember'), bob, subject.doc())
+      store.add(alice, VCARD('fn'), lit('Alice'), alice.doc())
+      store.add(bob, VCARD('fn'), lit('Bob'), bob.doc())
+
+      const container = document.createElement('div')
+      contactsPane.render(subject, store, container)
+
+      // Alice is auto-selected (first alphabetically)
+      expect(container.querySelector('.contact-detail-name')!.textContent).toBe('Alice')
+
+      // Click Bob
+      const rows = container.querySelectorAll('.contact-row')
+      ;(rows[1] as HTMLElement).click()
+
+      expect(container.querySelector('.contact-detail-name')!.textContent).toBe('Bob')
+    })
+
+    it('shows multiple emails in detail panel', () => {
       const subject = sym('https://example.com/contacts')
       store.add(subject, RDF('type'), VCARD('AddressBook'), subject.doc())
 
